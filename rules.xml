@@ -27,6 +27,12 @@
   <signature>bodyParser()</signature>
   <description>POST Request to Express Body Parser 'bodyParser()' can create Temporary files and consume space.</description>
  </rule>
+
+  <rule name="Handlebars Unescaped String">
+  <signature>handlebars.SafeString(</signature>
+  <description>Handlebars SafeString will not escape the data passed through it. Untrusted user input passing through SafeString can cause XSS.</description>
+ </rule>
+
 <!--
   <rule name="JavaScript == identified">
   <signature>==</signature>
