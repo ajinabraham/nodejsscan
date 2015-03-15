@@ -44,7 +44,7 @@
 
 
  <regex name="Remote OS Command Execution">
-  <signature>(\()*('|")*child_process('|")*(\))*.exec(\()*</signature>
+  <signature>(\()*('|")*child_process('|")*(\))*.exec(\()*|.exec\(</signature>
   <description>User controlled data in 'child_process.exec()' can result in Remote OS Command Execution.</description>
  </regex>
 
@@ -114,9 +114,9 @@
   <description>Strict-Transport-Security (HSTS) header enforces secure (HTTP over SSL/TLS) connections to the server.</description>
  </notpresent>
 
- <notpresent name="Missing Security Header - Public-Key-Pins (HKPK)">
+ <notpresent name="Missing Security Header - Public-Key-Pins (HPKP)">
   <signature>Public-Key-Pins(:|,)*</signature>
-  <description>Public-Key-Pins (HKPK) ensures that certificate is Pinned.</description>
+  <description>Public-Key-Pins (HPKP) ensures that certificate is Pinned.</description>
  </notpresent>
 
  <notpresent name="Missing Security Header - X-XSS-Protection:1">
