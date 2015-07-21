@@ -1,3 +1,9 @@
+# encoding=utf8
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import re,os,platform,webbrowser,subprocess,xml.dom.minidom
 from optparse import OptionParser
 from xml.dom.minidom import parse
@@ -8,7 +14,7 @@ def NodeJSStaticAnalyzer(path):
     sec=''
     final=''
     for init0 in seccode.iterkeys():
-        regex_flag[init0]='0'      
+        regex_flag[init0]='0'
     print "Running Static Analyzer Running on - "+ path + "\n"
     for dirName, subDir, files in os.walk(path):
         for jfile in files:
@@ -35,10 +41,10 @@ def NodeJSStaticAnalyzer(path):
                             if re.search(seccode[scode],line,re.I):
                                 regex_flag[scode]='1'
                 final+=data
-    #After Every Files are done.  
+    #After Every Files are done.
     for rflag in regex_flag.iterkeys():
         if '0' in regex_flag[rflag]:
-            sec+= '<tr><td>'+rflag + '</td><td>' + desc[rflag] + '</td></tr>'     
+            sec+= '<tr><td>'+rflag + '</td><td>' + desc[rflag] + '</td></tr>'
     outdated=RunRetire(path)
     return final, sec, outdated
 
@@ -91,7 +97,7 @@ def Report(data,sec,out):
     else:
         webbrowser.open_new_tab(report_path)
 
-    
+
 def RunRetire(path):
     args=[]
     retirepath=os.path.join(os.path.curdir, 'node','bin','retire')
@@ -105,14 +111,14 @@ def RunRetire(path):
         x, err = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         x+=err
     except Exception as e:
-        print "ERROR - Install node.js > 0.8" 
+        print "ERROR - Install node.js > 0.8"
         pass
     if '<tr>' in x:
         return x
     else:
         return ''
-        
-        
+
+
 
 def main():
     nodeonly=False
