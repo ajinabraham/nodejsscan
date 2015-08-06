@@ -125,7 +125,7 @@
  </notpresent>
 
  <notpresent name="Missing Security Header - X-XSS-Protection:1">
-  <signature>helmet.xssFilter\(\)|lusca.xssProtection\(true\)|X-XSS-Protection('|")*(\s)*(:|,)(\s)*('\"")*1</signature>
+  <signature>helmet.xssFilter\(\)|lusca.xssProtection\(true\)|X-XSS-Protection('|")*(\s)*(:|,)(\s)*('|")*1</signature>
   <description>X-XSS-Protection header set to 1 enables the Cross-site scripting (XSS) filter built into most recent web browsers.</description>
  </notpresent>
 
