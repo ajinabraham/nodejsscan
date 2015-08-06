@@ -93,7 +93,7 @@
   <description>A hardcoded key in plain text was identified.</description>
 </regex>
 <regex name="XSS Filter is turned off">
-  <signature>lusca.xssProtection\(false\)|X-XSS-Protection('|")*(\s)*(:|,)(\s)*('\"")*0</signature>
+  <signature>lusca.xssProtection\(false\)|X-XSS-Protection('|")*(\s)*(:|,)(\s)*('|")*0</signature>
   <description>X-XSS-Protection header is set to 0. This will disable the browser's XSS Filter.</description>
 </regex>
 <!-- All missing Secure Code goes here -->
