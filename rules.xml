@@ -48,6 +48,11 @@
   <description>User controlled data in 'child_process.exec()' can result in Remote OS Command Execution.</description>
  </regex>
 
+ <regex name="SSRF - Server Side Request Forgery">
+  <signature>require(\()('|")request('|")(\))</signature>
+  <description>User controlled data in 'request()'' can result in Server Side Request Forgery (SSRF).</description>
+</regex>
+
  <regex name="Accept Self Signed Certificates">
   <signature>(\[)*('|")*NODE_TLS_REJECT_UNAUTHORIZED('|")*(\])*(\s)*=(\s)*('|")*0('|")*</signature>
   <description>'Setting 'NODE_TLS_REJECT_UNAUTHORIZED' to 0 will allow node server to accept self signed certificates and is not an secure behaviour.</description>
