@@ -44,7 +44,7 @@
 
 
  <regex name="Remote OS Command Execution">
-  <signature>(\()*('|")*child_process('|")*(\))*.exec(\()*|.exec\(</signature>
+  <signature>(\()*('|")*child_process('|")*(\))*.exec(\()*</signature>
   <description>User controlled data in 'child_process.exec()' can result in Remote OS Command Execution.</description>
  </regex>
 
