@@ -176,7 +176,7 @@ def main():
     else:
         print """Usage: 
         NodeJsScan.py -d <dir>
-        NodeJsScan.py -f file1,file2,.."""
+        NodeJsScan.py -f <file1>,<file2>,<file3>"""
 
 
 
