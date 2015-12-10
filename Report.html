@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+<title>NodeJsScan</title>
+ <link href="template/css/bootstrap.min.css" rel="stylesheet">
+ <link rel="icon" 
+      type="image/png" 
+      href="template/nodejs.png">
+<script>
+function f()
+{
+var d = new Date();
+var n = 'NodeJsScan - Copyright &copy; ' + d.getFullYear() +'. All rights reserved. | <a href="https://twitter.com/ajinabraham">Ajin Abraham</a> | <a href="http://opensecurity.in">OpenSecurity</a>';
+document.getElementById("foot").innerHTML=n;
+} 
+</script>
+</head>
+<body onload="f()">
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><center><h2><img src="template/nodejs.png" width="40px" height="40px">   NodeJsScan </h2></center></div>
+  <div class="panel-body">
+    <p>NodeJsScan is a node.js Static Analysis Tool that can detect possible security issues, insecure code and outdated libraries (using retire.js).</p>
+  </div>
+
+
+ <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">
+       <strong><span class="label label-danger">Possible Security Issues</span> </strong>
+      </a>
+    </div>
+  </div>
+</nav>
+  <!-- Table -->
+  <div class="panel panel-default">
+  <div class="panel-body">
+
+  <table class="table table-striped">
+     <thead>
+          <tr>
+            <th>Issue</th>
+            <th>Descriptiom</th>
+            <th>Line</th>
+            <th>File</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+		
+		<tbody>
+         
+		 <tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>11</td><td>bootstrap.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/bootstrap.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/bootstrap.min.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>11</td><td>bootstrap.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/bootstrap.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/bootstrap.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>12</td><td>bootstrap.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/bootstrap.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/bootstrap.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>872</td><td>jquery.bxslider.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.bxslider.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.bxslider.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>874</td><td>jquery.bxslider.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.bxslider.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.bxslider.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>1242</td><td>jquery.bxslider.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.bxslider.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.bxslider.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>27</td><td>jquery.countdown.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.countdown.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.countdown.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>106</td><td>jquery.countdown.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.countdown.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.countdown.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>1</td><td>jquery.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>2</td><td>jquery.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>3</td><td>jquery.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>3</td><td>jquery.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.min.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>438</td><td>jquery.prettyPhoto.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.prettyPhoto.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.prettyPhoto.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>879</td><td>jquery.prettyPhoto.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.prettyPhoto.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/jquery.prettyPhoto.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>164</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>179</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>287</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>635</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>641</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>647</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>725</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>1206</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>1224</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) - setTimeout()</td><td>User controlled data in 'setTimeout()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>1235</td><td>owl.carousel.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/owl.carousel.min.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>2</td><td>placeholders.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/placeholders.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/placeholders.js</a></td></tr><tr><td>Server Side Injection(SSI) -setInterval()</td><td>User controlled data in 'setInterval()' can result in Server Side Injection (SSI) or Remote Code Execution (RCE).</td><td>1</td><td>wow.min.js</td><td><a href="/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/wow.min.js">/Users/aabraham/Desktop/CONF Stuff/X0RC0NF/xorconfarchive/js/wow.min.js</a></td></tr>
+          
+        </tbody>
+
+
+  </table>
+  </div>
+</div>
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">
+       <strong><span class="label label-success">Missing Security Features</span> </strong>
+      </a>
+    </div>
+  </div>
+</nav>
+ <div class="panel panel-default">
+  <div class="panel-body">
+    <table class="table table-striped">
+     <thead>
+          <tr>
+            <th>Issue</th>
+            <th>Descriptiom</th>
+   
+          </tr>
+        </thead>
+    
+    <tbody>
+         
+     <tr><td>Missing Security Header - X-Frame-Options (XFO)</td><td>X-Frame-Options (XFO) header provides protection against Clickjacking attacks.</td></tr><tr><td>Missing Security Header - Content-Security-Policy (CSP)</td><td>Content Security Policy (CSP), a mechanism web applications can use to mitigate a broad class of content injection vulnerabilities, such as cross-site scripting (XSS). CSP Header was not found.</td></tr><tr><td>Missing Security Header - Strict-Transport-Security (HSTS)</td><td>Strict-Transport-Security (HSTS) header enforces secure (HTTP over SSL/TLS) connections to the server.</td></tr><tr><td>Missing 'httpOnly' in Cookie</td><td>JavaScript can access Cookies if they are not marked httpOnly.</td></tr><tr><td>Infromation Disclosure - X-Powered-By</td><td>Remove the X-Powered-By header to prevent information gathering.</td></tr><tr><td>Missing Security Header - X-Content-Type-Options</td><td>X-Content-Type-Options header prevents Internet Explorer and Google Chrome from MIME-sniffing a response away from the declared content-type.</td></tr><tr><td>Missing Security Header - X-Download-Options: noopen</td><td>X-Download-Options header set to noopen prevents IE users from directly opening and executing downloads in your site's context.</td></tr><tr><td>Missing Security Header - X-XSS-Protection:1</td><td>X-XSS-Protection header set to 1 enables the Cross-site scripting (XSS) filter built into most recent web browsers.</td></tr><tr><td>Missing Security Header - Public-Key-Pins (HPKP)</td><td>Public-Key-Pins (HPKP) ensures that certificate is Pinned.</td></tr>
+          
+        </tbody>
+  </table>
+   </div>
+  </div>
+
+
+ <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">
+       <strong><span class="label label-warning">Outdated Libraries</span> </strong>
+      </a>
+    </div>
+  </div>
+</nav>
+  <!-- Table -->
+  <div class="panel panel-default">
+  <div class="panel-body">
+
+  <table class="table table-striped">
+     <thead>
+          <tr>
+            <th>File</th>
+            <th>Library</th>
+            <th>Reference</th>
+          </tr>
+        </thead>
+    
+    <tbody>
+         
+     <tr><td>/Users/aabraham/NodeJsScan/node/spec/tests/contentscan.spec.js</td><td>
+jquery 1.8.1
+</td><td>http://bugs.jquery.com/ticket/11290 http://research.insecurelabs.org/jquery/test/</td>
+</tr>
+
+          
+        </tbody>
+
+
+  </table>
+  </div>
+  </div>
+
+</div>
+<div class="panel panel-default">
+
+  <div id="foot" class="panel-body">
+ x
+  </div>
+
+</div>
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="template/js/bootstrap.min.js"></script>
+    
+    <script src="template/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
