@@ -3,3 +3,14 @@
 
 NodeJsScan is a node.js Static Analysis Tool that can detect possible security issues, insecure code and outdated libraries (using retire.js).
 http://opensecurity.in
+
+## Usage
+
+`python NodeJsScan.py -d <dir>`
+`python NodeJsScan.py -f <file1>,<file2>,<file3>`
+
+
+## Syntax
+
+`python NodeJsScan.py -d "/Users/ajin/NodeJS_Code"`
+`python NodeJsScan.py -f "/Users/ajin/NodeJS_Code/node_Server.js","/Users/ajin/NodeJS_Code/node_Proxy.js"`
