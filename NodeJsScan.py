@@ -8,39 +8,79 @@ import re,os,platform,webbrowser,subprocess,xml.dom.minidom
 from optparse import OptionParser
 from xml.dom.minidom import parse
 
-def NodeJSStaticAnalyzer(path):
+def NodeJSStaticAnalyzer(path,isDir):
+    print '\nNodeJsScan is a node.js Static Analysis Tool that can detect possible security issues, insecure code and outdated libraries (using retire.js).\n\n'
     rules, rx, seccode,desc=ReadRules()
     regex_flag={}
     sec=''
-    final=''
-    for init0 in seccode.iterkeys():
-        regex_flag[init0]='0'
-    print "Running Static Analyzer Running on - "+ path + "\n"
-    for dirName, subDir, files in os.walk(path):
-        for jfile in files:
-            jfile_path=os.path.join(path,dirName,jfile)
-            if jfile.endswith('.js'):
-                '''
-                try:
-                '''
-                line_no=0
-                data=''
+    final=[]
+    if isDir:
+        for init0 in seccode.iterkeys():
+            regex_flag[init0]='0'
+        print "Running Static Analyzer Running on - "+ path + "\n"
+        for dirName, subDir, files in os.walk(path):
+            for jfile in files:
+                jfile_path=os.path.join(path,dirName,jfile)
+                if jfile.endswith('.js'):
+                    '''
+                    try:
+                    '''
+                    line_no=0
+                    data=[]
 
-                with open(jfile_path,'r') as f:
+                    with open(jfile_path,'r') as f:
+                        for line in f:
+                            line=line.decode('utf8', 'ignore')
+                            line_no+=1
+                            for key in rules.iterkeys():
+                                if rules[key] in line:
+                                    d='<tr><td>'+ key + '</td><td>' + desc[key] + '</td><td>'+ str(line_no)+ '</td><td>'+ jfile + '</td><td><a href="' + jfile_path + '">'+jfile_path+'</a></td></tr>'
+                                    if d not in data:
+                                        data.append(d)
+                            for regex in rx.iterkeys():
+                                if re.search(rx[regex],line,re.I):
+                                    d= '<tr><td>'+regex + '</td><td>'  + desc[regex] + '</td><td>' + str(line_no)+ '</td><td>' + jfile + '</td><td><a href="'  + jfile_path + '">'+jfile_path+'</a></td></tr>'
+                                    if d not in data:
+                                        data.append(d)
+                            for scode in seccode.iterkeys():
+                                if re.search(seccode[scode],line,re.I):
+                                    regex_flag[scode]='1'
+                    data=''.join(data)
+                    if data not in final:
+                        final.append(data)
+        final = ''.join(final)
+    else:
+        files =[]
+        if "," in path:
+            files = path.split(",")
+        else:
+            files.append(path)
+        for fi in files:
+            jfile = os.path.basename(fi)
+            if fi.endswith('.js'):
+                line_no=0
+                data=[]
+                with open(fi,'r') as f:
                     for line in f:
                         line=line.decode('utf8', 'ignore')
                         line_no+=1
                         for key in rules.iterkeys():
-
                             if rules[key] in line:
-                                data+= '<tr><td>'+ key + '</td><td>' + desc[key] + '</td><td>'+ str(line_no)+ '</td><td>'+ jfile + '</td><td><a href="' + jfile_path + '">'+jfile_path+'</a></td></tr>'
+                                d='<tr><td>'+ key + '</td><td>' + desc[key] + '</td><td>'+ str(line_no)+ '</td><td>'+ jfile + '</td><td><a href="' + fi + '">'+fi+'</a></td></tr>'
+                                if d not in data:
+                                    data.append(d)
                         for regex in rx.iterkeys():
                             if re.search(rx[regex],line,re.I):
-                                data+= '<tr><td>'+regex + '</td><td>'  + desc[regex] + '</td><td>' + str(line_no)+ '</td><td>' + jfile + '</td><td><a href="'  + jfile_path + '">'+jfile_path+'</a></td></tr>'
+                                d= '<tr><td>'+regex + '</td><td>'  + desc[regex] + '</td><td>' + str(line_no)+ '</td><td>' + jfile + '</td><td><a href="'  + fi + '">'+fi+'</a></td></tr>'
+                                if d not in data:
+                                    data.append(d)
                         for scode in seccode.iterkeys():
                             if re.search(seccode[scode],line,re.I):
                                 regex_flag[scode]='1'
-                final+=data
+                data=''.join(data)
+                if data not in final:
+                    final.append(data)
+        final = ''.join(final)
     #After Every Files are done.
     for rflag in regex_flag.iterkeys():
         if '0' in regex_flag[rflag]:
@@ -125,13 +165,18 @@ def main():
     usage = "usage: %prog -d <dir>"
     parser = OptionParser(usage=usage)
     parser.add_option("-d", "--dir", dest="dir")
+    parser.add_option("-f", "--file", dest="file")
     (options, args) = parser.parse_args()
     if options.dir is not None:
-        print '\nNodeJsScan is a node.js Static Analysis Tool that can detect possible security issues, insecure code and outdated libraries (using retire.js).\n\n'
-        dat,sec, out=NodeJSStaticAnalyzer(options.dir)
+        dat,sec, out=NodeJSStaticAnalyzer(options.dir,True)
+        Report(dat,sec,out)
+    elif options.file is not None:
+        dat,sec,out=NodeJSStaticAnalyzer(options.file,False)
         Report(dat,sec,out)
     else:
-        print "Usage: NodeJsScan.py -d <dir>"
+        print """Usage: 
+        NodeJsScan.py -d <dir>
+        NodeJsScan.py -f file1,file2,.."""
 
 
 
