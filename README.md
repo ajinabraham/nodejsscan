@@ -5,6 +5,8 @@ NodeJsScan is a node.js Static Analysis Tool that can detect possible security i
 
 [![support](https://baikal.io/badges/ajinabraham/node-js-scan)](https://baikal.io/ajinabraham/node-js-scan)
 
+Made with <img src="https://cloud.githubusercontent.com/assets/4301109/16754758/82e3a63c-4813-11e6-9430-6015d98aeaab.png" alt="Love"> in India
+
 ## Usage
 
 `python NodeJsScan.py -d <dir>`
@@ -18,5 +20,3 @@ NodeJsScan is a node.js Static Analysis Tool that can detect possible security i
 
 `python NodeJsScan.py -f "/Users/ajin/NodeJS_Code/node_Server.js","/Users/ajin/NodeJS_Code/node_Proxy.js"`
 
-
-Made with <img src="https://cloud.githubusercontent.com/assets/4301109/16754758/82e3a63c-4813-11e6-9430-6015d98aeaab.png" alt="Love"> in India
