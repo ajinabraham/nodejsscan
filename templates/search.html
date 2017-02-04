@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block head %}
+  {{ super() }}
+
+  <link href="{{ url_for('static', filename='css/shCoreDefault.min.css') }}"
+  rel="stylesheet" >
+
+<script src="{{ url_for('static', filename='js/highlight.pack.js') }}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+{% block title %}
+{{title}}
+{% endblock %}
+{% block content %}
+</br>  </br>  </br>  </br>  </br>
+
+<div class="row">
+  <div class="container">
+<div class="box box-default">
+          <div class="box-header with-border">
+
+            <h3 class="box-title"><i class="fa fa-search"></i> You 've searched for: <strong>{{ term }}</strong>. Found in {{ found }} files.</h3>
+
+          </div>
+          <div class="box-body">
+          
+              <div class="table-responsive">
+
+            <form class="navbar-form navbar-right" action="/search" method="POST">
+          <strong>Search in files</strong> <input type="text" name="q" class="form-control" placeholder="Search....">
+          <input type="hidden" name="scan_hash" value="{{scan_hash}}">
+          </form>
+                  <table class="table table-bordered table-hover table-striped">
+            
+            
+                {% for m in matches %}
+                      
+                    <tr><td> <a href="javascript:view('{{ m.path }}','0','{{ m.name}}','{{scan_hash}}');">{{ m.path }}</a> </td></tr>
+                    
+                    {% endfor %}  
+
+              </table>
+               </div>
+
+          </div>
+          <!-- /.box-body -->
+        </div>
+</div>
+</div>
+<!--Modal-->
+<div id="myModal" class="modal fade" role="dialog" style="position: fixed;">
+  <div class="modal-admin">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="cls" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 id="fname" class="modal-title"></h4>
+        <h6 id="pth"></h6>
+      </div>
+      <div id="bdy" class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal End-->
+   {% block js %}
+   {{ super() }}
+  <script src="{{ url_for('static', filename='js/jquery.bootstrap-growl.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shCore.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shBrushJScript.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/result.js') }}"></script>
+  {% endblock %}
+{% endblock %}

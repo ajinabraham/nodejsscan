@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block head %}
+    <link href="{{ url_for('static', filename='css/bootstrap.min_yeti.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">
+    <title>{% block title %}{% endblock %} - NodeScanV2</title>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    {% endblock %}
+  </head>
+  <body>
+   <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">NodeJSScan</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+            
+            <li>
+              <a href="/dashboard/">Dashboard</a>
+            </li>
+          
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Made with <font color="red">&hearts;</font> in India</a></li>
+            
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    <div id="content">{% block content %}{% endblock %}</div>
+    {% block js %}
+       <!-- Core Scripts - Include with every page -->
+      <script src = "{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+     
+    
+      {% endblock %}
+    <div id="footer" align="center">
+      {% block footer %}
+      Copyright &copy; {{ year }} | NodeJSScan V2 | <a href="https://ajinabraham.com">Ajin Abraham</a>.
+      {% endblock %}
+    </div>
+  </body>
+</html>

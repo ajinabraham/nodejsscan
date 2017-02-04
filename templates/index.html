@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>NodeJSScan v2</title>
+
+      <!-- Bootstrap Core CSS -->
+     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+  rel="stylesheet" >
+
+
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+
+    <link href="{{ url_for('static', filename='css/grayscale.min.css') }}"
+  rel="stylesheet" >
+  <link href="{{ url_for('static', filename='css/dropzone.min.css') }}"
+  rel="stylesheet" >
+
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<style>
+#dropzone { margin-bottom: 3rem; }
+.dropzone { border: 2px dashed #0087F7; border-radius: 5px; background: #F5F5F5; }
+.dropzone .dz-message { font-weight: 400; color: rgba(0, 0, 0, 0.6); font-size: 20px; font-style: italic;}
+.dropzone .dz-message .note { font-size: 0.8em; font-weight: 200; display: block; margin-top: 1.4rem; }
+</style>
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+       
+                <a class="navbar-brand page-scroll" href="/dashboard/">DASHBOARD</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="">Made with <font color="red">♥</font> in India</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                    
+                        <img src ="{{ url_for('static', filename='img/nodejs.png') }}"><h1 class="brand-heading">NODEJSSCAN</h1>
+                        <p class="intro-text">Static Security Code Scanner for Node.js Applications
+                        </p>
+
+      <form id="upload-widget" method="POST" action="/upload/" enctype=multipart/form-data" class="dropzone">
+      </form>
+      <h4 id="status"></h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+   
+
+    <!-- jQuery -->
+    <script src = "{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+     
+    <script src = "{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+     
+    <script src = "{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
+    <script>
+    $(document).ready(function ()
+    {
+            function _(el){
+              return document.getElementById(el);
+            }
+            function responseHandler (json) {
+              if (json.status==='error')
+              {
+                _("status").innerHTML = json.desc;
+              }
+              else if (json.status==='success')
+              {
+                i=1;
+                setInterval(function () {
+                  dot='';
+                  for (x=1;x<=i;x++)
+                   {
+                    dot+='.';
+                   }
+                   _("status").innerHTML = "Analyzing" +dot;
+                   i+=1;
+                   if(i==5)
+                   {
+                    i=1;
+                   }
+                }, 2000);
+                window.location.href=window.location.href+json.url;
+              }
+            }
+
+        Dropzone.options.uploadWidget = {
+              paramName: 'file',
+              createImageThumbnails: false,
+              maxFilesize: 1000, // MB
+              maxFiles: 1,
+              dictDefaultMessage: 'Drag files here or click Upload & Analyze',
+              acceptedFiles: '.zip',
+              init: function() {
+                this.on('success', function( file, resp ){
+                  console.log( resp );
+                  responseHandler (resp);
+                });
+              },
+            };
+
+    });
+    </script>
+
+</body>
+
+</html>

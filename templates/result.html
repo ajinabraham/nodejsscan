@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+
+<script src="{{ url_for('static', filename='js/highlight.pack.js') }}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="{{ url_for('static', filename='css/font-awesome.min.css') }}"
+  rel="stylesheet" >
+<link href="{{ url_for('static', filename='css/monokai-sublime.css') }}"
+  rel="stylesheet" >
+<link href="{{ url_for('static', filename='css/shCoreDefault.min.css') }}"
+  rel="stylesheet" >
+<link href="{{ url_for('static', filename='css/result.css') }}"
+  rel="stylesheet" >
+{% endblock %}
+{% block title %}
+{{title}}
+{% endblock %}
+{% block content %}
+
+  <div class="container">
+
+  </br>  </br>  </br>  </br>  </br>
+
+    <div class="col-md-10 col-md-offset-1">           
+           
+       
+        <!--basic info-->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Scan info</h3>
+          </div>
+          <div class="panel-body">
+           <p><strong>Scan Locations:</strong></br>
+           {% for loc in locations %}
+            {{ loc }}</br>
+           {% endfor %}
+           </p>
+           <p><strong>Scan Hash:</strong> {{scan_hash}}</p>
+          </div>
+
+     
+
+        </div>
+        <!--Scan Results-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Security Issues</h3>
+            </div>
+            <div id="scn" class="panel-body">
+            {% for tag,findings in security_issues.items() %}
+              <div class="panel-group">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#sec{{ tag|slugify }}cp">
+                      <span id="sec{{ tag|slugify }}" data-toggle="collapse">{{tag}} - {{findings|length}}</span>
+                    </h4>
+                  </div>
+                  <div id="sec{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% for finding in findings %}
+                        {% if finding.sha2 not in invalid and  finding.sha2 not in resolved%}
+                        <div class="well well-sm">
+                            <p><strong>Issue: </strong>{{ finding.title }} </p>
+                            <p><strong>Description: </strong>{{ finding.description}}</p>
+                            <p><strong>Filename: </strong>{{ finding.filename}}</p>
+                            <p><strong>Path: </strong>{{ finding.path}}</p>
+                            <p><strong>Line No: </strong>{{ finding.line}}</p>
+                            <p>
+                                <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-sec{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+                            
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ finding.path}}','{{ finding.line}}','{{ finding.filename}}','{{scan_hash}}');">
+                                View File
+                                </button>
+                              
+                                <button class='btn btn-warning' type="button" data-fsha2="{{ finding.sha2}}" data-ssha2="{{scan_hash}}" onclick="$('#fsha2').val($(this).data('fsha2'));$('#ssha2').val($(this).data('ssha2'));$('#issue_modal').modal('show');">
+                                Not an Issue?
+                                </button>
+                                <button class='btn btn-danger' type="button" data-isha2="{{ finding.sha2}}" data-ssha2="{{scan_hash}}" onclick="$('#isha2').val($(this).data('isha2'));$('#ssha2').val($(this).data('ssha2'));$('#invalid_modal').modal('show');">
+                                Mark as False Positive
+                                </button>
+                        
+                            </p>
+                            <div class="collapse" id="collapse-sec{{ tag|slugify }}{{ loop.index }}">
+                              <div class="card card-block">
+                              <pre><code>{{ finding.lines }}</code></pre>
+                              </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        </div>
+        <!--Missing Headers-->
+         <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Missing Security Response Headers</h3>
+            </div>
+            <div class="panel-body">
+     
+            {% for tag,findings in missing_headers.items() %}
+              <div class="panel-group">
+                <div class="panel panel-warning">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#miss{{ tag|slugify }}cp">
+                      <span data-toggle="collapse">{{tag}} - {{findings|length}}</span>
+                    </h4>
+                  </div>
+                  <div id="miss{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% for finding in findings %}
+                        <div class="well well-sm">
+                            <p><strong>Issue: </strong>{{ finding.title }} </p>
+                            <p><strong>Description: </strong>{{ finding.description}}</p>
+                           
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        </div>
+   
+         <!--Good Findings -->
+
+    <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Good Findings</h3>
+            </div>
+            <div class="panel-body">
+            <!--sec issues -->
+            {% for tag,findings in good_findings.items() %}
+              <div class="panel-group">
+                <div class="panel panel-success">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#good{{ tag|slugify }}cp">
+                      <span data-toggle="collapse">{{tag}} - {{findings|length}}</span>
+                    </h4>
+                  </div>
+                  <div id="good{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% for finding in findings %}
+                        <div class="well well-sm">
+                            <p><strong>Issue: </strong>{{ finding.title }} </p>
+                            <p><strong>Description: </strong>{{ finding.description}}</p>
+                            <p><strong>Filename: </strong>{{ finding.filename}}</p>
+                            <p><strong>Path: </strong>{{ finding.path}}</p>
+                            <p><strong>Line No: </strong>{{ finding.line}}</p>
+                            <p>
+                                <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-gd{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+                                
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ finding.path}}','{{ finding.line}}','{{ finding.filename}}','{{scan_hash}}');">
+                                View File
+                                </button>
+                              
+                            </p>
+                            <div class="collapse" id="collapse-gd{{ tag|slugify }}{{ loop.index }}">
+                              <div class="card card-block">
+                              <pre><code>{{ finding.lines }}</code></pre>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        </div>
+   <!-- invalid -->
+           <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Not Applicable Issues</h3>
+            </div>
+            <div id="scn1" class="panel-body">
+            {% for tag,findings in security_issues.items() %}
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#inv{{ tag|slugify }}cp">
+                      <span id="inv{{ tag|slugify }}" data-toggle="collapse">{{tag}} - {{findings|length}}</span>
+                    </h4>
+                  </div>
+                  <div id="inv{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% for finding in findings %}
+                        {% if finding.sha2 in resolved and finding.sha2 not in invalid  %}
+                        <div class="well well-sm">
+                            <p><strong>Issue: </strong>{{ finding.title }} </p>
+                            <p><strong>Description: </strong>{{ finding.description}}</p>
+                            <p><strong>Filename: </strong>{{ finding.filename}}</p>
+                            <p><strong>Path: </strong>{{ finding.path}}</p>
+                            <p><strong>Line No: </strong>{{ finding.line}}</p>
+                            <p>
+                                <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-inv{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+                            
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ finding.path}}','{{ finding.line}}','{{ finding.filename}}','{{scan_hash}}');">
+                                View File
+                                </button>
+
+                                <button class='btn btn-success' type="button" data-isha2="{{ finding.sha2}}" data-ssha2="{{scan_hash}}" onclick="$('#isha2').val($(this).data('isha2'));$('#ssha2').val($(this).data('ssha2'));$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+                              
+                                <button class='btn btn-danger' type="button" data-isha2="{{ finding.sha2}}" data-ssha2="{{scan_hash}}" onclick="$('#isha2').val($(this).data('isha2'));$('#ssha2').val($(this).data('ssha2'));$('#invalid_modal').modal('show');">
+                                Mark as False Positive
+                                </button>
+                        
+                            </p>
+                            <div class="collapse" id="collapse-inv{{ tag|slugify }}{{ loop.index }}">
+                              <div class="card card-block">
+                              <pre><code>{{ finding.lines }}</code></pre>
+                              </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        </div>
+   <!--end-->
+        <!--Files in Package -->
+        <div class="panel panel-primary">
+         <form class="navbar-form navbar-right" action="/search" method="POST">
+          <font color="white"><strong>Search in files  </strong></font> <input type="text" name="q" class="form-control" placeholder="Search....">
+          <input type="hidden" name="scan_hash" value="{{scan_hash}}">
+         </form>
+          <div class="panel-heading">
+
+            <h3 class="panel-title">All Files</h3>
+
+          </div>
+          <div class="panel-body">
+          <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+
+                                        <thead>
+                                            <tr>
+                                                <th>File</th>
+                                                <th>Location</th>
+                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+          {% for itm in all_files %}
+          <tr>
+           {% for file_name, path in itm.items() %}
+            <td>{{ file_name }}</td>
+            <td><a href="javascript:view('{{ path }}','0','{{ file_name}}','{{scan_hash}}');">{{ path }}</a></td>
+           {% endfor %}
+           </tr>
+          {% endfor %}
+           </tbody>
+          </table>              
+        </div>
+       
+
+
+          </div>
+        </div>
+    
+
+    </div>
+</div>
+
+<!--Modal-->
+<div id="myModal" class="modal fade" role="dialog" style="position: fixed;">
+  <div class="modal-admin">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="cls" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 id="fname" class="modal-title"></h4>
+        <h6 id="pth"></h6>
+      </div>
+      <div id="bdy" class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal End-->
+<!--issue modal-->
+<div id="issue_modal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to mark this issue as not applicable?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="fsha2">
+        <input type="hidden" value="" id="ssha2">
+        <button id="isu" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="mark_resolved($('#ssha2').val(), $('#fsha2').val())">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--invalid modal-->
+<div id="invalid_modal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to mark the finding as a False Positive?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="isha2">
+        <input type="hidden" value="" id="ssha2">
+        <button id="inv" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="mark_invalid($('#ssha2').val(), $('#isha2').val())">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--not an issue modal-->
+<div id="revert_modal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to move the finding back to issues?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="isha2">
+        <input type="hidden" value="" id="ssha2">
+        <button id="bck" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="revert($('#ssha2').val(), $('#isha2').val())">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  {% block js %}
+   {{ super() }}
+  <script src="{{ url_for('static', filename='js/jquery.bootstrap-growl.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shCore.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shBrushJScript.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/result.js') }}"></script>
+  {% endblock %}
+{% endblock %}

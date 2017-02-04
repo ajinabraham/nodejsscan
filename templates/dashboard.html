@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block title %}
+{{title}}
+{% endblock %}
+{% block content %}
+ </br>  </br>  </br>  </br>  </br>
+<div class="row">
+
+ <div class="col-md-10 col-md-offset-1">           
+           
+	<h2 align="center">NodeJSScan V2 Scan Dashboard	</h2>
+	</br>
+  </div>
+        <!--Scans-->
+    <div class="col-md-10 col-md-offset-1">           
+           <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Scan Hash</th>
+                    <th>Scan Locations</th>
+                    <th>Last Scan</th>
+                    <th>View Report</th>
+                </tr>
+            </thead>
+            <tbody>
+          
+          {% for scans in scan_details %}
+          <tr>
+            <td>{{ scans.scan_hash }}</td>
+            <td>{% for loc in scans.locations %} {{ loc }} {% endfor %}</td>
+            <td>{{ scans.timestamp }}</td>
+            <td><a href="/result/{{ scans.scan_hash }}">Show</a></td>
+           </tr>
+          {% endfor %}
+
+           </tbody>
+          </table>              
+        </div>
+     </div>
+</div>
+
+  {% block js %}
+   {{ super() }}
+  {% endblock %}
+{% endblock %}

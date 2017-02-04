@@ -1,0 +1,4 @@
+flask
+jinja2
+jsbeautifier
+psycopg2
