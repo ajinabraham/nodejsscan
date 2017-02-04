@@ -1,4 +1,5 @@
 flask
 jinja2
 jsbeautifier
+sqlalchemy
 psycopg2
