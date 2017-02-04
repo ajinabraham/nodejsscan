@@ -4,7 +4,7 @@ Static Security code scanner for node.js applications.
 
 ## How to Configure
 
-1. Install postgres and configure `SQLALCHEMY_DATABASE_URI` in `core/settings.py`
+1. Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `core/settings.py`
 2. Run `pip install -r requirements.txt`
 3. Run `python createdb.py`
 4. Run `python app.py`
