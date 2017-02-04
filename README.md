@@ -1,6 +1,6 @@
 # NodeJsScan
 
-Static Security code scanner for node.js applications.
+Static Security code scanner for Node.js applications.
 
 ## How to Configure
 
