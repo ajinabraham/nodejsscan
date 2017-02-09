@@ -53,6 +53,12 @@
   <tag>rci</tag>
  </regex>
 
+<regex name="Deserialization Remote Code Injection">
+  <signature>(deserialize\(|unserialize\()</signature>
+  <description>User controlled data in 'unserialize()' or 'deserialize()' can result in Object Injection or Remote Code Injection.</description>
+  <tag>rci</tag>
+ </regex>
+
  <regex name="Accept Self Signed Certificates">
   <signature>(\[)*('|")*NODE_TLS_REJECT_UNAUTHORIZED('|")*(\])*(\s)*=(\s)*('|")*0('|")*</signature>
   <description>'Setting 'NODE_TLS_REJECT_UNAUTHORIZED' to 0 will allow node server to accept self signed certificates and is not an secure behaviour.</description>
