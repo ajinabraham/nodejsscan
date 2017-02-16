@@ -237,3 +237,21 @@ def slugify(value):
     value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
     value = unicode(_slugify_strip_re.sub('', value).strip().lower())
     return _slugify_hyphenate_re.sub('-', value)
+
+
+def js_escape(value):
+    """JS XSS Escape"""
+    return (value.replace('<', "\u003c").
+            replace('>', "\u003e").
+            replace('"', "\u0022").
+            replace("'", "\u0027").
+            replace("`", "\u0060").
+            replace("(", "\u0028").
+            replace(")", "\u0029").
+            replace("{", "\u007b").
+            replace("}", "\u007d").
+            replace("-", "\u002d").
+            replace("+", "\u007d").
+            replace("$", "\u0024").
+            replace("/", "\u002f")
+           )

@@ -73,7 +73,7 @@
                                 </button>
                             
                                 <button class="btn btn-primary" type="button" 
-                                onclick="view('{{ finding.path}}','{{ finding.line}}','{{ finding.filename}}','{{scan_hash}}');">
+                                onclick="view('{{ finding.path | js_escape}}','{{ finding.line}}','{{ finding.filename | js_escape}}','{{scan_hash}}');">
                                 View File
                                 </button>
                               
@@ -164,7 +164,7 @@
                                 </button>
                                 
                                 <button class="btn btn-primary" type="button" 
-                                onclick="view('{{ finding.path}}','{{ finding.line}}','{{ finding.filename}}','{{scan_hash}}');">
+                                onclick="view('{{ finding.path | js_escape}}','{{ finding.line }}','{{ finding.filename | js_escape}}','{{scan_hash}}');">
                                 View File
                                 </button>
                               
@@ -214,7 +214,7 @@
                                 </button>
                             
                                 <button class="btn btn-primary" type="button" 
-                                onclick="view('{{ finding.path}}','{{ finding.line}}','{{ finding.filename}}','{{scan_hash}}');">
+                                onclick="view('{{ finding.path | js_escape}}','{{ finding.line}}','{{ finding.filename | js_escape}}','{{scan_hash}}');">
                                 View File
                                 </button>
 
@@ -270,7 +270,7 @@
           <tr>
            {% for file_name, path in itm.items() %}
             <td>{{ file_name }}</td>
-            <td><a href="javascript:view('{{ path }}','0','{{ file_name}}','{{scan_hash}}');">{{ path }}</a></td>
+            <td><a href="javascript:view('{{ path | js_escape}}','0','{{ file_name | js_escape}}','{{scan_hash}}');">{{ path }}</a></td>
            {% endfor %}
            </tr>
           {% endfor %}
@@ -363,7 +363,7 @@
     </div>
   </div>
 </div>
-
+{{ "<script>alert()</script>" }}
 
   {% block js %}
    {{ super() }}

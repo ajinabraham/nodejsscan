@@ -43,6 +43,13 @@ def _year():
     return dict(year=str(utils.year()))
 
 
+@app.template_filter('js_escape')
+def _js_escape(string):
+    if not string:
+        return ""
+    return utils.js_escape(string)
+
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
@@ -62,10 +69,10 @@ def upload():
         _, extension = os.path.splitext(filen.filename.lower())
         # Check for Valid ZIP
         if (filen and
-                filen.filename and
-                extension in settings.UPLD_ALLOWED_EXTENSIONS and
-                filen.mimetype in settings.UPLD_MIME
-            ):
+                    filen.filename and
+                    extension in settings.UPLD_ALLOWED_EXTENSIONS and
+                    filen.mimetype in settings.UPLD_MIME
+                ):
             filename = secure_filename(filen.filename)
             # Make upload dir
             if not os.path.exists(settings.UPLOAD_FOLDER):
@@ -220,8 +227,8 @@ def view_file():
         if res:
             _, extension = os.path.splitext(path.lower())
             if ((extension in settings.SCAN_FILES_EXTENSION) and
-                (not utils.is_attack_pattern(path))
-                ):
+                    (not utils.is_attack_pattern(path))
+                    ):
                 path = os.path.join(settings.UPLOAD_FOLDER, path)
                 if os.path.isfile(path):
                     contents = utils.unicode_safe_file_read(path)
