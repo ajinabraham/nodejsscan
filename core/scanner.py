@@ -178,7 +178,8 @@ def general_code_analysis(paths):
                 for filename in files:
                     full_file_path = os.path.join(root, filename)
                     relative_path = full_file_path.replace(path, "")
-                    all_files.append({relative_path.replace("/", "", 1): full_file_path.replace(settings.UPLOAD_FOLDER, "", 1)})
+                    all_files.append({relative_path.replace(
+                        "/", "", 1): full_file_path.replace(settings.UPLOAD_FOLDER, "", 1)})
                     data = is_valid_node(filename, full_file_path)
                     if data is not None:
                         # print relative_path
@@ -210,9 +211,10 @@ def general_code_analysis(paths):
                                         finding["lines"] = get_lines(
                                             line_no, lines)
                                         finding["filename"] = filename
-                                        finding["path"] = full_file_path.replace(settings.UPLOAD_FOLDER,"",1)
+                                        finding["path"] = full_file_path.replace(
+                                            settings.UPLOAD_FOLDER, "", 1)
                                         finding["sha2"] = utils.gen_sha256_hash(
-                                            str(finding["lines"]))
+                                            finding["lines"].encode(encoding="utf-8", errors="replace"))
                                         security_issues.append(finding)
                                 # Vulnerability Regex Match
                                 for regex in scan_rules["vuln_regex"].iterkeys():
@@ -227,9 +229,10 @@ def general_code_analysis(paths):
                                         finding["lines"] = get_lines(
                                             line_no, lines)
                                         finding["filename"] = filename
-                                        finding["path"] = full_file_path.replace(settings.UPLOAD_FOLDER,"",1)
+                                        finding["path"] = full_file_path.replace(
+                                            settings.UPLOAD_FOLDER, "", 1)
                                         finding["sha2"] = utils.gen_sha256_hash(
-                                            str(finding["lines"]))
+                                            finding["lines"].encode(encoding="utf-8", errors="replace"))
                                         security_issues.append(finding)
                                 # Vulnerability Multi Regex Match
                                 for mulregex in scan_rules["vuln_mul_regex"].iterkeys():
@@ -249,9 +252,10 @@ def general_code_analysis(paths):
                                             finding["lines"] = get_lines(
                                                 line_no, lines)
                                             finding["filename"] = filename
-                                            finding["path"] = full_file_path.replace(settings.UPLOAD_FOLDER,"",1)
+                                            finding["path"] = full_file_path.replace(
+                                                settings.UPLOAD_FOLDER, "", 1)
                                             finding["sha2"] = utils.gen_sha256_hash(
-                                                str(finding["lines"]))
+                                                finding["lines"].encode(encoding="utf-8", errors="replace"))
                                             security_issues.append(finding)
                                 # Dynamic Regex
                                 for dynregex in scan_rules["vuln_dyn_regex"].iterkeys():
@@ -282,9 +286,9 @@ def general_code_analysis(paths):
                                                     finding[
                                                         "filename"] = filename
                                                     finding[
-                                                        "path"] = full_file_path.replace(settings.UPLOAD_FOLDER,"",1)
+                                                        "path"] = full_file_path.replace(settings.UPLOAD_FOLDER, "", 1)
                                                     finding["sha2"] = utils.gen_sha256_hash(
-                                                        str(finding["lines"]))
+                                                        finding["lines"].encode(encoding="utf-8", errors="replace"))
                                                     security_issues.append(
                                                         finding)
                                 # Good Finding String Match
@@ -300,9 +304,10 @@ def general_code_analysis(paths):
                                         finding["lines"] = get_lines(
                                             line_no, lines)
                                         finding["filename"] = filename
-                                        finding["path"] = full_file_path.replace(settings.UPLOAD_FOLDER,"",1)
+                                        finding["path"] = full_file_path.replace(
+                                            settings.UPLOAD_FOLDER, "", 1)
                                         finding["sha2"] = utils.gen_sha256_hash(
-                                            str(finding["lines"]))
+                                            finding["lines"].encode(encoding="utf-8", errors="replace"))
                                         good_finding.append(finding)
                                 # Missing Security Headers String Match
                                 for header in scan_rules["missing_sec_header"].iterkeys():
