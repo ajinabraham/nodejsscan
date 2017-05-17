@@ -13,3 +13,10 @@ This will run NodeJsScan on `http://0.0.0.0:9090`
 If you need to debug, set `DEBUG = True` in `core/settings.py`
 
 ![NodeJsScan V2](https://cloud.githubusercontent.com/assets/4301109/22619224/26acd162-eb16-11e6-8f28-bd477c92991f.png)
+
+## Docker
+
+```
+docker build -t nodejsscan .
+docker run -i -t -p 9090:9090 nodejsscan
+```
