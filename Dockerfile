@@ -1,48 +1,28 @@
-FROM ubuntu:16.04
+FROM postgres:9.6.2-alpine
 
-MAINTAINER Ajin Abraham <ajin25@gmail.com>
+LABEL authors="Cristobal Infantes <cristobal.infantes@gmail.com>"
 
-# Update the repository sources list
-RUN apt-get update -y
-
-#Postgres Installation
-RUN apt-get install -y \
-    postgresql \
-    postgresql-contrib
-
-#Install Git and required Libs
-RUN apt-get install -y \
-    git \
-    build-essential \
-    libpq-dev
-
-#Install Python, pip
-RUN \
-  apt-get install -y \
-  python \
-  python-dev \
-  python-pip && \
-  pip install --upgrade pip
-
-#Cleanup
-RUN \
-  rm -rf /var/lib/apt/lists/*
-
-#Clone NodeJsScan master
-WORKDIR /root
-RUN git clone https://github.com/ajinabraham/NodeJsScan.git
-
-#Enable Virtualenv and Install Dependencies
-WORKDIR /root/NodeJsScan
-
-RUN pip install -r requirements.txt
-
-#Expose NodeJsScan Port
 EXPOSE 9090
 
-#Create Tables Entries
-WORKDIR /root/NodeJsScan
-CMD ["python","createdb.py"]
+ENV POSTGRES_USER root
+ENV POSTGRES_DB nodejsscan
 
-#Run NodeJsScan
-CMD ["python","app.py"]
+RUN cd /usr/src \
+ && apk add --update \
+    python \
+    python-dev \
+    py-pip \
+    build-base \
+    git \
+ && git clone https://github.com/ajinabraham/NodeJsScan.git \
+ && cd NodeJsScan \
+ && sed -i -e s/postgresql:\\/\\/localhost\\/nodejsscan/postgresql:\\/\\/127.0.0.1\\/nodejsscan/g core/settings.py \
+ && pip install -r requirements.txt \
+ && apk del python-dev \
+    build-base \
+    git \
+ && rm -rf /var/cache/apk/*
+
+ADD start.sh /usr/src/NodeJsScan
+WORKDIR /usr/src/NodeJsScan
+CMD ["sh","start.sh"]
