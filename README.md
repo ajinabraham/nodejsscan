@@ -18,5 +18,12 @@ If you need to debug, set `DEBUG = True` in `core/settings.py`
 
 ```
 docker build -t nodejsscan .
-docker run -i -t -p 9090:9090 nodejsscan
+docker run -it -p 9090:9090 nodejsscan
 ```
+
+## DockerHub
+
+```
+docker pull opensecurity/nodejsscan
+docker run -it -p 9090:9090 nodejsscan:latest
+````
