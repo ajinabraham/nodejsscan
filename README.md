@@ -12,7 +12,11 @@ Static security code scanner for Node.js applications.
 This will run NodeJsScan on `http://0.0.0.0:9090`
 If you need to debug, set `DEBUG = True` in `core/settings.py`
 
+#### NodeJsScan Web UI
 ![NodeJsScan V2](https://cloud.githubusercontent.com/assets/4301109/22619224/26acd162-eb16-11e6-8f28-bd477c92991f.png)
+
+#### Static Analysis
+![NodeJsScan Static Scan Results](https://user-images.githubusercontent.com/4301109/30637698-bfa68e04-9e16-11e7-8233-bfde503d7e5a.png)
 
 ### Docker
 
