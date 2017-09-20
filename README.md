@@ -2,7 +2,7 @@
 
 Static security code scanner for Node.js applications.
 
-## How to Configure
+### How to Configure
 
 1. Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `core/settings.py`
 2. Run `pip install -r requirements.txt`
@@ -14,14 +14,14 @@ If you need to debug, set `DEBUG = True` in `core/settings.py`
 
 ![NodeJsScan V2](https://cloud.githubusercontent.com/assets/4301109/22619224/26acd162-eb16-11e6-8f28-bd477c92991f.png)
 
-## Docker
+### Docker
 
 ```
 docker build -t nodejsscan .
 docker run -it -p 9090:9090 nodejsscan
 ```
 
-## DockerHub
+### DockerHub
 
 ```
 docker pull opensecurity/nodejsscan
