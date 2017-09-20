@@ -29,5 +29,5 @@ docker run -it -p 9090:9090 nodejsscan
 
 ```
 docker pull opensecurity/nodejsscan
-docker run -it -p 9090:9090 nodejsscan:latest
+docker run -it -p 9090:9090 opensecurity/nodejsscan:latest
 ```
