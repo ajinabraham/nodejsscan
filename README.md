@@ -11,6 +11,8 @@ Static security code scanner for Node.js applications.
 
 This will run NodeJsScan on `http://0.0.0.0:9090`
 If you need to debug, set `DEBUG = True` in `core/settings.py`
+#### Learn Node.js Security: Pentesting and Exploitation
+[OpSecX Video Course](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/)
 
 #### NodeJsScan Web UI
 ![NodeJsScan V2](https://cloud.githubusercontent.com/assets/4301109/22619224/26acd162-eb16-11e6-8f28-bd477c92991f.png)
