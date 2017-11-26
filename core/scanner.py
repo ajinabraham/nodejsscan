@@ -120,15 +120,12 @@ def get_lines(line_no, lines):
 
 def is_valid_node(filename, file_path):
     """Make sure file is a Valid Node.js File"""
-    # Files to be Scanned
-    scan_file_extensions = settings.SCAN_FILES_EXTENSION
     # Files that doesn't needs to be scanned
     ignore_files = ["jquery.min.js", "bootstrap.js", "bootstrap-tour.js",
                     "raphael-min.js", "tinymce.min.js", "tinymce.js",
                     "codemirror-compressed.js", "codemirror.js"]
     ext = os.path.splitext(filename)[1]
-
-    is_js_file = bool(ext.lower() in scan_file_extensions)
+    is_js_file = bool(ext.lower() in settings.JS_SCAN_FILE_EXTENSIONS)
     ignore_file = bool(filename.lower() not in ignore_files)
     is_node_www = bool(file_path.lower().endswith("bin/www"))
     valid = (is_js_file or is_node_www) and ignore_file
@@ -139,6 +136,14 @@ def is_valid_node(filename, file_path):
             return data
     return None
 
+
+def is_valid_template_file(filename, file_path):
+    """Check if it's a valid template file"""
+    data = None
+    ext = os.path.splitext(filename)[1]
+    if ext.lower() in settings.OTHER_SCAN_FILE_EXTENSIONS:
+        data = utils.unicode_safe_file_read(file_path)
+    return data
 
 def general_code_analysis(paths):
     """Static Code Analysis"""
@@ -180,8 +185,13 @@ def general_code_analysis(paths):
                     relative_path = full_file_path.replace(path, "")
                     all_files.append({relative_path.replace(
                         "/", "", 1): full_file_path.replace(settings.UPLOAD_FOLDER, "", 1)})
-                    data = is_valid_node(filename, full_file_path)
-                    if data is not None:
+                    nodejs_data = is_valid_node(filename, full_file_path)
+                    template_data = is_valid_template_file(filename, full_file_path)
+                    if nodejs_data or template_data:
+                        if nodejs_data:
+                            data = nodejs_data
+                        else:
+                            data = template_data
                         # print relative_path
                         beautified_data = None
                         lines = data.splitlines()

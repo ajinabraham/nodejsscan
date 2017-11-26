@@ -164,6 +164,38 @@
   <tag>hhi</tag>
 </regex>
 
+<!-- Template Rules -->
+
+<regex name="Unescaped variable in Mustache.js/Handlebars.js template file">
+  <signature>{{{\s*[\w.\[\]\(\)]+\s*}}}</signature>
+  <description>The Handlebar.js/Mustache.js template has an unescaped variable. Untrusted user input passed to this variable results in Cross Site Scripting (XSS).</description>
+  <tag>xss</tag>
+</regex>
+
+<regex name="Unescaped variable in Dust.js template file">
+  <signature>{\s*[\w.\[\]\(\)]+\s*\|\s*s\s*}</signature>
+  <description>The Dust.js template has an unescaped variable. Untrusted user input passed to this variable results in Cross Site Scripting (XSS).</description>
+  <tag>xss</tag>
+</regex>
+
+<regex name="Unescaped variable in Pug.js template file">
+  <signature>#{\s*[\w.\[\]\(\)\'\"]+\s*}</signature>
+  <description>The Pug.js template has an unescaped variable. Untrusted user input passed to this variable results in Cross Site Scripting (XSS).</description>
+  <tag>xss</tag>
+</regex>
+
+<regex name="Unescaped variable in EJS template file">
+  <signature>&lt;%-\s*[\w.\[\]\(\)]+\s*%&gt;</signature>
+  <description>The EJS template has an unescaped variable. Untrusted user input passed to this variable results in Cross Site Scripting (XSS).</description>
+  <tag>xss</tag>
+</regex>
+
+<regex name="Unescaped variable in ECT template file">
+  <signature>&lt;%-\s*@+[\w.\[\]\(\)]+\s*%&gt;</signature>
+  <description>The ECT template has an unescaped variable. Untrusted user input passed to this variable results in Cross Site Scripting (XSS).</description>
+  <tag>xss</tag>
+</regex>
+
 <!--Multi Match Regex-->
 
  <mulregex name="Remote OS Command Execution - (child_process.exec())">

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
-#Settings of NodeJSSCan
+# Settings of NodeJSSCan
 import os
 import socket
 
@@ -11,7 +11,9 @@ LOG_FILE = os.path.join(BASE_DIR, 'njs-log.txt')
 UPLOAD_FOLDER = os.path.join(os.path.expanduser('~'), ".NodeJsScan/")
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
-SCAN_FILES_EXTENSION = [".yml", ".js", ".json", ".sh", ""]
+JS_SCAN_FILE_EXTENSIONS = [".js", ""]
+OTHER_SCAN_FILE_EXTENSIONS = [".html", ".mustache", ".hbs", ".hdbs", ".ejs", ".dust", ".json",
+                              ".tl", ".tpl", ".tmpl", ".pug", ".ect", ".sh", ".yml"]
 UPLD_ALLOWED_EXTENSIONS = ['.zip']
 UPLD_MIME = [
     'application/zip',
