@@ -105,7 +105,11 @@
   <description>A hardcoded password in plain text was identified.</description>
   <tag>node</tag>
 </regex>
-
+<regex name="Secret Hardcoded">
+  <signature>\s*['|\"]secret['|\"]\s*:|\s*secret\s*:</signature>
+  <description>A hardcoded secret was identified.</description>
+  <tag>node</tag>
+</regex>
 <regex name="Username Hardcoded">
   <signature>username\s*=\s*['|"].+['|"]\s{0,5}[;|.]</signature>
   <description>A hardcoded username in plain text was identified. Store it properly in a config file.</description>
