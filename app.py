@@ -256,7 +256,7 @@ def search():
                 for dir_name, _, files in os.walk(loc):
                     for jfile in files:
                         _, extension = os.path.splitext(jfile.lower())
-                        if extension in settings.SCAN_FILES_EXTENSION:
+                        if (extension in settings.JS_SCAN_FILE_EXTENSIONS) or (extension in settings.OTHER_SCAN_FILE_EXTENSIONS):
                             file_path = os.path.join(loc, dir_name, jfile)
                             fileparam = file_path.replace(
                                 settings.UPLOAD_FOLDER, '')
