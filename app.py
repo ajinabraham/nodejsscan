@@ -226,7 +226,7 @@ def view_file():
         res = Results.query.filter(Results.scan_hash == scan_hash).first()
         if res:
             _, extension = os.path.splitext(path.lower())
-            if ((extension in settings.SCAN_FILES_EXTENSION) and
+            if ((extension in settings.JS_SCAN_FILE_EXTENSIONS or extension in settings.OTHER_SCAN_FILE_EXTENSIONS) and
                     (not utils.is_attack_pattern(path))
                     ):
                 path = os.path.join(settings.UPLOAD_FOLDER, path)
