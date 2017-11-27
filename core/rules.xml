@@ -106,7 +106,7 @@
   <tag>node</tag>
 </regex>
 <regex name="Secret Hardcoded">
-  <signature>\s*['|\"]secret['|\"]\s*:|\s*secret\s*:</signature>
+  <signature>\s*['|\"]+secret['|\"]+\s*:|\s*secret\s*:\s*['|\"]+</signature>
   <description>A hardcoded secret was identified.</description>
   <tag>node</tag>
 </regex>
