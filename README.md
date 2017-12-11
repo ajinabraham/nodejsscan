@@ -1,6 +1,6 @@
 # NodeJsScan
 
-Static security code scanner for Node.js applications.
+Static security code scanner (SAST) for Node.js applications.
 
 ### How to Configure
 
