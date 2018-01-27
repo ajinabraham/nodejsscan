@@ -8,8 +8,7 @@ if __name__ == "__main__":
                         help="Path to Node.js Source Code to Scan", required=True)
     args = parser.parse_args()
     if args.directory:
-    	print (args.directory)
-    	scan_results = general_code_analysis(args.directory)
-    	print (json.dumps(scan_results))
+        scan_results = general_code_analysis(args.directory)
+        print (json.dumps(scan_results))
     else:
         parser.print_help()
