@@ -11,7 +11,14 @@ Static security code scanner (SAST) for Node.js applications.
 
 This will run NodeJsScan on `http://0.0.0.0:9090`
 If you need to debug, set `DEBUG = True` in `core/settings.py`
-#### Learn Node.js Security: Pentesting and Exploitation
+
+### NodeJsScan CLI
+
+The command line interface (CLI) allows you to integrate NodeJsScan with DevSecOps CI/CD pipelines. The results are in JSON format. When you use CLI the results are never stored with NodeJsScan backend.
+
+`python cli.py -d <node_js_source_code>`
+
+### Learn Node.js Security: Pentesting and Exploitation
 [OpSecX Video Course](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/)
 
 #### NodeJsScan Web UI
