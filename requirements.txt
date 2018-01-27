@@ -1,5 +1,5 @@
 flask==0.12.2
 jinja2==2.10
 jsbeautifier==1.7.5
-sqlalchemy==1.2.1
+sqlalchemy==1.2.2
 psycopg2==2.7.3.2
