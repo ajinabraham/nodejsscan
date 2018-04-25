@@ -16,7 +16,7 @@ If you need to debug, set `DEBUG = True` in `core/settings.py`
 
 The command line interface (CLI) allows you to integrate NodeJsScan with DevSecOps CI/CD pipelines. The results are in JSON format. When you use CLI the results are never stored with NodeJsScan backend.
 
-`python cli.py -d <node_js_source_code>`
+`python cli.py -d <node_js_source_code_dir>`
 
 ### Learn Node.js Security: Pentesting and Exploitation
 [OpSecX Video Course](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/)
