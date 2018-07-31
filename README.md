@@ -2,7 +2,7 @@
 
 Static security code scanner (SAST) for Node.js applications.
 
-### Configure & Install NodeJsScan
+### Configure & Run NodeJsScan
 
 1. Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `core/settings.py`
 2. Run `pip install -r requirements.txt`
