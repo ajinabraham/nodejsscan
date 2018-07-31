@@ -10,6 +10,7 @@ Static security code scanner (SAST) for Node.js applications.
 4. Run `python app.py`
 
 This will run NodeJsScan on `http://0.0.0.0:9090`
+
 If you need to debug, set `DEBUG = True` in `core/settings.py`
 
 ### NodeJsScan CLI
