@@ -12,7 +12,7 @@
 
  <div class="col-md-10 col-md-offset-1">           
            
-	<h2 align="center">NodeJSScan V2 Scan Dashboard	</h2>
+	<h2 align="center">Scan Dashboard	</h2>
 	</br>
   </div>
         <!--Scans-->
@@ -21,8 +21,7 @@
         <table class="table table-bordered table-hover table-striped">
             <thead>
                 <tr>
-                    <th>Scan Hash</th>
-                    <th>Scan Locations</th>
+                    <th>Scan Details</th>
                     <th>Last Scan</th>
                     <th>View Report</th>
                 </tr>
@@ -31,20 +30,44 @@
           
           {% for scans in scan_details %}
           <tr>
-            <td>{{ scans.scan_hash }}</td>
-            <td>{% for loc in scans.locations %} {{ loc }} {% endfor %}</td>
+            <td>
+            <span class="badge badge-pill">Scan File</span> {{ scans.scan_file }} </br></br>
+            <span class="badge badge-pill">Scan Hash</span> {{ scans.scan_hash }} </br></br>
+            <span class="badge badge-pill">Locations</span> {% for loc in scans.locations %} {{ loc }} {% endfor %}
+            </td>
             <td>{{ scans.timestamp }}</td>
-            <td><a href="/result/{{ scans.scan_hash }}">Show</a></td>
+            <td><a href="/result/{{ scans.scan_hash }}">Show</a> | <a data-scanhash="{{ scans.scan_hash }}" onclick="$('#dscan_hash').val($(this).data('scanhash'));$('#delmdl').modal('show');">Delete</a></td>
            </tr>
           {% endfor %}
-
            </tbody>
           </table>              
         </div>
      </div>
 </div>
 
+<div id="delmdl" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to delete the scan results</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="dscan_hash">
+        <button id="del_btn" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="delete_scan($('#dscan_hash').val())">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   {% block js %}
    {{ super() }}
+  <script src="{{ url_for('static', filename='js/jquery.bootstrap-growl.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
   {% endblock %}
 {% endblock %}

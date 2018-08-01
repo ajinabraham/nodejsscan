@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="nodejsscan",
     description='Static security code scanner (SAST) for Node.js applications',
-    version="2.6",
+    version="3.0",
     author="Ajin Abraham",
     author_email="ajin25@gmail.com",
     license='GPL v3',
@@ -15,7 +15,7 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Programming Language :: Python :: 2'
+        'Programming Language :: Python :: 3'
     ],
     entry_points={
         'console_scripts': [
@@ -25,7 +25,8 @@ setup(
 
     # Include additional files into the package
     include_package_data=True,
-    data_files=[('core', ['core/rules.xml'])],
+    data_files=[('core', ['core/rules.xml']),
+                ("", ["LICENSE"])],
 
     # Details
     url="http://pypi.python.org/pypi/nodejsscan/",

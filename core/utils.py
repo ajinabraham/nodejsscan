@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
+"""
+Utils
+"""
 import zipfile
 import string
 import random
@@ -10,15 +13,16 @@ import hashlib
 import ntpath
 import hmac
 import time
+import json
 import os
 import os.path as osp
 import re
-import io
 import ast
 import unicodedata
 import subprocess
-
 import core.settings as settings
+
+_punctuation_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 
 class Color(object):
@@ -44,14 +48,14 @@ def print_exception(msg):
     dat = '\n[' + stringtime + ']\n' + msg + \
         '\nFILE: {0}\nLINE: {1} - {2}\nDESC: {3}'.format(
             filename, lineno, line.strip(), exc_obj)
-    print Color.BOLD + Color.RED + dat + Color.END
+    print(Color.BOLD + Color.RED + dat + Color.END)
     with open(settings.LOG_FILE, 'a') as file_ptr:
         file_ptr.write(dat)
 
 
 def unzip(app_path, ext_path):
     """Unzip Files to a Given Path and Returns the list of files extracted"""
-    print "\n[INFO] Unzipping from Zip File"
+    print("\n[INFO] Unzipping from Zip File")
     try:
         if not os.path.exists(ext_path):
             os.makedirs(ext_path)
@@ -62,7 +66,7 @@ def unzip(app_path, ext_path):
         return files
     except:
         print_exception("[ERROR] Unzipping from Zip File with Python")
-        print "\n[INFO] Using the Default OS Unzip Utility."
+        print("\n[INFO] Using the Default OS Unzip Utility.")
         try:
             subprocess.call(['unzip', '-o', '-q', app_path, '-d', ext_path])
             dat = subprocess.check_output(['unzip', '-qq', '-l', app_path])
@@ -73,30 +77,21 @@ def unzip(app_path, ext_path):
             print_exception("[ERROR] Unzipping from Zip File")
 
 
-def unicode_safe_file_read(file_path):
+def read_file(file_path):
     """Unicode Safe File Read, Returns data"""
-    with io.open(file_path, mode='r', encoding="utf8", errors="ignore") as file_ptr:
-        return file_ptr.read()
+    with open(file_path, "rb") as file_ptr:
+        return file_ptr.read().decode('utf-8', 'replace')
 
 
-def unicode_safe_file_write(file_path, data):
+def write_file(file_path, data):
     """Unicode Safe File Write"""
     with open(file_path, "w") as file_ptr:
-        file_ptr.write(data.encode('utf8'))
+        file_ptr.write(data)
 
 
 def sha2_match_regex(data):
     """SHA2 String Match"""
     return re.match('^[0-9a-f]{64}$', data)
-
-
-def is_attack_pattern(user_input):
-    """Detect Path Traversal Attacks"""
-    return bool(("../" in user_input) or
-                ("%2e%2e" in user_input) or
-                (".." in user_input) or
-                ("%252e" in user_input)
-                )
 
 
 def is_number(strn):
@@ -132,18 +127,9 @@ def python_dict(value):
     return ast.literal_eval(value)
 
 
-def get_client_ip(request):
-    """Get Client IP"""
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        return x_forwarded_for.split(',')[0]
-    else:
-        return request.META.get('REMOTE_ADDR')
-
-
 def gen_random_hmac_sha256(msg):
     """Generate HMAC SHA256 of a message with random key"""
-    key = hashlib.sha256(str(random.random())).hexdigest()[:5]
+    key = hashlib.sha256(random.random()).hexdigest()[:5]
     hashed = hmac.new(key, msg, hashlib.sha256)
     return hashed.hexdigest()
 
@@ -163,7 +149,7 @@ def gen_hmac_sha1(key, msg):
 
 def gen_sha256_hash(msg):
     """Generate SHA 256 Hash of the message"""
-    hash_object = hashlib.sha256(msg)
+    hash_object = hashlib.sha256(msg.encode('utf-8'))
     return hash_object.hexdigest()
 
 
@@ -188,7 +174,7 @@ def gen_sha256_files_n_dir(dirc):
         for fpath in [osp.join(root, f) for f in files]:
             sha256_hash = gen_sha256_file(fpath)
             sha2_files[fpath] = sha256_hash
-    sha2['dir_sha256'] = gen_sha256_hash(str(sha2_files))
+    sha2['dir_sha256'] = gen_sha256_hash(json.dumps(sha2_files))
     sha2['files_sha256'] = sha2_files
     return sha2
 
@@ -199,8 +185,8 @@ def gen_hashes(locations):
     for loc in locations:
         sha2 = gen_sha256_files_n_dir(loc)
         sha2_hashes.append(sha2)
-    scan_hash = gen_sha256_hash(str(locations))
-    hash_of_sha2 = gen_sha256_hash(str(sha2_hashes))
+    scan_hash = gen_sha256_hash(''.join(locations))
+    hash_of_sha2 = gen_sha256_hash(json.dumps(sha2_hashes))
     return scan_hash, sha2_hashes, hash_of_sha2
 
 
@@ -218,40 +204,36 @@ def year():
 
 def random_string(size=6, chars=string.ascii_lowercase):
     """Random String Generator (Contains lowercase a-z and 0-9)"""
-    return ''.join(random.SystemRandom().choice(chars) for _ in xrange(size))
-
-_slugify_strip_re = re.compile(r'[^\w\s-]')
-_slugify_hyphenate_re = re.compile(r'[-\s]+')
+    return ''.join(random.SystemRandom().choice(chars) for _ in range(size))
 
 
-def slugify(value):
+def slugify(text, delim=u'-'):
+    """Generates an slightly worse ASCII-only slug."""
     """
-    Normalizes string, converts to lowercase, removes non-alpha characters,
-    and converts spaces to hyphens.
-
-    From Django's "django/template/defaultfilters.py".
+    Generate an ASCII-only slug.
     """
-    import unicodedata
-    if not isinstance(value, unicode):
-        value = unicode(value)
-    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
-    value = unicode(_slugify_strip_re.sub('', value).strip().lower())
-    return _slugify_hyphenate_re.sub('-', value)
+    result = []
+    for word in _punctuation_re.split(text.lower()):
+        word = unicodedata.normalize('NFKD', word) \
+            .encode('ascii', 'ignore') \
+            .decode('utf-8')
+        if word:
+            result.append(word)
+    return delim.join(result)
 
 
 def js_escape(value):
     """JS XSS Escape"""
-    return (value.replace('<', "\u003c").
-            replace('>', "\u003e").
-            replace('"', "\u0022").
-            replace("'", "\u0027").
-            replace("`", "\u0060").
-            replace("(", "\u0028").
-            replace(")", "\u0029").
-            replace("{", "\u007b").
-            replace("}", "\u007d").
-            replace("-", "\u002d").
-            replace("+", "\u007d").
-            replace("$", "\u0024").
-            replace("/", "\u002f")
-           )
+    return (value.replace('<', "\\u003c").
+            replace('>', "\\u003e").
+            replace('"', "\\u0022").
+            replace("'", "\\u0027").
+            replace("`", "\\u0060").
+            replace("(", "\\u0028").
+            replace(")", "\\u0029").
+            replace("{", "\\u007b").
+            replace("}", "\\u007d").
+            replace("-", "\\u002d").
+            replace("+", "\\u007d").
+            replace("$", "\\u0024").
+            replace("/", "\\u002f"))
