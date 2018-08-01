@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
+"""
+NodeJsScan Web UI
+"""
 import os
 import io
 import time
+import shutil
 import datetime
 from werkzeug.routing import BaseConverter
 from werkzeug.utils import secure_filename
@@ -12,9 +16,8 @@ from flask import render_template
 import core.settings as settings
 import core.utils as utils
 
-from core.scanner import general_code_analysis
-from database import db_session
-from models import Results
+from core.scanner import scan_dirs
+from migrate import db_session, Results
 
 
 class RegexConverter(BaseConverter):
@@ -57,7 +60,7 @@ def shutdown_session(exception=None):
 
 @app.route('/', methods=['GET'])
 def index():
-    context = {'title': 'NodeJSScan V2'}
+    context = {'title': 'NodeJSScan'}
     return render_template("index.html", **context)
 
 
@@ -69,10 +72,9 @@ def upload():
         _, extension = os.path.splitext(filen.filename.lower())
         # Check for Valid ZIP
         if (filen and
-                    filen.filename and
-                    extension in settings.UPLD_ALLOWED_EXTENSIONS and
-                    filen.mimetype in settings.UPLD_MIME
-                ):
+                filen.filename and
+                extension in settings.UPLD_ALLOWED_EXTENSIONS and
+                filen.mimetype in settings.UPLD_MIME):
             filename = secure_filename(filen.filename)
             # Make upload dir
             if not os.path.exists(settings.UPLOAD_FOLDER):
@@ -94,14 +96,15 @@ def upload():
                 # Unzip
                 utils.unzip(zip_file, app_dir)
                 # Do scan
-                scan_results = general_code_analysis([app_dir])
-                print "[INFO] Static Analysis Completed!"
+                scan_results = scan_dirs([app_dir])
+                print("[INFO] Static Analysis Completed!")
                 _, sha2_hashes, hash_of_sha2 = utils.gen_hashes([app_dir])
                 tms = datetime.datetime.fromtimestamp(
                     time.time()).strftime('%Y-%m-%d %H:%M:%S')
                 # Save Result
-                print "[INFO] Saving Scan Results!"
-                res_db = Results(get_zip_hash,
+                print("[INFO] Saving Scan Results!")
+                res_db = Results(filename,
+                                 get_zip_hash,
                                  [app_dir],
                                  sha2_hashes,
                                  hash_of_sha2,
@@ -131,13 +134,12 @@ def dashboard():
         locations = res.locations
         res_shas.append({"scan_hash": res.scan_hash,
                          "locations": locations,
-                         "timestamp": str(res.timestamp),
-                         }
-                        )
+                         "scan_file": res.scan_file,
+                         "timestamp": str(res.timestamp)})
     context = {
         'title': "Scan Dashboard",
         'scan_details': res_shas,
-
+        'version': settings.VERSION,
     }
     return render_template("dashboard.html", **context)
 
@@ -148,6 +150,7 @@ def result(sha2):
     if res:
         locations = utils.python_list(res.locations)
         context = {'title': 'Scan Result',
+                   'scan_file': res.scan_file,
                    'locations': locations,
                    'scan_hash': res.scan_hash,
                    'sha2_hashes': utils.python_list(res.sha2_hashes),
@@ -159,6 +162,7 @@ def result(sha2):
                    'vuln_n_count': utils.python_dict(res.vuln_count),
                    'resolved': utils.python_list(res.resolved),
                    'invalid': utils.python_list(res.invalid),
+                   'version': settings.VERSION
                    }
         return render_template("result.html", **context)
     else:
@@ -225,13 +229,13 @@ def view_file():
     if utils.sha2_match_regex(scan_hash):
         res = Results.query.filter(Results.scan_hash == scan_hash).first()
         if res:
-            _, extension = os.path.splitext(path.lower())
-            if ((extension in settings.JS_SCAN_FILE_EXTENSIONS or extension in settings.OTHER_SCAN_FILE_EXTENSIONS) and
-                    (not utils.is_attack_pattern(path))
-                    ):
-                path = os.path.join(settings.UPLOAD_FOLDER, path)
-                if os.path.isfile(path):
-                    contents = utils.unicode_safe_file_read(path)
+            safe_dir = settings.UPLOAD_FOLDER
+            req_path = os.path.join(safe_dir, path)
+            if os.path.commonprefix((os.path.realpath(req_path), safe_dir)) != safe_dir:
+                context = {"contents": "Path Traversal Detected!"}
+            else:
+                if os.path.isfile(req_path):
+                    contents = utils.read_file(req_path)
                     context = {"contents": contents}
     return jsonify(**context)
 
@@ -276,8 +280,29 @@ def search():
                 'term': query,
                 'found': len(matches),
                 'scan_hash': scan_hash,
+                'version': settings.VERSION,
             }
     return render_template("search.html", **context)
+
+
+@app.route('/delete_scan', methods=['POST'])
+def delete_scan():
+    """View File"""
+    context = {"status": "failed"}
+    scan_hash = request.form["scan_hash"]
+    if utils.sha2_match_regex(scan_hash):
+        res = Results.query.filter(Results.scan_hash == scan_hash).first()
+        if res:
+            locs = utils.python_list(res.locations)
+            for loc in locs:
+                shutil.rmtree(loc)
+            ziploc = os.path.join(app.config['UPLOAD_FOLDER'], res.scan_file)
+            os.remove(ziploc)
+            db_session.delete(res)
+            db_session.commit()
+            context = {"status": "ok"}
+    return jsonify(**context)
+
 
 if __name__ == '__main__':
     app.run(threaded=True,
