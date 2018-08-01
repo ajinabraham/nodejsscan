@@ -280,6 +280,7 @@ def search():
                 'term': query,
                 'found': len(matches),
                 'scan_hash': scan_hash,
+                'version': settings.VERSION,
             }
     return render_template("search.html", **context)
 

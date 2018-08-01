@@ -8,8 +8,12 @@ from sqlalchemy.dialects.postgresql import JSON
 import core.settings as settings
 
 
+engine = create_engine(settings.SQLALCHEMY_DATABASE_URI, convert_unicode=True)
+db_session = scoped_session(sessionmaker(autocommit=False,
+                                         autoflush=False,
+                                         bind=engine))
 Base = declarative_base()
-
+Base.query = db_session.query_property()
 
 class Results(Base):
     """For Scan Results"""
@@ -51,19 +55,5 @@ class Results(Base):
         """repr"""
         return '<Results %r>' % self.scan_hash
 
-
-def init_db():
-    """
-    Init DB
-    """
-    engine = create_engine(settings.SQLALCHEMY_DATABASE_URI, convert_unicode=True)
-    db_session = scoped_session(sessionmaker(autocommit=False,
-                                             autoflush=False,
-                                             bind=engine))
-    Base.query = db_session.query_property()
-    Base.metadata.create_all(bind=engine)
-    print("[INFO] Table entries created!")
-
-
-if __name__ == '__main__':
-    init_db()
+Base.metadata.create_all(bind=engine)
+print("[INFO] Table entries created!")
