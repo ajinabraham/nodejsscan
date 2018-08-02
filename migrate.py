@@ -55,5 +55,7 @@ class Results(Base):
         """repr"""
         return '<Results %r>' % self.scan_hash
 
-Base.metadata.create_all(bind=engine)
-print("[INFO] Table entries created!")
+
+if __name__ == '__main__':
+    Base.metadata.create_all(bind=engine)
+    print("[INFO] Table entries created!")
