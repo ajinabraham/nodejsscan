@@ -45,6 +45,18 @@ optional arguments:
   -v, --version         Show nodejsscan version
 ```
 
+#### Python API
+
+```
+import core.scanner as njsscan
+res_dir = njsscan.scan_dirs(['/Users/ajin/Code/Node.Js-Security-Course'])
+res_file = njsscan.scan_file(['/Users/ajin/Code/Node.Js-Security-Course/deserialization.js'])
+print(res_file)
+
+[{'title': 'Deserialization Remote Code Injection', 'description': "User controlled data in 'unserialize()' or 'deserialize()' function can result in Object Injection or Remote Code Injection.", 'tag': 'rci', 'line': 11, 'lines': 'app.use(cookieParser())\n\napp.get(\'/\', function(req, res) {\n            if (req.cookies.profile) {\n                var str = new Buffer(req.cookies.profile, \'base64\').toString();\n                var obj = serialize.unserialize(str);\n                if (obj.username) {\n                    res.send("Hello " + escape(obj.username));\n                }\n            } else {', 'filename': 'deserialization.js', 'path': '/Users/ajin/Code/Node.Js-Security-Course/deserialization.js', 'sha2': '06f3f0ff3deed27aeb95955a17abc7722895d3538c14648af97789d8777cee50'}]
+
+```
+
 ### Docker
 
 ```
