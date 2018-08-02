@@ -293,11 +293,14 @@ def delete_scan():
     if utils.sha2_match_regex(scan_hash):
         res = Results.query.filter(Results.scan_hash == scan_hash).first()
         if res:
-            locs = utils.python_list(res.locations)
-            for loc in locs:
-                shutil.rmtree(loc)
-            ziploc = os.path.join(app.config['UPLOAD_FOLDER'], res.scan_file)
-            os.remove(ziploc)
+            try:
+                locs = utils.python_list(res.locations)
+                for loc in locs:
+                    shutil.rmtree(loc)
+                ziploc = os.path.join(app.config['UPLOAD_FOLDER'], res.scan_file)
+                os.remove(ziploc)
+            except:
+                pass
             db_session.delete(res)
             db_session.commit()
             context = {"status": "ok"}

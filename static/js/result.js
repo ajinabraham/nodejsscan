@@ -71,7 +71,7 @@ function mark_resolved(scan_hash, finding_hash) {
                 }, 1000);
                 setTimeout(function() {
                     location.reload();
-                }, 3000);
+                }, 2000);
 
             } else {
                 setTimeout(function() {

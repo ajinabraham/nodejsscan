@@ -25,9 +25,6 @@ setup(
 
     # Include additional files into the package
     include_package_data=True,
-    data_files=[('core', ['core/rules.xml']),
-                ("", ["LICENSE"])],
-
     # Details
     url="http://pypi.python.org/pypi/nodejsscan/",
 
