@@ -7,7 +7,7 @@ import os
 import socket
 
 # GENERAL
-VERSION = "3.2"
+VERSION = "3.3"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RULES_FILE = os.path.join(BASE_DIR, 'core', 'rules.xml')
 LOG_FILE = os.path.join(BASE_DIR, 'njs-log.txt')
