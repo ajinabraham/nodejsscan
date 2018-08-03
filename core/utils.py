@@ -129,7 +129,7 @@ def python_dict(value):
 
 def gen_random_hmac_sha256(msg):
     """Generate HMAC SHA256 of a message with random key"""
-    key = hashlib.sha256(random.random()).hexdigest()[:5]
+    key = hashlib.sha256(random.SystemRandom().random()).hexdigest()[:5]
     hashed = hmac.new(key, msg, hashlib.sha256)
     return hashed.hexdigest()
 

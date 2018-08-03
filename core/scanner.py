@@ -6,12 +6,15 @@ The Core Static Analyzer
 import os
 import re
 import ntpath
+import defusedxml
 import xml.dom.minidom
 import jsbeautifier
 
 import core.utils as utils
 import core.settings as settings
 
+
+defusedxml.defuse_stdlib()
 MULTI_COMMENT = re.compile(r'/\*[\s\S]+?\*/')
 NODE_RGX = re.compile(
     r"require\(('|\")(.+?)('|\")\)|module\.exports {0,5}= {0,5}")

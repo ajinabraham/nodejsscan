@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="nodejsscan",
     description='Static security code scanner (SAST) for Node.js applications',
-    version="3.3",
+    version="3.4",
     author="Ajin Abraham",
     author_email="ajin25@gmail.com",
     license='GPL v3',
@@ -33,5 +33,6 @@ setup(
     # Dependent packages (distributions)
     install_requires=[
         "jsbeautifier==1.7.5",
+        "defusedxml==0.5.0",
     ],
 )
