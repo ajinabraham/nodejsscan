@@ -31,8 +31,9 @@ UPLD_MIME = [
     'binary/octet-stream',
 ]
 HMAC_KEY = socket.gethostname() + 'set_0n3_pl3@s3'
-HOST = '0.0.0.0'
-PORT = 9090
-DEBUG = False
+HOST = os.environ.get('HOST', '0.0.0.0')
+PORT = os.environ.get('PORT', 9090)
+DEBUG = os.environ.get('DEBUG', True)
 # Postgres DB Connection URL
-SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/nodejsscan'
+# root:root
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI', 'postgresql://localhost/nodejsscan')
