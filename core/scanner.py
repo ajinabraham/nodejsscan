@@ -205,26 +205,28 @@ def add_findings(title, scan_rules, line_no, lines, full_file_path):
     return finding
 
 
-def sanitize_comments(bdata):
-    """Replace Comments"""
+def sanitize_comments(data):
+    """Replace Comments : for /**/ and //
+    """
     # Replace Multiline Comments
-    matches = re.findall(MULTI_COMMENT, bdata)
+    matches = re.findall(MULTI_COMMENT, data)
     for match in matches:
         match_len = len(match.splitlines())
         new_lst = []
         for _ in range(match_len):
             new_lst.append(" ")
         new_str = "\n".join(new_lst)
-        bdata = bdata.replace(match, new_str)
+        data = data.replace(match, new_str)
     # Replace Single line Comments
     new_lines = []
-    lines = bdata.splitlines()
+    lines = data.splitlines()
     for line in lines:
         if line.lstrip().startswith("//"):
             new_lines.append(" ")
         else:
             new_lines.append(line)
-    return new_lines
+    new_data = "\n".join(new_lines)
+    return new_lines, new_data
 
 
 def scan_file(paths):
@@ -342,7 +344,7 @@ def code_analysis(data, full_file_path, scan_rules, header_found):
     bdata = beautify_js(data, full_file_path)
     org_lines = bdata.splitlines()
     # Sanitized lines are only for scan
-    lines = sanitize_comments(bdata)
+    lines, san_data = sanitize_comments(bdata)
     for line_no, line in enumerate(lines):
         # Limit the no of caracters in a line to 2000
         line = line[0:2000]
@@ -364,7 +366,7 @@ def code_analysis(data, full_file_path, scan_rules, header_found):
                 mulregex]["sig_source"]
             sig_line = scan_rules["vuln_mul_regex"][
                 mulregex]["sig_line"]
-            if re.search(sig_source, data):
+            if re.search(sig_source, san_data):
                 if re.search(sig_line, line):
                     addm = add_findings(
                         mulregex, scan_rules, line_no, org_lines, full_file_path)
@@ -383,10 +385,11 @@ def code_analysis(data, full_file_path, scan_rules, header_found):
                     "var", "").replace("=", "").strip()
                 if re.match(r'^[\w]+$', dyn_variable):
                     dyn_sig = dyn_variable + dyn_sig
-                    for line_no, nline in enumerate(lines):
+                    for lno, nline in enumerate(lines):
+                        nline = nline[0:2000]
                         if re.search(dyn_sig, nline):
                             addd = add_findings(
-                                dynregex, scan_rules, line_no, org_lines, full_file_path)
+                                dynregex, scan_rules, lno, org_lines, full_file_path)
                             security_issues.append(addd)
         # Good Finding String Match
         for good_find in scan_rules["good_to_have_rgx"].keys():
