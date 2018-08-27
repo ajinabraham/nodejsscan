@@ -1,7 +1,7 @@
 flask==1.0.2
 jinja2==2.10
 defusedxml==0.5.0
-jsbeautifier==1.7.5
+jsbeautifier==1.8.1
 psycopg2-binary==2.7.5
 sqlalchemy==1.2.10
 gunicorn==19.9.0
