@@ -3,5 +3,5 @@ jinja2==2.10
 defusedxml==0.5.0
 jsbeautifier==1.7.5
 psycopg2-binary==2.7.5
-sqlalchemy==1.2.10
+sqlalchemy==1.2.11
 gunicorn==19.9.0
