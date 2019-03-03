@@ -12,7 +12,8 @@ import core.settings as settings
 def output(out, scan_results):
     """Output"""
     if out:
-        with open("./" + out + ".json", 'w') as outfile:
+        # out is the fully qualified path and filename for the ouptput file. We recommend you use a .json extension
+        with open(out, 'w') as outfile:
             json.dump(scan_results, outfile, sort_keys=True,
                       indent=4, separators=(',', ': '))
     else:
