@@ -224,12 +224,12 @@
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - X-Content-Type-Options">
-        <signature>helmet.noSniff|require\(('|")dont-sniff-mimetype('|")\)|nosniff\(\)|X-Content-Type-Options('|")*(\s)*(:|,)(\s)*('\"")*nosniff</signature>
+        <signature>helmet.noSniff|require\(('|")dont-sniff-mimetype('|")\)|nosniff\(\)|X-Content-Type-Options('|")*(\s)*(:|,)(\s)*('|")*nosniff</signature>
         <description>X-Content-Type-Options header prevents Internet Explorer and Google Chrome from MIME-sniffing a response away from the declared content-type.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - X-Download-Options: noopen">
-        <signature>require\(('|")ienoopen('|")\)|ienoopen\(|helmet.ienoopen\(|X-Download-Options('|")*(\s)*(:|,)(\s)*('\"")*noopen</signature>
+        <signature>require\(('|")ienoopen('|")\)|ienoopen\(|helmet.ienoopen\(|X-Download-Options('|")*(\s)*(:|,)(\s)*('|")*noopen</signature>
         <description>X-Download-Options header set to noopen prevents IE users from directly opening and executing downloads in your site's context.</description>
         <tag>web</tag>
     </missing_header>
