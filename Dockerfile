@@ -27,4 +27,4 @@ RUN cd /usr/src \
 
 ADD start.sh /usr/src/NodeJsScan
 WORKDIR /usr/src/NodeJsScan
-CMD ["sh","start.sh"]
+CMD ["sh","/usr/src/NodeJsScan/start.sh"]

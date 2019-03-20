@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir -r cli.requirements.txt \
     # Move cli.py from /usr/src/app/core to /usr/src/app
     && mv ./core/cli.py .
 
-ENTRYPOINT ["python","cli.py"]
+ENTRYPOINT ["python","/usr/src/app/cli.py"]
