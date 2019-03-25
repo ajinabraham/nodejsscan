@@ -1,4 +1,4 @@
 flask==1.0.2
 jinja2==2.10
 defusedxml==0.5.0
-jsbeautifier==1.9.0
+jsbeautifier==1.9.1
