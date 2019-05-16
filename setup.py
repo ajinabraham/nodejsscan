@@ -28,7 +28,8 @@ setup(
     # Details
     url="http://pypi.python.org/pypi/nodejsscan/",
 
-    long_description=open("README.md").read(),
+    long_description='open("README.md").read()',
+    long_description_content_type='text/markdown',
 
     # Dependent packages (distributions)
     install_requires=[
