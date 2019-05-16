@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="nodejsscan",
     description='Static security code scanner (SAST) for Node.js applications',
-    version="3.4",
+    version="3.5",
     author="Ajin Abraham",
     author_email="ajin25@gmail.com",
     license='GPL v3',
