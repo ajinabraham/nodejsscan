@@ -5,6 +5,7 @@ Static security code scanner (SAST) for Node.js applications.
 [![platform](https://img.shields.io/badge/platform-osx%2Flinux%2Fwindows-green.svg)](https://github.com/ajinabraham/NodeJsScan)
 [![License](https://img.shields.io/:license-gpl3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![python](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/)
+[![Build Status](https://travis-ci.com/ajinabraham/NodeJsScan.svg?branch=master)](https://travis-ci.com/ajinabraham/NodeJsScan)
 [![Requirements Status](https://requires.io/github/ajinabraham/NodeJsScan/requirements.svg?branch=master)](https://requires.io/github/ajinabraham/NodeJsScan/requirements/?branch=master)
 
 ## Configure & Run NodeJsScan
