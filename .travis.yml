@@ -12,4 +12,5 @@ install:
 before_script:
   - pip3 install -e .
 script:
-  - nodejsscan
+  - nodejsscan -v
+  - python tests.py
