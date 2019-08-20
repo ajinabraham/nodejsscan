@@ -229,7 +229,7 @@ def sanitize_comments(data):
     return new_lines, new_data
 
 
-def scan_file(paths):
+def scan_file(paths, beautify=True):
     """ Scan a File """
     security_issues = []
     scan_rules = read_rules()
@@ -245,12 +245,12 @@ def scan_file(paths):
             template_data = is_valid_template_file(path)
             if nodejs_data or template_data:
                 data = nodejs_data if nodejs_data else template_data
-                sec, _ = code_analysis(data, path, scan_rules, header_found)
+                sec, _ = code_analysis(data, path, scan_rules, header_found, beautify)
                 security_issues += sec
     return security_issues
 
 
-def scan_dirs(paths):
+def scan_dirs(paths, beautify=True):
     """Scan the Dir"""
     scan_results = {}
     all_files = []
@@ -282,7 +282,7 @@ def scan_dirs(paths):
                     all_files.append({relative_path: mpath})
 
                     sec, good = code_analysis(
-                        data, full_file_path, scan_rules, header_found)
+                        data, full_file_path, scan_rules, header_found, beautify)
                     good_finding += good
                     security_issues += sec
 
@@ -336,15 +336,17 @@ def scan_dirs(paths):
     return scan_results
 
 
-def code_analysis(data, full_file_path, scan_rules, header_found):
+def code_analysis(data, full_file_path, scan_rules, header_found, beautify=True):
     """ Static Code Analysis of File"""
     security_issues = []
     good_finding = []
 
-    bdata = beautify_js(data, full_file_path)
-    org_lines = bdata.splitlines()
+    if beautify:
+        data = beautify_js(data, full_file_path)
+
+    org_lines = data.splitlines()
     # Sanitized lines are only for scan
-    lines, san_data = sanitize_comments(bdata)
+    lines, san_data = sanitize_comments(data)
     for line_no, line in enumerate(lines):
         # Limit the no of caracters in a line to 2000
         line = line[0:2000]

@@ -24,6 +24,10 @@ def output(out, scan_results):
 def main():
     """Main CLI"""
     parser = argparse.ArgumentParser()
+    parser.add_argument("-b", "--no-beautify",
+                        help="Disable code beautification",
+                        required=False,
+                        action='store_false')
     parser.add_argument("-f", "--file",
                         nargs='+',
                         help="Node.js file(s) to scan",
@@ -41,10 +45,10 @@ def main():
                         action='store_true')
     args = parser.parse_args()
     if args.directory:
-        scan_results = scan_dirs(args.directory)
+        scan_results = scan_dirs(args.directory, beautify=args.no_beautify)
         output(args.output, scan_results)
     elif args.file:
-        scan_results = scan_file(args.file)
+        scan_results = scan_file(args.file, beautify=args.no_beautify)
         output(args.output, scan_results)
     elif args.version:
         print("nodejsscan v" + settings.VERSION)
