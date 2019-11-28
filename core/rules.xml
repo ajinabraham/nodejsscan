@@ -239,7 +239,7 @@
         <tag>web</tag>
     </missing_header>
     <missing_header name="Information Disclosure - X-Powered-By">
-        <signature>.disable\(('|")x-powered-by('|")\)|require\(('|")hide-powered-by('|")\)|hidePoweredBy\(|helmet.hidePoweredBy\(|removeHeader\(('|")X-Powered-By('|")\)</signature>
+        <signature>.disable\(('|")x-powered-by('|")\)|require\(('|")hide-powered-by('|")\)|hidePoweredBy\(|helmet.hidePoweredBy\(|removeHeader\(('|")X-Powered-By('|")\)|.remove\(('|")X-Powered-By('|")\)</signature>
         <description>Remove the X-Powered-By header to prevent information gathering.</description>
         <tag>web</tag>
     </missing_header>
