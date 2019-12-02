@@ -80,9 +80,20 @@ NodeJsScan Docker images can be built for both the Web UI and CLI version.
 
 ## DockerHub
 
+Prebuilt Docker images are available from DockerHub.
+
+* Web UI
+
 ```bash
 docker pull opensecurity/nodejsscan
 docker run -it -p 9090:9090 opensecurity/nodejsscan:latest
+```
+
+* CLI
+
+```bash
+docker pull opensecurity/nodejsscan:cli
+docker run -v /path-to-source-dir:/src opensecurity/nodejsscan:cli -d /src -o /src/results.json
 ```
 
 ## Learn Node.js Security: Pentesting and Exploitation
