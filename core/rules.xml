@@ -199,47 +199,47 @@
     <!---if express is used express.limit\(('|")-->
     <!--end if-->
     <missing_header name="Missing Security Header - Content-Security-Policy (CSP)">
-        <signature>require\(('|")helmet-csp('|")\)|helmet.csp|lusca.csp\(|Content-Security-Policy</signature>
+        <signature>\.use\((csp\(|helmet\.contentSecurityPolicy|helmet\({.*contentSecurityPolicy)|lusca.csp\(|Content-Security-Policy|contentSecurityPolicy</signature>
         <description>Content Security Policy (CSP), a mechanism web applications can use to mitigate a broad class of content injection vulnerabilities, such as cross-site scripting (XSS). CSP Header was not found.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - X-Frame-Options (XFO)">
-        <signature>helmet.xframe|lusca.xframe\(|require\(('|")frameguard('|")\)|frameguard\(|X-Frame-Options</signature>
+        <signature>\.use\((helmet\.frameguard|helmet\(+(.*)frameguard)|lusca.xframe\(|require\((\'|\")frameguard(\'|\")\)|frameguard\(|X-Frame-Options</signature>
         <description>X-Frame-Options (XFO) header provides protection against Clickjacking attacks.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - Strict-Transport-Security (HSTS)">
-        <signature>helmet.hsts\({|lusca.hsts\({|hsts\({|require\(('|")hsts('|")\)|Strict-Transport-Security</signature>
+        <signature>\.use\((helmet\.hsts|helmet\(+(.*)hsts)|lusca.hsts\({|hsts\({|require\(('|")hsts('|")\)|Strict-Transport-Security</signature>
         <description>Strict-Transport-Security (HSTS) header enforces secure (HTTP over SSL/TLS) connections to the server.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - Public-Key-Pins (HPKP)">
-        <signature>Public-Key-Pins(:|,)*</signature>
+        <signature>\.use\((helmet\.hpkp|helmet\(+(.*)hpkp)|Public-Key-Pins(:|,)*</signature>
         <description>Public-Key-Pins (HPKP) ensures that certificate is Pinned.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - X-XSS-Protection:1">
-        <signature>helmet.xssFilter\(\)|lusca.xssProtection\(true\)|X-XSS-Protection('|")*(\s)*(:|,)(\s)*('|")*1</signature>
+        <signature>\.use\((helmet\.xssFilter|helmet\(+(.*)xssFilter)|lusca.xssProtection\(true\)|X-XSS-Protection('|")*(\s)*(:|,)(\s)*('|")*1</signature>
         <description>X-XSS-Protection header set to 1 enables the Cross-site scripting (XSS) filter built into most recent web browsers.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - X-Content-Type-Options">
-        <signature>helmet.noSniff|require\(('|")dont-sniff-mimetype('|")\)|nosniff\(\)|X-Content-Type-Options('|")*(\s)*(:|,)(\s)*('|")*nosniff</signature>
+        <signature>\.use\((helmet\.noSniff|helmet\(+(.*)noSniff)|require\(('|")dont-sniff-mimetype('|")\)|nosniff\(\)|X-Content-Type-Options('|")*(\s)*(:|,)(\s)*('|")*nosniff</signature>
         <description>X-Content-Type-Options header prevents Internet Explorer and Google Chrome from MIME-sniffing a response away from the declared content-type.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing Security Header - X-Download-Options: noopen">
-        <signature>require\(('|")ienoopen('|")\)|ienoopen\(|helmet.ienoopen\(|X-Download-Options('|")*(\s)*(:|,)(\s)*('|")*noopen</signature>
+        <signature>\.use\((helmet\.ieNoOpen|helmet\(+(.*)ieNoOpen)|require\(('|")ienoopen('|")\)|ienoopen\(|X-Download-Options('|")*(\s)*(:|,)(\s)*('|")*noopen</signature>
         <description>X-Download-Options header set to noopen prevents IE users from directly opening and executing downloads in your site's context.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Missing 'httpOnly' in Cookie">
-        <signature>httpOnly(\s)*:(\s)*true|httpOnly</signature>
+        <signature>httpOnly(\s)*:(\s)*true|httpOnly|\.use\(session\(</signature>
         <description>JavaScript can access Cookies if they are not marked httpOnly.</description>
         <tag>web</tag>
     </missing_header>
     <missing_header name="Information Disclosure - X-Powered-By">
-        <signature>.disable\(('|")x-powered-by('|")\)|require\(('|")hide-powered-by('|")\)|hidePoweredBy\(|helmet.hidePoweredBy\(|removeHeader\(('|")X-Powered-By('|")\)|.remove\(('|")X-Powered-By('|")\)</signature>
+        <signature>\.use\((helmet\.hidePoweredBy|helmet\(+(.*)hidePoweredBy)|.disable\(('|")x-powered-by('|")\)|require\(('|")hide-powered-by('|")\)|hidePoweredBy\(|removeHeader\(('|")X-Powered-By('|")\)|.remove\(('|")X-Powered-By('|")\)</signature>
         <description>Remove the X-Powered-By header to prevent information gathering.</description>
         <tag>web</tag>
     </missing_header>

@@ -17,7 +17,7 @@ import core.settings as settings
 defusedxml.defuse_stdlib()
 MULTI_COMMENT = re.compile(r'/\*[\s\S]+?\*/')
 NODE_RGX = re.compile(
-    r"require\(('|\")(.+?)('|\")\)|module\.exports {0,5}= {0,5}")
+    r"require\(('|\")(.+?)('|\")\)|module\.exports {0,5}= {0,5}|import [ {}\w]+ from ('|\")(.+?)('|\")")
 
 
 def read_rules():
@@ -397,9 +397,11 @@ def code_analysis(data, full_file_path, scan_rules, header_found):
                 addg = add_findings(
                     good_find, scan_rules, line_no, org_lines, full_file_path)
                 good_finding.append(addg)
-        # Missing Security Headers String Match
-        for header in scan_rules["missing_sec_header"].keys():
-            if re.search(scan_rules["missing_sec_header"][header], line, re.I):
-                # Good Header is present
-                header_found[header] = 1
+
+    # Missing Security Headers String Match
+    for header in scan_rules["missing_sec_header"].keys():
+        if re.search(scan_rules["missing_sec_header"][header], san_data, re.I | re.S):
+            # Good Header is present
+            header_found[header] = 1
+
     return security_issues, good_finding
