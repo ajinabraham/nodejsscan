@@ -33,7 +33,7 @@ setup(
 
     # Dependent packages (distributions)
     install_requires=[
-        "jsbeautifier==1.10.2",
+        "jsbeautifier==1.10.3",
         "defusedxml==0.6.0",
     ],
 )
