@@ -4,6 +4,7 @@
 nodejsscan cli
 """
 import json
+import sys
 import argparse
 from core.scanner import scan_dirs, scan_file
 import core.settings as settings
@@ -20,6 +21,11 @@ def output(out, scan_results):
         print((json.dumps(scan_results, sort_keys=True,
                           indent=4, separators=(',', ': '))))
 
+def handle_exit(results):
+    if len(results['vuln_count']) > 0:
+        sys.exit(1)
+
+    sys.exit(0)
 
 def main():
     """Main CLI"""
@@ -43,9 +49,11 @@ def main():
     if args.directory:
         scan_results = scan_dirs(args.directory)
         output(args.output, scan_results)
+        handle_exit(scan_results)
     elif args.file:
         scan_results = scan_file(args.file)
         output(args.output, scan_results)
+        handle_exit(scan_results)
     elif args.version:
         print("nodejsscan v" + settings.VERSION)
     else:
