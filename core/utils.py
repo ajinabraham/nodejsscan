@@ -55,7 +55,7 @@ def print_exception(msg):
 
 def unzip(app_path, ext_path):
     """Unzip Files to a Given Path and Returns the list of files extracted"""
-    print("\n[INFO] Unzipping from Zip File")
+    print("\n[INFO] Unzipping from Zip File", file=sys.stderr)
     try:
         if not os.path.exists(ext_path):
             os.makedirs(ext_path)
@@ -66,7 +66,7 @@ def unzip(app_path, ext_path):
         return files
     except:
         print_exception("[ERROR] Unzipping from Zip File with Python")
-        print("\n[INFO] Using the Default OS Unzip Utility.")
+        print("\n[INFO] Using the Default OS Unzip Utility.", file=sys.stderr)
         try:
             subprocess.call(['unzip', '-o', '-q', app_path, '-d', ext_path])
             dat = subprocess.check_output(['unzip', '-qq', '-l', app_path])

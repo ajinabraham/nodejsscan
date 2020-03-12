@@ -5,6 +5,7 @@ The Core Static Analyzer
 """
 import os
 import re
+import sys
 import ntpath
 import defusedxml
 import xml.dom.minidom
@@ -239,7 +240,7 @@ def scan_file(paths):
     for header in scan_rules["missing_sec_header"].keys():
         header_found[header] = 0
     for path in paths:
-        print("\n[INFO] Running Static Code Analysis on - " + path + "\n")
+        print("\n[INFO] Running Static Code Analysis on - " + path + "\n", file=sys.stderr)
         if os.path.isfile(path):
             nodejs_data = is_valid_node(path)
             template_data = is_valid_template_file(path)
@@ -267,7 +268,7 @@ def scan_dirs(paths):
         header_found[header] = 0
 
     for path in paths:
-        print("\n[INFO] Running Static Analyzer on - " + path + "\n")
+        print("\n[INFO] Running Static Analyzer on - " + path + "\n", file=sys.stderr)
         for root, _, files in os.walk(path):
             for filename in files:
                 full_file_path = os.path.join(root, filename)
