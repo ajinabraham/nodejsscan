@@ -99,6 +99,7 @@ docker run -v /path-to-source-dir:/src opensecurity/nodejsscan:cli -d /src -o /s
 ## Learn Node.js Security: Pentesting and Exploitation
 
 [![OpSecX Video Course](https://user-images.githubusercontent.com/4301109/43572791-f54e87f6-965d-11e8-8811-7a8900df3379.png)](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/?uid=github)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fajinabraham%2FNodeJsScan.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fajinabraham%2FNodeJsScan?ref=badge_shield)
 
 ## NodeJsScan Web UI
 
@@ -109,3 +110,7 @@ docker run -v /path-to-source-dir:/src opensecurity/nodejsscan:cli -d /src -o /s
 ![NodeJsScan Static Scan Results](https://user-images.githubusercontent.com/4301109/33951861-294062a0-e056-11e7-8472-3c101be52390.jpg)
 ![NodeJsScan Static Scan Vulnerability Details](https://user-images.githubusercontent.com/4301109/30637698-bfa68e04-9e16-11e7-8233-bfde503d7e5a.png)
 ![NodeJsScan CLI](https://user-images.githubusercontent.com/4301109/43541417-0a749362-95e8-11e8-9d5c-4d9a2fd9f765.png)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fajinabraham%2FNodeJsScan.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fajinabraham%2FNodeJsScan?ref=badge_large)
