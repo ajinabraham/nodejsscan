@@ -152,7 +152,7 @@
         <tag>xss</tag>
     </regex>
     <regex name="Unescaped variable in Pug.js template file">
-        <signature>#{\s*[\w.\[\]\(\)\'\"]+\s*}</signature>
+        <signature>!{\s*[\w.\[\]\(\)\'\"]+\s*}</signature>
         <description>The Pug.js template has an unescaped variable. Untrusted user input passed to this variable results in Cross Site Scripting (XSS).</description>
         <tag>xss</tag>
     </regex>
