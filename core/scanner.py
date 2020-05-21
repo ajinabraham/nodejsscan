@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
-"""
-The Core Static Analyzer
-"""
+"""Scanner part for the Core Static Analyzer."""
 import os
 import re
 import sys
@@ -21,8 +19,9 @@ NODE_RGX = re.compile(
     r"require\(('|\")(.+?)('|\")\)|module\.exports {0,5}= {0,5}|import [ {}\w]+ from ('|\")(.+?)('|\")")
 
 
+
 def read_rules():
-    """Load Static Scan Rules"""
+    """Load the static scan rules."""
     scan_rules = {}
     vuln_regex = {}
     vuln_mul_regex = {}
@@ -118,7 +117,7 @@ def read_rules():
 
 
 def read_tags():
-    """Read Tags from XML"""
+    """Read tags from XML."""
     tags_dict = {}
     dom_tree = xml.dom.minidom.parse(settings.RULES_FILE)
     collection = dom_tree.documentElement
@@ -129,7 +128,7 @@ def read_tags():
 
 
 def get_lines(line_no, lines):
-    """Get Lines before and after the given line"""
+    """Get lines before and after the given line."""
     lines = lines[max(0, line_no - 5): min(len(lines), line_no + 5)]
     lines = '\n'.join(lines)
     try:
@@ -140,7 +139,7 @@ def get_lines(line_no, lines):
 
 
 def is_valid_node(file_path):
-    """Make sure file is a Valid Node.js File"""
+    """Make sure file is a valid Node.js file."""
     # Files that doesn't needs to be scanned
     filename = ntpath.basename(file_path)
     ext = os.path.splitext(filename)[1]
@@ -158,7 +157,7 @@ def is_valid_node(file_path):
 
 
 def is_valid_template_file(file_path):
-    """Check if it's a valid template file"""
+    """Check if it's a valid template file."""
     data = None
     filename = ntpath.basename(file_path)
     ignore_dirs = any(ignr in file_path for ignr in settings.IGNORE_DIRS)
@@ -172,7 +171,7 @@ def is_valid_template_file(file_path):
 
 
 def beautify_js(data, full_file_path):
-    """Beautify JS"""
+    """Beautify the Javascript source."""
     lines = data.splitlines()
     if len(lines) <= 2:
         # Possible Minified Single Line Code
@@ -187,7 +186,7 @@ def beautify_js(data, full_file_path):
 
 
 def add_findings(title, scan_rules, line_no, lines, full_file_path):
-    """Add Findings"""
+    """Add all findings."""
     filename = ntpath.basename(full_file_path)
     finding = {}
     finding["title"] = title
@@ -207,8 +206,7 @@ def add_findings(title, scan_rules, line_no, lines, full_file_path):
 
 
 def sanitize_comments(data):
-    """Replace Comments : for /**/ and //
-    """
+    """Replace comments : for /**/ and //."""
     # Replace Multiline Comments
     matches = re.findall(MULTI_COMMENT, data)
     for match in matches:
@@ -231,7 +229,7 @@ def sanitize_comments(data):
 
 
 def scan_file(paths):
-    """ Scan a File """
+    """Scan a file."""
     security_issues = []
     scan_rules = read_rules()
 
@@ -252,7 +250,7 @@ def scan_file(paths):
 
 
 def scan_dirs(paths):
-    """Scan the Dir"""
+    """Scan a directory."""
     scan_results = {}
     all_files = []
     security_issues = []
@@ -338,7 +336,7 @@ def scan_dirs(paths):
 
 
 def code_analysis(data, full_file_path, scan_rules, header_found):
-    """ Static Code Analysis of File"""
+    """Perform the static code analysis of a file."""
     security_issues = []
     good_finding = []
 

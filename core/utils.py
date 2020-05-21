@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
-"""
-Utils
-"""
+"""Util and helper functions."""
 import zipfile
 import string
 import random
@@ -26,7 +24,7 @@ _punctuation_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 
 class Color(object):
-    """Coloring Terminal/Bash Output"""
+    """Coloring the terminal/Bash output."""
     GREEN = '\033[92m'
     ORANGE = '\033[33m'
     RED = '\033[91m'
@@ -35,7 +33,7 @@ class Color(object):
 
 
 def print_exception(msg):
-    """Print and Log Exception"""
+    """Print and log an exception."""
     _, exc_obj, tb_f = sys.exc_info()
     f_obj = tb_f.tb_frame
     lineno = tb_f.tb_lineno
@@ -54,8 +52,8 @@ def print_exception(msg):
 
 
 def unzip(app_path, ext_path):
-    """Unzip Files to a Given Path and Returns the list of files extracted"""
-    print("\n[INFO] Unzipping from Zip File", file=sys.stderr)
+    """Unzip files to a given path and return the list of files extracted."""
+    print("\n[INFO] Unzipping from zip file", file=sys.stderr)
     try:
         if not os.path.exists(ext_path):
             os.makedirs(ext_path)
@@ -65,8 +63,8 @@ def unzip(app_path, ext_path):
             files = ptr.namelist()
         return files
     except:
-        print_exception("[ERROR] Unzipping from Zip File with Python")
-        print("\n[INFO] Using the Default OS Unzip Utility.", file=sys.stderr)
+        print_exception("[ERROR] Unzipping from zip file with Python")
+        print("\n[INFO] Using the default OS unzip utility.", file=sys.stderr)
         try:
             subprocess.call(['unzip', '-o', '-q', app_path, '-d', ext_path])
             dat = subprocess.check_output(['unzip', '-qq', '-l', app_path])
@@ -74,28 +72,28 @@ def unzip(app_path, ext_path):
             dat = ['Length   Date   Time   Name'] + dat
             return dat
         except:
-            print_exception("[ERROR] Unzipping from Zip File")
+            print_exception("[ERROR] Unzipping from zip file")
 
 
 def read_file(file_path):
-    """Unicode Safe File Read, Returns data"""
+    """Read a file in an unicode safe way."""
     with open(file_path, "rb") as file_ptr:
         return file_ptr.read().decode('utf-8', 'replace')
 
 
 def write_file(file_path, data):
-    """Unicode Safe File Write"""
+    """Write a file in an Unicode safe way."""
     with open(file_path, "w") as file_ptr:
         file_ptr.write(data)
 
 
 def sha2_match_regex(data):
-    """SHA2 String Match"""
+    """Check for a SHA2 string match."""
     return re.match('^[0-9a-f]{64}$', data)
 
 
 def is_number(strn):
-    """Checks if given string is a number"""
+    """Check if given string is a number."""
     try:
         float(strn)
         return True
@@ -110,7 +108,7 @@ def is_number(strn):
 
 
 def python_list(value):
-    """Convert a list like string to python list"""
+    """Convert a list like string to a Python list."""
     if not value:
         value = []
     if isinstance(value, list):
@@ -119,7 +117,7 @@ def python_list(value):
 
 
 def python_dict(value):
-    """Convert a dict like string to python dict"""
+    """Convert a dict like string to Python dict."""
     if not value:
         value = {}
     if isinstance(value, dict):
@@ -128,33 +126,33 @@ def python_dict(value):
 
 
 def gen_random_hmac_sha256(msg):
-    """Generate HMAC SHA256 of a message with random key"""
+    """Generate the HMAC SHA256 of a message with random key."""
     key = hashlib.sha256(random.SystemRandom().random()).hexdigest()[:5]
     hashed = hmac.new(key, msg, hashlib.sha256)
     return hashed.hexdigest()
 
 
 def gen_fixed_hmac_sha256(msg):
-    """Generate HMAC SHA256 of a message with fixed key"""
+    """Generate HMAC SHA256 of a message with fixed key."""
     key = settings.HMAC_KEY
     hashed = hmac.new(key, msg, hashlib.sha256)
     return hashed.hexdigest()
 
 
 def gen_hmac_sha1(key, msg):
-    """Generate HMAC SHA1 of a message"""
+    """Generate the HMAC SHA1 of a message."""
     hashed = hmac.new(key, msg, hashlib.sha1)
     return hashed.hexdigest()
 
 
 def gen_sha256_hash(msg):
-    """Generate SHA 256 Hash of the message"""
+    """Generate the SHA256 hash of a message."""
     hash_object = hashlib.sha256(msg.encode('utf-8'))
     return hash_object.hexdigest()
 
 
 def gen_sha256_file(path):
-    """Generate SHA 256 Hash of the file"""
+    """Generate the SHA 256 hash of a file."""
     blocksize = 64 * 1024
     sha = hashlib.sha256()
     with open(path, 'rb') as fptr:
@@ -167,7 +165,7 @@ def gen_sha256_file(path):
 
 
 def gen_sha256_files_n_dir(dirc):
-    """Get SHA 256 Hash of entire directory"""
+    """Get the SHA256 hash of an entire directory."""
     sha2 = {}
     sha2_files = {}
     for root, _, files in os.walk(dirc):
@@ -180,7 +178,7 @@ def gen_sha256_files_n_dir(dirc):
 
 
 def gen_hashes(locations):
-    """Generate File and Dir SHA256 Hashes"""
+    """Generate file and directory SHA256 hashes."""
     sha2_hashes = []
     for loc in locations:
         sha2 = gen_sha256_files_n_dir(loc)
@@ -191,27 +189,24 @@ def gen_hashes(locations):
 
 
 def get_filename(path):
-    """Get Filename from Path"""
+    """Get a filename from path."""
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
 
 def year():
-    """Get Current Year"""
+    """Get the current year."""
     now = datetime.datetime.now()
     return now.year
 
 
 def random_string(size=6, chars=string.ascii_lowercase):
-    """Random String Generator (Contains lowercase a-z and 0-9)"""
+    """Random string generator (contains lowercase a-z and 0-9)."""
     return ''.join(random.SystemRandom().choice(chars) for _ in range(size))
 
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug."""
-    """
-    Generate an ASCII-only slug.
-    """
     result = []
     for word in _punctuation_re.split(text.lower()):
         word = unicodedata.normalize('NFKD', word) \
@@ -223,7 +218,7 @@ def slugify(text, delim=u'-'):
 
 
 def js_escape(value):
-    """JS XSS Escape"""
+    """Javascript XSS escapes."""
     return (value.replace('<', "\\u003c").
             replace('>', "\\u003e").
             replace('"', "\\u0022").

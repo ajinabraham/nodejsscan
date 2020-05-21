@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
-"""
-nodejsscan cli
-"""
+"""Command-line interface for nodejsscan."""
 import json
 import sys
 import argparse
@@ -13,7 +11,7 @@ import core.settings as settings
 def output(out, scan_results):
     """Output"""
     if out:
-        # out is the fully qualified path and filename for the ouptput file. We recommend you use a .json extension
+        # out is the fully qualified path and filename for the output file. We recommend you use a .json extension
         with open(out, 'w') as outfile:
             json.dump(scan_results, outfile, sort_keys=True,
                       indent=4, separators=(',', ': '))

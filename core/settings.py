@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
-"""
-Settings
-"""
+"""Settings for nodejsscan."""
 import os
 import socket
 
