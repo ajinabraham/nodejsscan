@@ -23,10 +23,10 @@ This will run NodeJsScan on `http://0.0.0.0:9090`
 
 If you need to debug, set `DEBUG = True` in `core/settings.py`
 
-## CLI and Python API
+## Command Line Interface and Python API
 
-CLI: https://github.com/ajinabraham/njsscan#command-line-options
-API: https://github.com/ajinabraham/njsscan#python-api
+* CLI: https://github.com/ajinabraham/njsscan#command-line-options
+* API: https://github.com/ajinabraham/njsscan#python-api
 
 
 ## Docker
