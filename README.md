@@ -33,39 +33,23 @@ If you need to debug, set `DEBUG = True` in `core/settings.py`
 
 NodeJsScan Docker images can be built for both the Web UI and CLI version.
 
-* Web UI
+```bash
+docker build -t nodejsscan .
+docker run -it -p 9090:9090 nodejsscan
+ ```
 
-  ```bash
-  docker build -t nodejsscan .
-  docker run -it -p 9090:9090 nodejsscan
-  ```
-
-* CLI
-
-  ```bash
-  # Use -f to override default Dockerfile
-  docker build -t nodejsscan-cli -f cli.dockerfile  .
-  # Mount a volume to the container that points to your source directory and reference it in -f, -d and -o arguments
-  docker run -v /path-to-source-dir:/src nodejsscan-cli -d /src -o /src/results.json
-  ```
+* CLI: https://github.com/ajinabraham/njsscan#build-locally
 
 ## DockerHub
 
 Prebuilt Docker images are available from DockerHub.
-
-* Web UI
 
 ```bash
 docker pull opensecurity/nodejsscan
 docker run -it -p 9090:9090 opensecurity/nodejsscan:latest
 ```
 
-* CLI
-
-```bash
-docker pull opensecurity/nodejsscan:cli
-docker run -v /path-to-source-dir:/src opensecurity/nodejsscan:cli -d /src -o /src/results.json
-```
+* CLI: https://github.com/ajinabraham/njsscan#prebuilt-image-from-dockerhub
 
 ## Learn Node.js Security: Pentesting and Exploitation
 
