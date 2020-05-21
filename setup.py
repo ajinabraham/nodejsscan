@@ -34,7 +34,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     install_requires=[
-        "jsbeautifier==1.10.3",
+        "jsbeautifier==1.11.0",
         "defusedxml==0.6.0",
     ],
 )
