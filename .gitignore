@@ -80,7 +80,6 @@ celerybeat-schedule
 
 # virtualenv
 venv/
-ENV/
 
 # Spyder project settings
 .spyderproject
@@ -91,4 +90,3 @@ ENV/
 .DS_Store
 *.pyc
 *.pyo
-njs-log.txt

@@ -1,61 +1,70 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
-from sqlalchemy import create_engine, Column, Integer, String, DateTime
-from sqlalchemy.orm import scoped_session, sessionmaker
+"""Database Migration."""
+from sqlalchemy import (
+    Column,
+    DateTime,
+    Integer,
+    String,
+    create_engine,
+)
+from sqlalchemy.orm import (
+    scoped_session,
+    sessionmaker,
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
-import core.settings as settings
+import nodejsscan.settings as settings
 
 
-engine = create_engine(settings.SQLALCHEMY_DATABASE_URI, convert_unicode=True)
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=False,
-                                         bind=engine))
+engine = create_engine(settings.SQLALCHEMY_DATABASE_URI)
+db_session = scoped_session(sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-class Results(Base):
-    """For Scan Results"""
-    __tablename__ = 'results'
-    id = Column(Integer, primary_key=True)
+
+class ScanResults(Base):
+    """For Scan Results."""
+
+    __tablename__ = 'nodejsscan_results'
+    id = Column(Integer, primary_key=True)  # noqa: A003
     scan_file = Column(String)
     scan_hash = Column(String(64), unique=True)
-    locations = Column(JSON)
-    sha2_hashes = Column(JSON)
-    hash_of_sha2 = Column(String(64))
-    sec_issues = Column(JSON)
-    good_finding = Column(JSON)
-    missing_sec_header = Column(JSON)
+    location = Column(JSON)
+    nodejs = Column(JSON)
+    templates = Column(JSON)
     files = Column(JSON)
-    total_count = Column(JSON)
-    vuln_count = Column(JSON)
-    resolved = Column(JSON)
-    invalid = Column(JSON)
+    severity = Column(JSON)
+    false_positive = Column(JSON)
+    not_applicable = Column(JSON)
     timestamp = Column(DateTime())
 
     def __init__(self, *args):
-        """init"""
+        """Init."""
         self.scan_file = args[0]
         self.scan_hash = args[1]
-        self.locations = args[2]
-        self.sha2_hashes = args[3]
-        self.hash_of_sha2 = args[4]
-        self.sec_issues = args[5]
-        self.good_finding = args[6]
-        self.missing_sec_header = args[7]
-        self.files = args[8]
-        self.total_count = args[9]
-        self.vuln_count = args[10]
-        self.resolved = args[11]
-        self.invalid = args[12]
-        self.timestamp = args[13]
+        self.location = args[2]
+        self.nodejs = args[3]
+        self.templates = args[4]
+        self.files = args[5]
+        self.false_positive = args[6]
+        self.not_applicable = args[7]
+        self.timestamp = args[8]
 
     def __repr__(self):
-        """repr"""
-        return '<Results %r>' % self.scan_hash
+        """Repr."""
+        return '<ScanResults %r>' % self.scan_hash
+
+
+def main():
+    """Migrate DB."""
+    Base.metadata.create_all(bind=engine)
+    print('[INFO] Table entries created!')
 
 
 if __name__ == '__main__':
-    Base.metadata.create_all(bind=engine)
-    print("[INFO] Table entries created!")
+    main()

@@ -1,20 +1,28 @@
-FROM postgres:9.6.2-alpine
-LABEL authors="Cristobal Infantes <cristobal.infantes@gmail.com>" \
-   maintainer="Ajin Abraham <ajin25@gmail.com>" \
-   description="Static Security Code Scanner for Node.js Applications"
-EXPOSE 9090
+FROM postgres:12.3
+LABEL authors="Ajin Abraham <ajin25@gmail.com>" \
+   description="nodejsscan is a static security code scanner for Node.js applications."
+
+
 ENV POSTGRES_USER root
+ENV POSTGRES_PASSWORD root
 ENV POSTGRES_DB nodejsscan
-WORKDIR /usr/src/NodeJsScan
-COPY requirements.txt requirements.txt
-COPY ./core/settings.py ./core/settings.py
-RUN apk add --no-cache \
-   python3=3.5.6-r0 \
-   python3-dev=3.5.6-r0 \
-   build-base=0.4-r1 \
-   && python3 -m ensurepip \
-   && sed -i -e s/postgresql:\\/\\/localhost\\/nodejsscan/postgresql:\\/\\/127.0.0.1\\/nodejsscan/g core/settings.py \
-   && pip3 install -r requirements.txt \
-   && apk del python3-dev build-base
+
+
+WORKDIR /usr/src/nodejsscan
 COPY . .
+
+RUN apt update -y && apt install -y \
+   python3.7 \
+   python3-dev \
+   python3-pip && \
+   pip3 install --quiet --no-cache-dir -r requirements.txt && \
+   apt remove -y \
+   python3-dev && \
+   apt clean && \
+   apt autoclean && \
+   apt autoremove -y && \
+   rm -rf /var/lib/apt/lists/* /tmp/* > /dev/null 2>&1
+
+EXPOSE 9090
+
 CMD ["sh","start.sh"]

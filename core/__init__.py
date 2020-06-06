@@ -1,1 +1,0 @@
-"""Core part of nodejsscan."""
