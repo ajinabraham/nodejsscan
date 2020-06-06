@@ -1,0 +1,13 @@
+    .container {
+    width: 80%;
+    margin: 15px auto;
+  }
+
+  strong {
+    font-weight: 900;
+    word-spacing: 10px;
+  }
+
+  h2 {
+      display: inline;
+  }
