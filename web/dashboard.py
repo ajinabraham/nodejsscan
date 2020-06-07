@@ -51,6 +51,7 @@ def scan_result(sha2):
         return jsonify({
             'status': 'failed',
             'message': 'Scan hash not found'})
+    triage = filters.get_triaged(res)
     filters.filter_files(res, 'nodejs')
     filters.filter_files(res, 'templates')
     new_dict = copy.deepcopy(res)
@@ -61,6 +62,7 @@ def scan_result(sha2):
     sev, isus = filters.get_metrics(new_dict)
     new_dict['severity'] = sev
     new_dict['security_issues'] = isus
+    new_dict['triaged'] = triage
     return render_template('scan_result.html', **new_dict)
 
 
@@ -125,10 +127,16 @@ def issue_revert(request):
     na_key = 'not_applicable'
     fp = res[fp_key]
     na = res[na_key]
-    fp.remove(finding_hash)
-    na.remove(finding_hash)
-    update_issue(scan_hash, fp_key, fp)
-    update_issue(scan_hash, na_key, na)
+    if finding_hash in fp:
+        fp.remove(finding_hash)
+        update_issue(scan_hash, fp_key, fp)
+    elif finding_hash in na:
+        na.remove(finding_hash)
+        update_issue(scan_hash, na_key, na)
+    else:
+        return jsonify({
+            'status': 'failed',
+            'message': 'Finding not found'})
     return jsonify({'status': 'ok'})
 
 

@@ -42,7 +42,10 @@ def all_files(path, search=False, term=None):
 
 def call_njsscan(node_source):
     """Call njsscan."""
-    scanner = NJSScan([node_source], json=True, check_controls=True)
+    scanner = NJSScan(
+        [node_source],
+        json=True,
+        check_controls=settings.CHECK_MISSING_CONTROLS)
     return scanner.scan()
 
 

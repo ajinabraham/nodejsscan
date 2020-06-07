@@ -77,8 +77,8 @@
                 if (percent === 100){
                     i = 1;
                     setInterval(function() {
-                        dot = '';
-                        for (x = 1; x <= i; x++) {
+                        var dot = '';
+                        for (var x = 1; x <= i; x++) {
                             dot += '.';
                         }
                         _("status").innerText = "Analyzing" + dot;

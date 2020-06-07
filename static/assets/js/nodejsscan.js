@@ -15,8 +15,8 @@ window.view = function(path, line, filename, scan_hash) {
                 expanded.push(i);
             }
             $('#myModal').hide();
-            $('#fname').text(filename.replace("<", "").replace(">", ""));
-            $('#pth').text(path.replace("<", "").replace(">", ""));
+            $('#fname').text(filename.replace(/</g, "").replace(/>/g, ""));
+            $('#pth').text(path.replace(/</g, "").replace(/>/g, ""));
             $("#bdy").html('<pre id="cnt"></pre>');
             $('#cnt').text(result.contents);
             $('#cnt').removeAttr('class');
@@ -46,7 +46,7 @@ $(".excp").on('click', function (event) {
 
 
 
-//Mark as resolved
+//Revert
 window.revert = function (scan_hash, finding_hash) {
     $.post("/revert", {
         scan_hash: scan_hash,
@@ -56,17 +56,17 @@ window.revert = function (scan_hash, finding_hash) {
             $('#revert_modal').modal('hide');
             if (result.status === "ok") {
                 setTimeout(function () {
-                    $.bootstrapGrowl("Moved into Issues", {
+                    $.bootstrapGrowl("Moved back to issues!", {
                         type: 'success'
                     });
                 }, 1000);
                 setTimeout(function () {
-                    location.reload();
+                    $('.rid-' + finding_hash).hide();
                 }, 3000);
 
             } else {
                 setTimeout(function () {
-                    $.bootstrapGrowl("Failed!", {
+                    $.bootstrapGrowl(result.message, {
                         type: 'danger'
                     });
                 }, 1000);

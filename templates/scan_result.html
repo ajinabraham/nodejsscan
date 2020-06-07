@@ -347,6 +347,178 @@ Scan Results
           </div>
         </div>
 
+
+ <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">ISSUES MARKED AS NOT APPLICABLE</h5>
+                <h2 class="card-title">Not Applicable</h2>
+              </div>
+              <div class="card-body">
+              
+            <div id="scn" class="panel-body">
+            {% for tag, findings in triaged.na.items() %}
+              <div class="panel-group rid-{{findings.id}}">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#na{{ tag|slugify }}cp">
+                    <div class="excp alert alert-info">
+                     <i class="tim-icons icon-minimal-right"></i> <span id="na{{ tag|slugify }}" data-toggle="collapse">{{tag | deslugify | upper}} - {% if findings.files %} <strong> {{findings.files|length}} </strong> {% else %} <strong>1 </strong>{% endif %}</span>
+                    </div>
+                    </h4>
+                  </div>
+                  <div id="na{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="well well-sm">
+                            <p><strong>Description: </strong>{{ findings.metadata.description}}</p>
+                            <p><strong>Severity: </strong>
+                               {% if findings.metadata.severity == 'ERROR' %}
+                                    <span class="badge badge-danger">
+                                {% elif findings.metadata.severity == 'WARNING' %}
+                                    <span class="badge badge-warning">
+                                {% elif findings.metadata.severity == 'INFO' %}
+                                    <span class="badge badge-info">
+                                {% endif %}
+                                {{ findings.metadata.severity}}
+                                </span>
+                            </p>
+                            <p><strong>OWASP: </strong>{{ findings.metadata.owasp}}</p>
+                            <p><strong>CWE: </strong>{{ findings.metadata.cwe}}</p>
+                            {% if findings.id %}
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+                            {% endif %}
+                             {% for file in findings.files %}
+                             <hr>
+                             <div class="rid-{{file.id}}">
+                             <p><strong>File: </strong>{{  file.file_path | relative}}</p>
+                             {% if file.match_lines %}
+                               <p><strong>Lines: </strong>{{  file.match_lines }}</p>
+                             {% endif %}
+                             <p><strong>Position: </strong>{{  file.match_position }}</p>
+                               <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                View File
+                                </button>
+
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+
+                                <div class="collapse" id="collapse-tmpl{{ tag|slugify }}{{ loop.index }}">
+                                <div class="card card-block">
+                                <pre><code>{{ file.match_string }}</code></pre>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+         <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">ISSUES MARKED AS FALSE POSITIVE</h5>
+                <h2 class="card-title">False Positive</h2>
+              </div>
+              <div class="card-body">
+              
+            <div id="scn" class="panel-body">
+            {% for tag, findings in triaged.fp.items() %}
+              <div class="panel-group rid-{{findings.id}}">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#fp{{ tag|slugify }}cp">
+                    <div class="excp alert alert-info">
+                     <i class="tim-icons icon-minimal-right"></i> <span id="fp{{ tag|slugify }}" data-toggle="collapse">{{tag | deslugify | upper}} - {% if findings.files %} <strong> {{findings.files|length}} </strong> {% else %} <strong>1 </strong>{% endif %}</span>
+                    </div>
+                    </h4>
+                  </div>
+                  <div id="fp{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="well well-sm">
+                            <p><strong>Description: </strong>{{ findings.metadata.description}}</p>
+                            <p><strong>Severity: </strong>
+                               {% if findings.metadata.severity == 'ERROR' %}
+                                    <span class="badge badge-danger">
+                                {% elif findings.metadata.severity == 'WARNING' %}
+                                    <span class="badge badge-warning">
+                                {% elif findings.metadata.severity == 'INFO' %}
+                                    <span class="badge badge-info">
+                                {% endif %}
+                                {{ findings.metadata.severity}}
+                                </span>
+                            </p>
+                            <p><strong>OWASP: </strong>{{ findings.metadata.owasp}}</p>
+                            <p><strong>CWE: </strong>{{ findings.metadata.cwe}}</p>
+                            {% if findings.id %}
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+                            {% endif %}
+                             {% for file in findings.files %}
+                             <hr>
+                             <div class="rid-{{file.id}}">
+                             <p><strong>File: </strong>{{  file.file_path | relative}}</p>
+                             {% if file.match_lines %}
+                               <p><strong>Lines: </strong>{{  file.match_lines }}</p>
+                             {% endif %}
+                             <p><strong>Position: </strong>{{  file.match_position }}</p>
+                               <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                View File
+                                </button>
+
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+
+                                <div class="collapse" id="collapse-tmpl{{ tag|slugify }}{{ loop.index }}">
+                                <div class="card card-block">
+                                <pre><code>{{ file.match_string }}</code></pre>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
       <div class="row">
           <div class="col-lg-12 col-md-12">
             <div class="card ">
@@ -456,10 +628,10 @@ Scan Results
         <p>Do you want to move the finding back to issues?</p>
       </div>
       <div class="modal-footer">
-        <input type="hidden" value="" id="isha2">
+        <input type="hidden" value="" id="rsha2">
         <input type="hidden" value="" id="ssha2">
         <button id="bck" type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" onclick="revert($('#ssha2').val(), $('#isha2').val())">Yes</button>
+        <button type="button" class="btn btn-primary" onclick="revert($('#ssha2').val(), $('#rsha2').val())">Yes</button>
       </div>
     </div>
   </div>

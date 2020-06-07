@@ -13,5 +13,6 @@ UPLD_MIME = [
     'application/x-zip-compressed',
     'binary/octet-stream',
 ]
+CHECK_MISSING_CONTROLS = True
 # Postgres DB Connection URL
 SQLALCHEMY_DATABASE_URI = 'postgresql://127.0.0.1/nodejsscan'

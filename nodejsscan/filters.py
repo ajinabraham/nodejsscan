@@ -4,6 +4,50 @@
 import copy
 
 
+def triage_files(fp, na, res, rule, finds):
+    """Get triaged files."""
+    na_list = []
+    fp_list = []
+    na_finds = copy.deepcopy(finds)
+    fp_finds = copy.deepcopy(finds)
+    for file in finds['files']:
+        if file['id'] in res['false_positive']:
+            fp_list.append(file)
+        if file['id'] in res['not_applicable']:
+            na_list.append(file)
+    if na_list:
+        na_finds['files'] = na_list
+        na[rule] = na_finds
+    if fp_list:
+        fp_finds['files'] = fp_list
+        fp[rule] = fp_finds
+
+
+def get_triaged(res):
+    """Get findings filterd by na/fp."""
+    fp = {}
+    na = {}
+    combined = {}
+    if res.get('templates'):
+        combined.update(res['templates'])
+    if res.get('nodejs'):
+        combined.update(res['nodejs'])
+    for rule, finds in combined.items():
+        # No files means single rule with id
+        file_less = finds.get('id')
+        if file_less:
+            if file_less in res['false_positive']:
+                fp[rule] = finds
+            elif file_less in res['not_applicable']:
+                na[rule] = finds
+            continue
+        triage_files(fp, na, res, rule, finds)
+    return {
+        'fp': fp,
+        'na': na,
+    }
+
+
 def inc_severity(severity_dict, severity):
     """Increment Siverity."""
     if severity.upper() == 'ERROR':
