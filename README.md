@@ -68,7 +68,7 @@ Configure SMTP settings in `nodejsscan/settings.py` or as environment variable.
 
 ### Github Action
 
-See [njsscan github action](https://github.com/ajinabraham/njsscan#github-action)
+* nodejsscan action: https://github.com/ajinabraham/njsscan#github-action
 
 ## Build Docker image
 
