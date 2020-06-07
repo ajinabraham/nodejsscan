@@ -13,11 +13,8 @@ COPY . .
 
 RUN apt update -y && apt install -y \
    python3.7 \
-   python3-dev \
    python3-pip && \
    pip3 install --quiet --no-cache-dir -r requirements.txt && \
-   apt remove -y \
-   python3-dev && \
    apt clean && \
    apt autoclean && \
    apt autoremove -y && \
@@ -25,4 +22,4 @@ RUN apt update -y && apt install -y \
 
 EXPOSE 9090
 
-CMD ["sh","start.sh"]
+CMD ["sh","entrypoint.sh"]

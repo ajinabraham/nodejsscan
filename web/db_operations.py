@@ -1,22 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 """All DB operations."""
-import time
-from datetime import datetime
-
 import nodejsscan.utils as utils
-
-from migrate import (
+from nodejsscan.models import (
     ScanResults,
-    db_session,
+    db,
 )
 
 
 def save_results(filename, sha256, location, results):
     """Save Scan Results."""
-    tms = datetime.fromtimestamp(
-        time.time()).strftime('%Y-%m-%d %H:%M:%S')
-    db = ScanResults(
+    res = ScanResults(
         filename,
         sha256,
         location,
@@ -25,9 +19,9 @@ def save_results(filename, sha256, location, results):
         results['files'],
         [],
         [],
-        tms)
-    db_session.add(db)
-    db_session.commit()
+        utils.get_timestamp())
+    db.session.add(res)
+    db.session.commit()
 
 
 def get_scans():
@@ -70,7 +64,7 @@ def update_issue(sha256, key, item):
     """Get Result obj by hash."""
     res = ScanResults.query.filter(ScanResults.scan_hash == sha256)
     res.update({key: item})
-    db_session.commit()
+    db.session.commit()
 
 
 def is_scan_exists(sha256):
@@ -82,6 +76,6 @@ def delete_scan(sha256):
     """Delete scan by hash."""
     res = ScanResults.query.filter(ScanResults.scan_hash == sha256).first()
     if res:
-        db_session.delete(res)
-        db_session.commit()
+        db.session.delete(res)
+        db.session.commit()
     return res

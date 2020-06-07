@@ -3,10 +3,9 @@
 """The nodejsscan webapp."""
 import re
 
-from werkzeug.routing import BaseConverter
-
 from flask import Flask, request
 
+from nodejsscan.models import db
 import nodejsscan.settings as settings
 import nodejsscan.utils as utils
 
@@ -22,22 +21,15 @@ from web.dashboard import (
     view_file,
 )
 
-from migrate import db_session
 
-
-class RegexConverter(BaseConverter):
-
-    def __init__(self, url_map, *items):
-        super(RegexConverter, self).__init__(url_map)
-        self.regex = items[0]
-
-
-app = Flask(__name__)
-app.url_map.converters['regex'] = RegexConverter
-app.config['DEBUG'] = settings.DEBUG
+app = Flask(__name__,
+            template_folder='../templates',
+            static_folder='../static')
+app.url_map.converters['regex'] = utils.RegexConverter
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = settings.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
 
 @app.template_filter('slugify')
@@ -69,16 +61,17 @@ def _year():
     return dict(year=str(utils.year()))
 
 
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    """Closes db session."""
+    db.session.remove()
+
+
 @app.template_filter('js_escape')
 def _js_escape(string):
     if not string:
         return ''
     return utils.js_escape(string)
-
-
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
 
 
 @app.route('/', methods=['GET'])
@@ -138,10 +131,3 @@ def view():
 def search():
     """Search in source files."""
     return search_file(request)
-
-
-if __name__ == '__main__':
-    app.run(threaded=True,
-            debug=settings.DEBUG,
-            host=settings.HOST,
-            port=settings.PORT)

@@ -1,15 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 """Util and helper functions."""
-import datetime
+from datetime import datetime
 import hashlib
 import json
+import time
 import os
 import re
 import ast
 import unicodedata
 
+from werkzeug.routing import BaseConverter
+
 _punctuation_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+
+
+class RegexConverter(BaseConverter):
+
+    def __init__(self, url_map, *items):
+        super(RegexConverter, self).__init__(url_map)
+        self.regex = items[0]
 
 
 def read_file(file_path):
@@ -67,7 +77,7 @@ def sha256_finding(find_dict):
 
 def year():
     """Get the current year."""
-    now = datetime.datetime.now()
+    now = datetime.now()
     return now.year
 
 
@@ -114,3 +124,9 @@ def is_safe_path(safe_root, check_path):
     safe_root = os.path.realpath(os.path.normpath(safe_root))
     check_path = os.path.realpath(os.path.normpath(check_path))
     return os.path.commonprefix([check_path, safe_root]) == safe_root
+
+
+def get_timestamp():
+    """Get timestamp."""
+    return datetime.fromtimestamp(
+        time.time()).strftime('%Y-%m-%d %H:%M:%S')

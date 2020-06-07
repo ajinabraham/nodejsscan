@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 """Basic tests."""
-
-from pathlib import Path
+from datetime import datetime
 import unittest
 
-from app import app
-
-from migrate import main
+from nodejsscan.app import app
+from nodejsscan.models import db
+from nodejsscan import utils
 
 from werkzeug.datastructures import FileStorage
 
@@ -15,18 +14,25 @@ INV_HASH = '4b3ce8526462b31de7cda339b121b10b299fcb42f4f5a7be48a08797b545f711'
 VALID_HASH = 'a6c706242fe1040fb94b53625c98b7d36c94cfffd3f40981faf0d04e1796db1f'
 
 
+def _tim():
+    """Patch timestamp for test."""
+    return datetime.now()
+
+
+utils.get_timestamp = _tim
+
+
 class Tests(unittest.TestCase):
     """Tests."""
 
     def setUp(self):
         """Executed prior to each test."""
-        path = Path('/tmp') / 'test.db'
-        db_url = 'sqlite:///' + path.as_posix()
         app.config['TESTING'] = True
         app.config['DEBUG'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
+        app.app_context().push()
+        db.create_all()
         self.app = app.test_client()
-        main()
         self.assertEqual(app.debug, True)
 
     def tearDown(self):
