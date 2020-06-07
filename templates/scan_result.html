@@ -315,7 +315,7 @@ Scan Results
                                 </button>
 
                                 <button class="btn btn-primary" type="button" 
-                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                onclick="view('{{ file.file_path | js_escape}}','0','{{ file.file_path | relative | js_escape}}','{{scan_hash}}', '{{file.match_position}}');">
                                 View File
                                 </button>
 

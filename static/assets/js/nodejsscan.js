@@ -1,9 +1,9 @@
 $(document).ready(function () {
    
 
-//View file
-window.view = function(path, line, filename, scan_hash) {
 
+//View file
+window.view = function(path, line, filename, scan_hash, match=null) {
     $.post('/view_file', {
         path: path,
         scan_hash: scan_hash
@@ -13,6 +13,21 @@ window.view = function(path, line, filename, scan_hash) {
             var expanded = [];
             for (i = toarr[0]; i <= toarr[1]; i++) {
                 expanded.push(i);
+            }
+            // highlight if only position is available
+            if (match){
+                expanded = []
+                var pos = JSON.parse(match);
+                var allLines = result.contents.split("\n");
+                var filepos = 0;
+                for (var i = 0; i < allLines.length; i++) {
+                    filepos += allLines[i].length;
+                    if (filepos > pos[0]) {
+                        expanded.push(i);
+                        expanded.push(i+1);
+                        break;
+                    }
+                }
             }
             $('#myModal').hide();
             $('#fname').text(filename.replace(/</g, "").replace(/>/g, ""));
@@ -140,7 +155,5 @@ window.revert = function (scan_hash, finding_hash) {
 
             });
     }
-
-
 });
 
