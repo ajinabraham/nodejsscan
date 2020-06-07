@@ -55,9 +55,7 @@ This will run nodejsscan web user interface at `http://127.0.0.1:9090`
 * API: https://github.com/ajinabraham/njsscan#python-api
 
 
-## Docker
-
-NodeJsScan Docker images can be built for both the Web UI and CLI version.
+## Build Docker image
 
 ```bash
 docker build -t nodejsscan .
@@ -68,7 +66,3 @@ docker run -it -p 9090:9090 nodejsscan
 
 ## nodejsscan screenshots
 
-![NodeJsScan](https://cloud.githubusercontent.com/assets/4301109/22619224/26acd162-eb16-11e6-8f28-bd477c92991f.png)
-![NodeJsScan Static Scan Results](https://user-images.githubusercontent.com/4301109/33951861-294062a0-e056-11e7-8472-3c101be52390.jpg)
-![NodeJsScan Static Scan Vulnerability Details](https://user-images.githubusercontent.com/4301109/30637698-bfa68e04-9e16-11e7-8233-bfde503d7e5a.png)
-![NodeJsScan CLI](https://user-images.githubusercontent.com/4301109/43541417-0a749362-95e8-11e8-9d5c-4d9a2fd9f765.png)
