@@ -20,8 +20,8 @@ Search
           </form>
           </br>
           <table class="table table-bordered table-hover table-striped">
-              {% for m in matches %}
-                <tr><td> <a href="javascript:view('{{ m.path | js_escape }}','0','{{ m.path| relative | js_escape }}','{{scan_hash}}');">{{ m.path | relative }}</a> </td></tr>
+              {% for path in matches %}
+                <tr><td> <a href="javascript:view('{{ path | js_escape }}','0','{{ path| relative | js_escape }}','{{scan_hash}}');">{{ path | relative }}</a> </td></tr>
               {% endfor %}  
           </table>
         </div>

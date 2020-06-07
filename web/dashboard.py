@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 """Function related to dashboard."""
-import os
 import copy
 import shutil
 from pathlib import Path
@@ -13,13 +12,9 @@ from flask import (
 
 from nodejsscan import (
     filters,
+    nodejsscan,
     settings,
     utils,
-)
-
-from njsscan.settings import (
-    NODEJS_FILE_EXTENSIONS,
-    TEMPLATE_FILE_EXTENSIONS,
 )
 
 from web.db_operations import (
@@ -71,7 +66,6 @@ def scan_result(sha2):
 
 def search_file(request):
     """Search in files."""
-    matches = []
     context = {}
     query = request.form['q']
     scan_hash = request.form['scan_hash']
@@ -84,19 +78,7 @@ def search_file(request):
         return jsonify({
             'status': 'failed',
             'message': 'Scan hash not found'})
-    for dir_name, _, files in os.walk(res['location']):
-        for jfile in files:
-            _, extension = os.path.splitext(jfile.lower())
-            if ((extension in NODEJS_FILE_EXTENSIONS)
-                    or (extension in TEMPLATE_FILE_EXTENSIONS)):
-                file_path = os.path.join(res['location'], dir_name, jfile)
-                fileparam = file_path.replace(settings.UPLOAD_FOLDER, '')
-                if fileparam.startswith('/'):
-                    fileparam = fileparam.replace('/', '', 1)
-                dat = utils.read_file(file_path)
-                if query in dat:
-                    matches.append(
-                        {'path': fileparam})
+    matches = nodejsscan.all_files(res['location'], True, query)
     context = {
         'matches': matches,
         'term': query,
@@ -189,13 +171,13 @@ def view_file(request):
             'status': 'failed',
             'message': 'Scan hash not found'})
     safe_dir = settings.UPLOAD_FOLDER
-    req_path = os.path.join(safe_dir, path)
-    if not utils.is_safe_path(safe_dir, req_path):
+    req_path = Path(safe_dir) / path
+    if not utils.is_safe_path(safe_dir, req_path.as_posix()):
         context = {
             'status': 'failed',
             'contents': 'Path Traversal Detected!'}
     else:
-        if Path(req_path).is_file():
-            contents = utils.read_file(req_path)
+        if req_path.is_file():
+            contents = utils.read_file(req_path.as_posix())
             context = {'contents': contents}
     return jsonify(**context)

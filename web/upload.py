@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 """Handle file upload."""
-import os
 import sys
 import shutil
 import zipfile
@@ -28,10 +27,11 @@ def unzip(app_path, ext_path):
     """Unzip files to a given path."""
     print('\n[INFO] Unzipping file', file=sys.stderr)
     try:
-        if not os.path.exists(ext_path):
-            os.makedirs(ext_path)
+        ext_path = Path(ext_path)
+        if not ext_path.exists():
+            ext_path.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(app_path, 'r') as ptr:
-            ptr.extractall(ext_path)
+            ptr.extractall(ext_path.as_posix())
     except Exception:
         print('[ERROR] Unzipping with Python API')
         print('\n[INFO] Using the default OS unzip utility.', file=sys.stderr)
@@ -42,7 +42,7 @@ def unzip(app_path, ext_path):
                 '-q',
                 app_path,
                 '-d',
-                ext_path])
+                ext_path.as_posix()])
         except Exception:
             print('[ERROR] Unzipping from zip file')
 

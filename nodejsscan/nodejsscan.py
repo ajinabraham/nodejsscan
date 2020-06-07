@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 """Integration: njsscan."""
-import os
 from pathlib import Path
 
 from nodejsscan import (
@@ -17,23 +16,27 @@ from njsscan.settings import (
 )
 
 
-def all_files(path):
-    """Gather all files and hashes."""
+def all_files(path, search=False, term=None):
+    """Gather all files or search."""
     filelist = []
     supported_ext = NODEJS_FILE_EXTENSIONS.union(TEMPLATE_FILE_EXTENSIONS)
-    # TODO replace with pathlib
-    for root, _, files in os.walk(path):
-        for filename in files:
-            full_file_path = os.path.join(root, filename)
-            if any(ignore in full_file_path
-                    for ignore in IGNORE_PATHS):
-                continue
-            if Path(full_file_path).suffix in supported_ext:
-                mpath = full_file_path.replace(
-                    settings.UPLOAD_FOLDER, '', 1)
-                if mpath.startswith('/'):
-                    mpath = mpath.replace('/', '', 1)
-                filelist.append(mpath)
+    for file_path in Path(path).rglob('*'):
+        if not file_path.is_file():
+            continue
+        if file_path.suffix not in supported_ext:
+            continue
+        if any(ignore in file_path.as_posix()
+                for ignore in IGNORE_PATHS):
+            continue
+        relative = file_path.as_posix().replace(
+            settings.UPLOAD_FOLDER, '', 1)
+        if relative.startswith('/'):
+            relative = relative.replace('/', '', 1)
+        if search:
+            if term in utils.read_file(file_path.as_posix()):
+                filelist.append(relative)
+        else:
+            filelist.append(relative)
     return filelist
 
 
