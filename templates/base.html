@@ -1,54 +1,101 @@
-<!doctype html>
-<html>
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block head %}
-    <link href="{{ url_for('static', filename='css/bootstrap.min_yeti.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">
-    <title>{% block title %}{% endblock %} - NodeScanV2</title>
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    {% endblock %}
-  </head>
-  <body>
-   <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="/" class="navbar-brand">NodeJSScan</a>
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+<!--
+=========================================================
+* * Black Dashboard - v1.0.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/black-dashboard
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block head %}
+  <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/img/favicon.ico') }}">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="nodejsscan is a static security code scanner for Node.js applications. ">
+  <meta name="author" content="Ajin Abraham">
+  <title>
+    nodejsscan v{{version}} - {% block title %}{% endblock %}
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <!-- Nucleo Icons -->
+  <link href="{{ url_for('static', filename='assets/css/nucleo-icons.css') }}" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="{{ url_for('static', filename='assets/css/black-dashboard.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/css/nodejsscan.css') }}" rel="stylesheet" >
+  {% endblock %}
+</head>
+
+<body class="">
+<div class="wrapper">
+    <div class="main-panel" data="green">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
+          <div class="collapse navbar-collapse" id="navigation">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a href="/" class="nav-link">
+                <strong>Upload </strong>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="/scans/" class="nav-link">
+                <strong> Scans  </strong>
+                </a>
+              </li>
+               <li class="nav-item">
+               <a href="#" class="nav-link">
+                Made with <span style="color: red">♥</span> in India 
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-            
-            <li>
-              <a href="/dashboard/">Dashboard</a>
-            </li>
-          
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Made with <font color="red">&hearts;</font> in India</a></li>
-            
-          </ul>
-
+      </nav>
+      <!-- End Navbar -->
+{% block content %}{% endblock %}
+  </div>
+</div>
+  {% block footer %}
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+             <img src ="{{ url_for('static', filename='assets/img/nodejsscan.png') }}" width="48" height="48">
+             &copy; {{year}} nodejsscan v{{version}} | <a href="https://ajinabraham.com">Ajin Abraham</a> | <a href="https://opensecurity.in">OpenSecurity</a>.
+          </div>
         </div>
-      </div>
-    </div>
-    <div id="content">{% block content %}{% endblock %}</div>
-    {% block js %}
-       <!-- Core Scripts - Include with every page -->
-      <script src = "{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-     
-    
-      {% endblock %}
-    <div id="footer" align="center">
-      {% block footer %}
-      Copyright &copy; {{ year }} | NodeJSScan v{{version}} | <a href="https://ajinabraham.com">Ajin Abraham</a>.
-      {% endblock %}
-    </div>
-  </body>
+      </footer>
+  {% endblock %}
+
+
+ {% block js %}
+  <!--   Core JS Files   -->
+  <script src="{{ url_for('static', filename='assets/js/core/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/nodejsscan.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/core/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/plugins/jquery.bootstrap-growl.min.js') }}"></script>    
+ {% endblock %}
+
+</body>
 </html>

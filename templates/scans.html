@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block title %}
+Scans
+{% endblock %}
+{% block content %}
+<div class="content">
+<div class="row">
+
+       <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">File</th>
+                <th>Hash</th>
+                <th>Timestamp</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody>
+             {% for scans in scan_details %}
+              <tr>
+              <td>
+               {{ scans.scan_file }} 
+              </td>
+              <td>
+              {{ scans.scan_hash }}
+              </td>
+              <td>{{ scans.timestamp }}</td>
+              <td class="td-actions text-right">
+                  <a href="/scan/{{ scans.scan_hash }}">
+                  <button type="button" rel="tooltip" class="btn btn-success btn-sm btn-icon">
+                    <i class="tim-icons icon-bullet-list-67"></i>
+                  </button>
+                  </a>
+                  <a onclick="$('#dscan_hash').val('{{ scans.scan_hash | js_escape }}'); $('#delmdl').modal('show');">
+                  <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-icon">
+                    <i class="tim-icons icon-simple-remove"></i>
+                  </button>
+                  </a>
+              </td>
+            </tr>
+              {% endfor %}
+             
+              
+            </tbody>
+          </table>
+
+</div>
+</div>
+<!-- Delete Modal -->
+<div id="delmdl" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to delete the scan results</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="dscan_hash">
+        <button id="del_btn" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="delete_scan($('#dscan_hash').val())">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+   {{ super() }}
+  {% endblock %}
+
+  {% block js %}
+   {{ super() }}
+{% endblock %}

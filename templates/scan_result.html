@@ -1,0 +1,757 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+  <link href="{{ url_for('static', filename='assets/css/monokai-sublime.css') }}" rel="stylesheet" >
+  <link href="{{ url_for('static', filename='assets/css/shCoreDefault.min.css') }}" rel="stylesheet" >
+{% endblock %}
+{% block title %}
+Scan Results
+{% endblock %}
+{% block content %}
+      <div class="content">
+           <div class="row">
+  
+          <div class="col-lg-4">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">BASIC SCAN INFORMATION</h5>
+                <h3 class="card-title"><i class="tim-icons icon-alert-circle-exc text-info"></i> Information</h3>
+              </div>
+              <div class="card-body">
+               <div class="ml-1">
+                <p><span class="badge badge-info">File</span>  <h6>{{ scan_file }}</h6> </p>
+                <p><span class="badge badge-info">SHA256 Hash</span>  <h6>{{scan_hash}} </h6>  </p>
+                <p><span class="badge badge-info">Total Files Scanned</span>  <h6>{{files | length}} </h6> </p>
+                  <span class="badge badge-danger">Types of Issues</span>  <h2>{{nodejs | length +  templates | length}}  </h2></br>
+                  <span class="badge badge-danger">Total No of Issues</span> <h2> {{ security_issues}}  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="col-lg-4">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">DISTRIBUTION OF SEVERITY BY ISSUE TYPES</h5>
+                <h3 class="card-title"><i class="tim-icons icon-chart-pie-36 text-warning"></i> Severity</h3>
+              </div>
+              <div class="card-body">
+                  <div class="container">
+                    <canvas id="Severity"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-lg-4">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">NO OF FILES SCANNED VS ISSUES IDENTIFIED</h5>
+                <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> Detections</h3>
+              </div>
+              <div class="card-body">
+                <div class="container">
+                  <canvas id="Nos"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-chart">
+              <div class="card-header ">
+                <div class="row">
+                  <div class="col-sm-6 text-left">
+                    <h5 class="card-category">OVERVIEW OF IDENTIFIED ISSUES</h5>
+                    <h2 class="card-title">Issues</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+               <canvas id="Findings"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+           
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">SUMMARY OF FINDINGS</h5>
+                <h2 class="card-title"> Findings Summary</h2>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table tablesorter " id="">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>
+                          Issue
+                        </th>
+                        <th>
+                          Description
+                        </th>
+                        <th>
+                          Severity
+                        </th>
+                        <th class="text-center">
+                          Standards
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for key, meta in nodejs.items() %}
+                     <tr>
+                        <td>
+                         {{ key | deslugify | upper}}
+                        </td>
+                        <td>
+                         {{ meta.metadata.description}}
+                        </td>
+                        <td>
+                        {% if meta.metadata.severity == 'ERROR' %}
+                            <span class="badge badge-danger">
+                        {% elif meta.metadata.severity == 'WARNING' %}
+                             <span class="badge badge-warning">
+                        {% elif meta.metadata.severity == 'INFO' %}
+                             <span class="badge badge-info">
+                        {% endif %}
+                         {{ meta.metadata.severity}}
+                         </span>
+                        </td>
+                        <td class="text-center">
+                         {{ meta.metadata.owasp}} </br>
+                         {{ meta.metadata.cwe}}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    {% for key, meta in templates.items() %}
+                     <tr>
+                        <td>
+                         {{ key | deslugify | upper}}
+                        </td>
+                        <td>
+                         {{ meta.metadata.description}}
+                        </td>
+                        <td>
+                        {% if meta.metadata.severity == 'ERROR' %}
+                            <div class="badge badge-danger">
+                        {% elif meta.metadata.severity == 'WARNING' %}
+                             <div class="badge badge-warning">
+                        {% elif meta.metadata.severity == 'INFO' %}
+                             <div class="badge badge-info">
+                        {% endif %}
+                         {{ meta.metadata.severity}}
+                         </div>
+                        </td>
+                        <td class="text-center">
+                         {{ meta.metadata.owasp}} </br>
+                         {{ meta.metadata.cwe}}
+                        </td>
+                         <td class="text-center">
+                         
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">ALL IDENTIFIED NODE.JS ISSUES</h5>
+                <h2 class="card-title"> JavaScript Issues</h2>
+              </div>
+              <div class="card-body">
+              
+            <div id="scn" class="panel-body">
+            {% for tag, findings in nodejs.items() %}
+              <div class="panel-group id-{{findings.id}}">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#sec{{ tag|slugify }}cp">
+                    <div class="excp alert alert-info">
+                       <i class="tim-icons icon-minimal-right"></i> <span id="sec{{ tag|slugify }}" data-toggle="collapse">{{tag | deslugify | upper}} - {% if findings.files %}  <strong>{{findings.files|length}} </strong> {% else %} <strong>1 </strong>{% endif %}</span>
+                    </div>
+                    </h4>
+                  </div>
+                  <div id="sec{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                  
+                        <div class="well well-sm">
+                            <p><strong>Description: </strong>{{ findings.metadata.description}}</p>
+                            <p><strong>Severity: </strong>
+                               {% if findings.metadata.severity == 'ERROR' %}
+                                    <span class="badge badge-danger">
+                                {% elif findings.metadata.severity == 'WARNING' %}
+                                    <span class="badge badge-warning">
+                                {% elif findings.metadata.severity == 'INFO' %}
+                                    <span class="badge badge-info">
+                                {% endif %}
+                                {{ findings.metadata.severity}}
+                                </span>
+                            </p>
+                            <p><strong>OWASP:  </strong>{{ findings.metadata.owasp}}</p>
+                            <p><strong>CWE:  </strong>{{ findings.metadata.cwe}}</p>
+                            {% if findings.id %}
+                                <button class='btn btn-success' type="button" onclick="$('#fsha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#na_modal').modal('show');">
+                                Not Applicable
+                                </button>
+                                
+                                <button class='btn btn-warning' type="button" onclick="$('#isha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#fp_modal').modal('show');">
+                                False Positive
+                                </button>
+                             {% endif %}
+                             {% for file in findings.files %}
+                             <hr>
+                             <div class="id-{{file.id}}">
+                                <p><strong>File: </strong>{{  file.file_path |  relative}}</p>
+                                <p><strong>Lines: </strong>{{  file.match_lines }}</p>
+                                <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-sec{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                    Show Code
+                                    </button>
+
+                                    <button class="btn btn-primary" type="button" 
+                                    onclick="view('{{ file.file_path | js_escape}}','{{ file.match_lines }}','{{ file.file_path | relative | js_escape }}','{{scan_hash}}');">
+                                    View File
+                                    </button>
+
+                                    <button class='btn btn-success' type="button" onclick="$('#fsha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#na_modal').modal('show');">
+                                    Not Applicable
+                                    </button>
+
+                                    <button class='btn btn-warning' type="button" onclick="$('#isha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#fp_modal').modal('show');">
+                                    False Positive
+                                    </button>
+
+                                <div class="collapse" id="collapse-sec{{ tag|slugify }}{{ loop.index }}">
+                                <div class="card card-block">
+                                <pre><code>{{ file.match_string }}</code></pre>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+    
+    <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">ALL IDENTIFIED TEMPLATE ISSUES</h5>
+                <h2 class="card-title"> Template Issues</h2>
+              </div>
+              <div class="card-body">
+              
+            <div id="scn" class="panel-body">
+            {% for tag, findings in templates.items() %}
+              <div class="panel-group id-{{findings.id}}">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#tmpl{{ tag|slugify }}cp">
+                    <div class="excp alert alert-info">
+                     <i class="tim-icons icon-minimal-right"></i> <span id="tmpl{{ tag|slugify }}" data-toggle="collapse">{{tag | deslugify | upper}} - {% if findings.files %} <strong> {{findings.files|length}} </strong> {% else %} <strong>1 </strong>{% endif %}</span>
+                    </div>
+                    </h4>
+                  </div>
+                  <div id="tmpl{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="well well-sm">
+                            <p><strong>Description: </strong>{{ findings.metadata.description}}</p>
+                            <p><strong>Severity: </strong>
+                               {% if findings.metadata.severity == 'ERROR' %}
+                                    <span class="badge badge-danger">
+                                {% elif findings.metadata.severity == 'WARNING' %}
+                                    <span class="badge badge-warning">
+                                {% elif findings.metadata.severity == 'INFO' %}
+                                    <span class="badge badge-info">
+                                {% endif %}
+                                {{ findings.metadata.severity}}
+                                </span>
+                            </p>
+                            <p><strong>OWASP: </strong>{{ findings.metadata.owasp}}</p>
+                            <p><strong>CWE: </strong>{{ findings.metadata.cwe}}</p>
+                            {% if findings.id %}
+                                <button class='btn btn-success' type="button" onclick="$('#fsha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#na_modal').modal('show');">
+                                Not Applicable
+                                </button>
+                                
+                                <button class='btn btn-warning' type="button" onclick="$('#isha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#fp_modal').modal('show');">
+                                False Positive
+                                </button>
+                            {% endif %}
+                             {% for file in findings.files %}
+                             <hr>
+                             <div class="id-{{file.id}}">
+                             <p><strong>File: </strong>{{  file.file_path | relative}}</p>
+                             {% if file.match_lines %}
+                               <p><strong>Lines: </strong>{{  file.match_lines }}</p>
+                             {% endif %}
+                             <p><strong>Position: </strong>{{  file.match_position }}</p>
+                               <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                View File
+                                </button>
+
+                                <button class='btn btn-success' type="button" onclick="$('#fsha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#na_modal').modal('show');">
+                                Not Applicable
+                                </button>
+
+                                <button class='btn btn-warning' type="button" onclick="$('#isha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#fp_modal').modal('show');">
+                                False Positive
+                                </button>
+
+                                <div class="collapse" id="collapse-tmpl{{ tag|slugify }}{{ loop.index }}">
+                                <div class="card card-block">
+                                <pre><code>{{ file.match_string }}</code></pre>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+ <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">ISSUES MARKED AS NOT APPLICABLE</h5>
+                <h2 class="card-title">Not Applicable</h2>
+              </div>
+              <div class="card-body">
+              
+            <div id="scn" class="panel-body">
+            {% for tag, findings in triaged.na.items() %}
+              <div class="panel-group rid-{{findings.id}}">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#na{{ tag|slugify }}cp">
+                    <div class="excp alert alert-info">
+                     <i class="tim-icons icon-minimal-right"></i> <span id="na{{ tag|slugify }}" data-toggle="collapse">{{tag | deslugify | upper}} - {% if findings.files %} <strong> {{findings.files|length}} </strong> {% else %} <strong>1 </strong>{% endif %}</span>
+                    </div>
+                    </h4>
+                  </div>
+                  <div id="na{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="well well-sm">
+                            <p><strong>Description: </strong>{{ findings.metadata.description}}</p>
+                            <p><strong>Severity: </strong>
+                               {% if findings.metadata.severity == 'ERROR' %}
+                                    <span class="badge badge-danger">
+                                {% elif findings.metadata.severity == 'WARNING' %}
+                                    <span class="badge badge-warning">
+                                {% elif findings.metadata.severity == 'INFO' %}
+                                    <span class="badge badge-info">
+                                {% endif %}
+                                {{ findings.metadata.severity}}
+                                </span>
+                            </p>
+                            <p><strong>OWASP: </strong>{{ findings.metadata.owasp}}</p>
+                            <p><strong>CWE: </strong>{{ findings.metadata.cwe}}</p>
+                            {% if findings.id %}
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+                            {% endif %}
+                             {% for file in findings.files %}
+                             <hr>
+                             <div class="rid-{{file.id}}">
+                             <p><strong>File: </strong>{{  file.file_path | relative}}</p>
+                             {% if file.match_lines %}
+                               <p><strong>Lines: </strong>{{  file.match_lines }}</p>
+                             {% endif %}
+                             <p><strong>Position: </strong>{{  file.match_position }}</p>
+                               <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                View File
+                                </button>
+
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+
+                                <div class="collapse" id="collapse-tmpl{{ tag|slugify }}{{ loop.index }}">
+                                <div class="card card-block">
+                                <pre><code>{{ file.match_string }}</code></pre>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+         <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">ISSUES MARKED AS FALSE POSITIVE</h5>
+                <h2 class="card-title">False Positive</h2>
+              </div>
+              <div class="card-body">
+              
+            <div id="scn" class="panel-body">
+            {% for tag, findings in triaged.fp.items() %}
+              <div class="panel-group rid-{{findings.id}}">
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" href="#fp{{ tag|slugify }}cp">
+                    <div class="excp alert alert-info">
+                     <i class="tim-icons icon-minimal-right"></i> <span id="fp{{ tag|slugify }}" data-toggle="collapse">{{tag | deslugify | upper}} - {% if findings.files %} <strong> {{findings.files|length}} </strong> {% else %} <strong>1 </strong>{% endif %}</span>
+                    </div>
+                    </h4>
+                  </div>
+                  <div id="fp{{ tag|slugify }}cp" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="well well-sm">
+                            <p><strong>Description: </strong>{{ findings.metadata.description}}</p>
+                            <p><strong>Severity: </strong>
+                               {% if findings.metadata.severity == 'ERROR' %}
+                                    <span class="badge badge-danger">
+                                {% elif findings.metadata.severity == 'WARNING' %}
+                                    <span class="badge badge-warning">
+                                {% elif findings.metadata.severity == 'INFO' %}
+                                    <span class="badge badge-info">
+                                {% endif %}
+                                {{ findings.metadata.severity}}
+                                </span>
+                            </p>
+                            <p><strong>OWASP: </strong>{{ findings.metadata.owasp}}</p>
+                            <p><strong>CWE: </strong>{{ findings.metadata.cwe}}</p>
+                            {% if findings.id %}
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{findings.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+                            {% endif %}
+                             {% for file in findings.files %}
+                             <hr>
+                             <div class="rid-{{file.id}}">
+                             <p><strong>File: </strong>{{  file.file_path | relative}}</p>
+                             {% if file.match_lines %}
+                               <p><strong>Lines: </strong>{{  file.match_lines }}</p>
+                             {% endif %}
+                             <p><strong>Position: </strong>{{  file.match_position }}</p>
+                               <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Show Code
+                                </button>
+
+                                <button class="btn btn-primary" type="button" 
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                View File
+                                </button>
+
+                                <button class='btn btn-warning' type="button" onclick="$('#rsha2').val('{{file.id |js_escape}}');$('#ssha2').val('{{scan_hash | js_escape}}');$('#revert_modal').modal('show');">
+                                Revert
+                                </button>
+
+                                <div class="collapse" id="collapse-tmpl{{ tag|slugify }}{{ loop.index }}">
+                                <div class="card card-block">
+                                <pre><code>{{ file.match_string }}</code></pre>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+      <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-category">FILES IN THE ARCHIVE</h5>
+                <h2 class="card-title"> Files</h2>
+                    <form class="navbar-form navbar-right" action="/search" method="POST">
+                    <font color="white">Search in files </font>
+                    </br></br>
+                    <input type="text" name="q" class="form-control" placeholder="Search in files">
+                    <input type="hidden" name="scan_hash" value="{{scan_hash}}">
+                    </form>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table tablesorter " id="">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>
+                          File
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for itm in files %}
+                        <tr>
+                            <td><a href="javascript:view('{{ itm | js_escape}}','0','{{ itm | relative | js_escape}}','{{scan_hash}}');">{{ itm | relative }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!--File View Modal-->
+    <div id="myModal" class="modal" role="dialog" style="position: fixed;" tabindex="-1">
+    <div class="modal-admin">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button id="cls" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="fname" class="modal-title"></h4>
+            <h6 id="pth"></h6>
+        </div>
+        <div id="bdy" class="modal-body">
+        </div>
+        </div>
+    </div>
+    </div>
+    <!--Modal End-->
+
+<!--fasle positive modal-->
+<div id="fp_modal" class="modal"  tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to mark this issue as false positive?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="isha2">
+        <input type="hidden" value="" id="ssha2">
+        <button id="inv" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="move_issue($('#ssha2').val(), $('#isha2').val(), 'fp')">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--not applicable modal-->
+<div id="na_modal" class="modal"  tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to mark this issue as not applicable?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="fsha2">
+        <input type="hidden" value="" id="ssha2">
+        <button id="isu" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="move_issue($('#ssha2').val(), $('#fsha2').val(), 'na')">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--revert modal-->
+<div id="revert_modal" class="modal"  tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to move the finding back to issues?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" value="" id="rsha2">
+        <input type="hidden" value="" id="ssha2">
+        <button id="bck" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" onclick="revert($('#ssha2').val(), $('#rsha2').val())">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% endblock %}
+
+ {% block footer %}
+   {{ super() }}
+  {% endblock %}
+
+
+ 
+  {% block js %}
+   {{ super() }}
+     <script src="{{ url_for('static', filename='assets/js/plugins/chartjs.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/shCore.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/shBrushJScript.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/highlight.pack.js') }}"></script>
+     <script>
+    // Findings
+    var canvas = document.getElementById('Findings').getContext('2d');
+    var gradientStroke = canvas.createLinearGradient(0, 230, 0, 50);
+    gradientStroke.addColorStop(1, 'rgba(29,140,248,0.2)');
+    gradientStroke.addColorStop(0.4, 'rgba(29,140,248,0.0)');
+    gradientStroke.addColorStop(0, 'rgba(29,140,248,0)'); //blue colors
+
+    var data = {
+        labels: [
+        {% for key in nodejs.keys() %}
+         '{{key | deslugify | upper}}',
+        {% endfor %}
+        {% for key in templates.keys() %}
+         '{{key | deslugify | upper}}',
+        {% endfor %}
+        ],
+        datasets: [
+            {
+                label: "No of detections",
+                backgroundColor: gradientStroke,
+                borderColor: '#1f8ef1',
+                borderWidth: 2,
+                borderDash: [],
+                borderDashOffset: 0.0,
+                hoverBackgroundColor: gradientStroke,
+                data: [
+                {% for val in nodejs.values() %}
+                    {% if val.files %}
+                        {{ val.files | length }},
+                    {% else %}
+                        1,
+                    {% endif %}
+                {% endfor %}
+                {% for val in templates.values() %}
+                    {% if val.files %}
+                        {{ val.files | length }},
+                    {% else %}
+                        1,
+                    {% endif %}
+                {% endfor %}
+                ],
+            }
+        ]
+    };
+    var option = {
+    animation: {
+      duration:5000
+    },
+    responsive: true,
+    legend: {
+    display: false
+    }
+    };
+
+    var myBarChart = Chart.Bar(canvas,{
+        data:data,
+        options:option
+    });
+
+
+    // Severity
+      var ctx = document.getElementById("Severity").getContext('2d');
+        var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Error', 'Warning', 'Info'],
+            datasets: [{
+            backgroundColor: [
+                'rgb(247, 70, 74)',
+                "#ffe000e8",
+                "#1d8cf8",
+            ],
+            data: [{{severity.error}}, {{severity.warning}}, {{severity.info}}]
+            }]
+        }
+        });
+   
+
+    // Issues  vs Files
+
+    var ctx2 = document.getElementById("Nos").getContext('2d');
+    var dodata = {
+    datasets: [{
+        data: [{{files | length }}, {{security_issues}}],
+        backgroundColor: [
+        'rgb(70, 191, 189)',
+        "#fd5d93",
+        ]
+    }],
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+        'No of Files Scanned',
+        'No of Issues Identified',
+    ]
+    };
+    var myChart = new Chart(ctx2, {
+    type: 'doughnut',
+    data: dodata,
+    });
+
+    hljs.initHighlightingOnLoad();
+</script>
+  {% endblock %}

@@ -1,0 +1,11 @@
+version: "3"
+services:
+  web:
+    image: opensecurity/nodejsscan:latest
+    hostname: nodejsscan
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "9090:9090"

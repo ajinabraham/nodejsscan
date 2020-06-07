@@ -1,54 +1,36 @@
 {% extends "base.html" %}
+
 {% block head %}
   {{ super() }}
-
-  <link href="{{ url_for('static', filename='css/shCoreDefault.min.css') }}"
-  rel="stylesheet" >
-
-<script src="{{ url_for('static', filename='js/highlight.pack.js') }}"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+   <link href="{{ url_for('static', filename='assets/css/shCoreDefault.min.css') }}" rel="stylesheet" >
 {% endblock %}
 {% block title %}
-{{title}}
+Search
 {% endblock %}
 {% block content %}
-</br>  </br>  </br>  </br>  </br>
-
+<div class="content">
 <div class="row">
-  <div class="container">
-<div class="box box-default">
+        <div class="col-md-12">
           <div class="box-header with-border">
-
-            <h3 class="box-title"><i class="fa fa-search"></i> You 've searched for: <strong>{{ term }}</strong>. Found in {{ found }} files.</h3>
-
+            <h3 class="box-title"><i class="fa fa-search"></i> You 've searched for: <strong>{{ term }}</strong>. Found in {{ matches | length }} files.</h3>
           </div>
-          <div class="box-body">
-          
-              <div class="table-responsive">
-
-            <form class="navbar-form navbar-right" action="/search" method="POST">
-          <strong>Search in files</strong> <input type="text" name="q" class="form-control" placeholder="Search....">
+          <form class="navbar-form navbar-right" action="/search" method="POST">
+          <input type="text" name="q" class="form-control" placeholder="Search in files">
           <input type="hidden" name="scan_hash" value="{{scan_hash}}">
           </form>
-                  <table class="table table-bordered table-hover table-striped">
-            
-            
-                {% for m in matches %}
-                      
-                    <tr><td> <a href="javascript:view('{{ m.path }}','0','{{ m.name}}','{{scan_hash}}');">{{ m.path }}</a> </td></tr>
-                    
-                    {% endfor %}  
-
-              </table>
-               </div>
-
-          </div>
-          <!-- /.box-body -->
+          </br>
+          <table class="table table-bordered table-hover table-striped">
+              {% for path in matches %}
+                <tr><td> <a href="javascript:view('{{ path | js_escape }}','0','{{ path| relative | js_escape }}','{{scan_hash}}');">{{ path | relative }}</a> </td></tr>
+              {% endfor %}  
+          </table>
         </div>
+
 </div>
 </div>
+
 <!--Modal-->
-<div id="myModal" class="modal fade" role="dialog" style="position: fixed;">
+<div id="myModal" class="modal" role="dialog" style="position: fixed;" tabindex="-1">
   <div class="modal-admin">
     <div class="modal-content">
       <div class="modal-header">
@@ -62,11 +44,13 @@
   </div>
 </div>
 <!--Modal End-->
-   {% block js %}
+{% endblock %}
+{% block footer %}
    {{ super() }}
-  <script src="{{ url_for('static', filename='js/jquery.bootstrap-growl.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/shCore.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/shBrushJScript.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/result.js') }}"></script>
   {% endblock %}
+
+  {% block js %}
+   {{ super() }}
+   <script src="{{ url_for('static', filename='assets/js/plugins/shCore.js') }}"></script>
+   <script src="{{ url_for('static', filename='assets/js/plugins/shBrushJScript.js') }}"></script>
 {% endblock %}

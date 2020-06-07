@@ -1,66 +1,88 @@
-# NodeJsScan
+# nodejsscan ![nodejsscan icon](https://user-images.githubusercontent.com/4301109/83980418-abb48b00-a8e3-11ea-99df-1d25dcc7fc28.png)
 
-Static security code scanner (SAST) for Node.js applications.
+Static security code scanner (SAST) for Node.js applications powered by [njsscan](https://github.com/ajinabraham/njsscan) and [semgrep](https://github.com/returntocorp/semgrep)
 
-[![platform](https://img.shields.io/badge/platform-osx%2Flinux%2Fwindows-green.svg)](https://github.com/ajinabraham/NodeJsScan)
+Made with ![Love](https://cloud.githubusercontent.com/assets/4301109/16754758/82e3a63c-4813-11e6-9430-6015d98aeaab.png) in India  [![Tweet](https://img.shields.io/twitter/url?url=https://github.com/ajinabraham/nodejsscan)](https://twitter.com/intent/tweet/?text=nodejsscan,%20a%20static%20security%20code%20scanner%20for%20node.js%20applications%20by%20%40ajinabraham%20%40OpenSecurity_IN&url=https://github.com/ajinabraham/nodejsscan)
+
+[![platform](https://img.shields.io/badge/platform-osx%2Flinux-green.svg)](https://github.com/ajinabraham/nodejsscan)
 [![License](https://img.shields.io/:license-gpl3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
-[![python](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/)
-[![Build Status](https://travis-ci.com/ajinabraham/nodejsscan.svg?branch=master)](https://travis-ci.com/ajinabraham/nodejsscan)
+[![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ajinabraham/nodejsscan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ajinabraham/nodejsscan/context:python)
 [![Requirements Status](https://requires.io/github/ajinabraham/nodejsscan/requirements.svg?branch=master)](https://requires.io/github/ajinabraham/nodejsscan/requirements/?branch=master)
+[![Build](https://github.com/ajinabraham/nodejsscan/workflows/Test/badge.svg)](https://github.com/ajinabraham/nodejsscan/actions?query=workflow%3ATest)
 
-## Configure & Run NodeJsScan
+### e-Learning Courses & Certifications
+[![OpSecX Video Course](https://user-images.githubusercontent.com/4301109/82597198-99fa8600-9b76-11ea-8243-c604bc7b06b1.png)](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/?uid=github) [OpSecX Node.js Security: Pentesting and Exploitation - NJS](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/?uid=github)
 
-Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `core/settings.py`
+## Run nodejsscan
 
 ```bash
-pip3 install -r requirements.txt
-python3 migrate.py # Run once to create database entries required
-python3 app.py # Testing Environment
-gunicorn -b 0.0.0.0:9090 app:app --workers 3 --timeout 10000 # Production Environment
+docker pull opensecurity/nodejsscan:latest
+docker run -it -p 9090:9090 opensecurity/nodejsscan:latest
 ```
 
-This will run NodeJsScan on `http://0.0.0.0:9090`
+Try nodejsscan online:
+[![Try in PWD](https://user-images.githubusercontent.com/4301109/76351696-494bee80-62e4-11ea-894a-cb1cd07c86fc.png)](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/ajinabraham/nodejsscan/master/docker-compose.yml)
 
-If you need to debug, set `DEBUG = True` in `core/settings.py`
+## Setup nodejsscan locally
 
-## Command Line Interface and Python API
+Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `nodejsscan/settings.py` or as environment variable.
+
+From version 4 onwards, windows support is dropped.
+
+```bash
+git clone https://github.com/ajinabraham/nodejsscan.git
+cd nodejsscan
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python3 manage.py recreate_db # Run once to create database entries
+```
+
+To run nodejsscan 
+
+`./run.sh`
+
+This will run nodejsscan web user interface at `http://127.0.0.1:9090`
+
+
+## Command Line Interface(CLI) and Python API
+
+![njsscan_cli](https://user-images.githubusercontent.com/4301109/83962395-ecbc8900-a86a-11ea-9fe7-40703a7e6d4b.gif)
 
 * CLI: https://github.com/ajinabraham/njsscan#command-line-options
 * API: https://github.com/ajinabraham/njsscan#python-api
 
+## Integrations
 
-## Docker
+### Slack Alerts
 
-NodeJsScan Docker images can be built for both the Web UI and CLI version.
+Create your slack app [Slack App](https://api.slack.com/messaging/webhooks) and set `SLACK_WEBHOOK_URL` in `nodejsscan/settings.py` or as environment variable.
+
+![nodejsscan slack alert](https://user-images.githubusercontent.com/4301109/83978059-d64a1800-a8d2-11ea-9ef8-7a17d8904324.png)
+
+### Email Alerts
+
+Configure SMTP settings in `nodejsscan/settings.py` or as environment variable.
+
+### Github Action
+
+* nodejsscan action: https://github.com/ajinabraham/njsscan#github-action
+
+## Build Docker image
 
 ```bash
 docker build -t nodejsscan .
 docker run -it -p 9090:9090 nodejsscan
  ```
 
-* CLI: https://github.com/ajinabraham/njsscan#build-locally
+* CLI Docker Image: https://github.com/ajinabraham/njsscan#build-locally
 
-## DockerHub
+## nodejsscan screenshots
 
-Prebuilt Docker images are available from DockerHub.
-
-```bash
-docker pull opensecurity/nodejsscan
-docker run -it -p 9090:9090 opensecurity/nodejsscan:latest
-```
-
-* CLI: https://github.com/ajinabraham/njsscan#prebuilt-image-from-dockerhub
-
-## Learn Node.js Security: Pentesting and Exploitation
-
-[![OpSecX Video Course](https://user-images.githubusercontent.com/4301109/43572791-f54e87f6-965d-11e8-8811-7a8900df3379.png)](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/?uid=github)
-
-## NodeJsScan Web UI
-
-![NodeJsScan](https://cloud.githubusercontent.com/assets/4301109/22619224/26acd162-eb16-11e6-8f28-bd477c92991f.png)
-
-## Static Analysis
-
-![NodeJsScan Static Scan Results](https://user-images.githubusercontent.com/4301109/33951861-294062a0-e056-11e7-8472-3c101be52390.jpg)
-![NodeJsScan Static Scan Vulnerability Details](https://user-images.githubusercontent.com/4301109/30637698-bfa68e04-9e16-11e7-8233-bfde503d7e5a.png)
-![NodeJsScan CLI](https://user-images.githubusercontent.com/4301109/43541417-0a749362-95e8-11e8-9d5c-4d9a2fd9f765.png)
+![nodejsscan web ui](https://user-images.githubusercontent.com/4301109/83980692-bb34d380-a8e5-11ea-859d-041fe5282b27.png)
+![nodejsscan dashboard](https://user-images.githubusercontent.com/4301109/83980766-44e4a100-a8e6-11ea-9770-b179faf7f6ac.png)
+![nodejsscan charts](https://user-images.githubusercontent.com/4301109/83980816-ad338280-a8e6-11ea-98b0-d94d8dededcc.png)
+![nodejsscan overview](https://user-images.githubusercontent.com/4301109/83980780-62196f80-a8e6-11ea-9318-4ef97425f776.png)
+![nodejsscan findings](https://user-images.githubusercontent.com/4301109/83980887-2af78e00-a8e7-11ea-91af-8d2f269d65d1.png)
