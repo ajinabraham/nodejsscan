@@ -1,8 +1,8 @@
-# nodejsscan
+# nodejsscan ![nodejsscan icon](https://user-images.githubusercontent.com/4301109/83980418-abb48b00-a8e3-11ea-99df-1d25dcc7fc28.png)
 
 Static security code scanner (SAST) for Node.js applications powered by [njsscan](https://github.com/ajinabraham/njsscan) and [semgrep](https://github.com/returntocorp/semgrep)
 
-Made with ![Love](https://cloud.githubusercontent.com/assets/4301109/16754758/82e3a63c-4813-11e6-9430-6015d98aeaab.png) in India
+Made with ![Love](https://cloud.githubusercontent.com/assets/4301109/16754758/82e3a63c-4813-11e6-9430-6015d98aeaab.png) in India  [![Tweet](https://img.shields.io/twitter/url?url=https://github.com/ajinabraham/nodejsscan)](https://twitter.com/intent/tweet/?text=nodejsscan,%20a%20static%20security%20code%20scanner%20for%20node.js%20applications%20by%20%40ajinabraham%20%40OpenSecurity_IN&url=https://github.com/ajinabraham/nodejsscan)
 
 [![platform](https://img.shields.io/badge/platform-osx%2Flinux-green.svg)](https://github.com/ajinabraham/nodejsscan)
 [![License](https://img.shields.io/:license-gpl3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
@@ -77,3 +77,8 @@ docker run -it -p 9090:9090 nodejsscan
 
 ## nodejsscan screenshots
 
+![nodejsscan web ui](https://user-images.githubusercontent.com/4301109/83980692-bb34d380-a8e5-11ea-859d-041fe5282b27.png)
+![nodejsscan dashboard](https://user-images.githubusercontent.com/4301109/83980766-44e4a100-a8e6-11ea-9770-b179faf7f6ac.png)
+![nodejsscan charts](https://user-images.githubusercontent.com/4301109/83980816-ad338280-a8e6-11ea-98b0-d94d8dededcc.png)
+![nodejsscan overview](https://user-images.githubusercontent.com/4301109/83980780-62196f80-a8e6-11ea-9318-4ef97425f776.png)
+![nodejsscan findings](https://user-images.githubusercontent.com/4301109/83980887-2af78e00-a8e7-11ea-91af-8d2f269d65d1.png)
