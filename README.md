@@ -44,7 +44,7 @@ To run nodejsscan
 
 `./run.sh`
 
-This will run nodejsscan web user interface on `http://127.0.0.1:9090`
+This will run nodejsscan web user interface at `http://127.0.0.1:9090`
 
 
 ## Command Line Interface(CLI) and Python API
