@@ -28,6 +28,7 @@ Try nodejsscan online:
 ## Setup nodejsscan locally
 
 Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `nodejsscan/settings.py`.
+
 From version 4 onwards, windows support is dropped.
 
 ```bash
