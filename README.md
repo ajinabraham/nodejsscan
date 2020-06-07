@@ -12,6 +12,9 @@ Made with ![Love](https://cloud.githubusercontent.com/assets/4301109/16754758/82
 [![Requirements Status](https://requires.io/github/ajinabraham/nodejsscan/requirements.svg?branch=master)](https://requires.io/github/ajinabraham/nodejsscan/requirements/?branch=master)
 [![Build](https://github.com/ajinabraham/nodejsscan/workflows/Test/badge.svg)](https://github.com/ajinabraham/nodejsscan/actions?query=workflow%3ATest)
 
+### e-Learning Courses & Certifications
+[![OpSecX Video Course](https://user-images.githubusercontent.com/4301109/82597198-99fa8600-9b76-11ea-8243-c604bc7b06b1.png)](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/?uid=github) [OpSecX Node.js Security: Pentesting and Exploitation - NJS](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/?uid=github)
+
 # Run nodejsscan
 
 ```bash
@@ -61,11 +64,6 @@ docker run -it -p 9090:9090 nodejsscan
  ```
 
 * CLI Docker Image: https://github.com/ajinabraham/njsscan#build-locally
-
-
-## Learn Node.js Security: Pentesting and Exploitation
-
-[![OpSecX Video Course](https://user-images.githubusercontent.com/4301109/43572791-f54e87f6-965d-11e8-8811-7a8900df3379.png)](https://opsecx.com/index.php/product/node-js-security-pentesting-and-exploitation/?uid=github)
 
 ## nodejsscan screenshots
 
