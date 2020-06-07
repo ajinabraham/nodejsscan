@@ -8,10 +8,8 @@ from flask_migrate import Migrate, MigrateCommand
 from nodejsscan.app import app
 from nodejsscan.models import db
 
-
 manager = Manager(app)
 migrate = Migrate(app, db)
-
 manager.add_command('db', MigrateCommand)
 
 

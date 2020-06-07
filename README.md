@@ -27,7 +27,7 @@ Try nodejsscan online:
 
 ## Setup nodejsscan locally
 
-Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `nodejsscan/settings.py`.
+Install Postgres and configure `SQLALCHEMY_DATABASE_URI` in `nodejsscan/settings.py` or as environment variable.
 
 From version 4 onwards, windows support is dropped.
 
@@ -54,6 +54,17 @@ This will run nodejsscan web user interface at `http://127.0.0.1:9090`
 * CLI: https://github.com/ajinabraham/njsscan#command-line-options
 * API: https://github.com/ajinabraham/njsscan#python-api
 
+## Integrations
+
+### Slack Alerts
+
+Create your slack app [Slack App](https://api.slack.com/messaging/webhooks) and set `SLACK_WEBHOOK_URL` in `nodejsscan/settings.py` or as environment variable.
+
+![nodejsscan slack alert](https://user-images.githubusercontent.com/4301109/83978059-d64a1800-a8d2-11ea-9ef8-7a17d8904324.png)
+
+### Email Alerts
+
+Configure SMTP settings in `nodejsscan/settings.py` or as environment variable.
 
 ## Build Docker image
 

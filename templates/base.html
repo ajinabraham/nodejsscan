@@ -18,8 +18,8 @@
 <html lang="en">
 <head>
   {% block head %}
-  <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='assets/img/nodejs.png') }}">
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/img/nodejs.png') }}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/img/favicon.ico') }}">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,7 +81,8 @@
       <footer class="footer">
         <div class="container-fluid">
           <div class="copyright">
-            &copy; {{year}} nodejsscan v{{version}} | <a href="https://ajinabraham.com">Ajin Abraham</a> | <a href="https://opensecurity.in">OpenSecurity</a>.
+             <img src ="{{ url_for('static', filename='assets/img/nodejsscan.png') }}" width="48" height="48">
+             &copy; {{year}} nodejsscan v{{version}} | <a href="https://ajinabraham.com">Ajin Abraham</a> | <a href="https://opensecurity.in">OpenSecurity</a>.
           </div>
         </div>
       </footer>

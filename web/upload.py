@@ -11,6 +11,9 @@ from werkzeug.utils import secure_filename
 
 from flask import jsonify
 
+from web.slack import slack_alert
+from web.email import email_alert
+
 from nodejsscan import (
     nodejsscan,
     settings,
@@ -47,14 +50,14 @@ def unzip(app_path, ext_path):
             print('[ERROR] Unzipping from zip file')
 
 
-def handle_upload(app, files):
+def handle_upload(app, request):
     """Handle File Upload."""
     failed = {
         'status': 'failed',
         'message': 'Upload Failed!'}
-    if 'file' not in files:
+    if 'file' not in request.files:
         return jsonify(failed)
-    filen = files['file']
+    filen = request.files['file']
     ext = Path(filen.filename.lower()).suffix
     # Check for Valid ZIP
     if not (ext in '.zip' and filen.mimetype in settings.UPLD_MIME):
@@ -83,6 +86,8 @@ def handle_upload(app, files):
     # Save Result
     print('[INFO] Saving Scan Results!')
     save_results(filename, sha2, app_dir, results)
+    slack_alert(filename, sha2, request.url_root, results)
+    email_alert(filename, sha2, request.url_root, results)
     return jsonify({
         'status': 'success',
         'url': 'scan/' + sha2})

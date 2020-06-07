@@ -1,0 +1,24 @@
+<h3>nodejsscan v{{version}}</h3>
+<p>
+    Found <strong>{{total_issues}}</strong> issues in <strong>{{total_files}}</strong> files.
+</p>
+<p>
+    nodejsscan finished analyzing <strong>{{scan_file}}</strong><br>
+</p>
+<p>
+    <a href="{{url}}" target="_blank">Scan Results</a>
+</p>
+<hr>
+<h3>Severity Distribution</h3>
+<p> ERROR: <strong>{{error}}</strong></p>
+<p> WARNING: <strong>{{warning}}</strong></p>
+<p> INFO: <strong>{{info}}</strong></p>
+<hr>
+<h3>Identified Issues</h3>
+ {% for rule in nodejs.keys() %}
+  {{rule | deslugify| upper}} <br>
+ {% endfor %}
+  {% for rule in templates.keys() %}
+  {{rule | deslugify | upper}} <br>
+ {% endfor %}
+<hr>

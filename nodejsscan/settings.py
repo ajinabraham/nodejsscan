@@ -14,5 +14,18 @@ UPLD_MIME = [
     'binary/octet-stream',
 ]
 CHECK_MISSING_CONTROLS = True
+
 # Postgres DB Connection URL
 SQLALCHEMY_DATABASE_URI = 'postgresql://127.0.0.1/nodejsscan'
+
+# Get Slack alerts
+SLACK_WEBHOOK_URL = ''
+
+# Get Email alerts
+NJS_FROM_EMAIL = ''
+NJS_TO_EMAIL = ''
+SMTP_SERVER = ''
+SMTP_PORT = None
+SMTP_STARTTLS = True
+SMTP_USER = ''
+SMTP_PASS = ''

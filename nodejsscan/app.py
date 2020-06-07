@@ -2,6 +2,7 @@
 # -*- coding: utf_8 -*-
 """The nodejsscan webapp."""
 import re
+import os
 
 from flask import Flask, request
 
@@ -27,7 +28,8 @@ app = Flask(__name__,
             static_folder='../static')
 app.url_map.converters['regex'] = utils.RegexConverter
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
-app.config['SQLALCHEMY_DATABASE_URI'] = settings.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'SQLALCHEMY_DATABASE_URI', settings.SQLALCHEMY_DATABASE_URI)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
@@ -83,7 +85,7 @@ def index():
 @app.route('/upload/', methods=['POST'])
 def upload():
     """Upload and unzip source."""
-    return handle_upload(app, request.files)
+    return handle_upload(app, request)
 
 
 @app.route('/scans/', methods=['GET'])
