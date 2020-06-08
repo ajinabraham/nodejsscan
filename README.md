@@ -81,7 +81,7 @@ docker run -it -p 9090:9090 nodejsscan
 
 ## nodejsscan screenshots
 
-![nodejsscan web ui](https://user-images.githubusercontent.com/4301109/83980692-bb34d380-a8e5-11ea-859d-041fe5282b27.png)
+![nodejsscan web ui](https://user-images.githubusercontent.com/4301109/83994121-74fe6500-a923-11ea-9ad7-012113f1bb12.png)
 ![nodejsscan dashboard](https://user-images.githubusercontent.com/4301109/83980766-44e4a100-a8e6-11ea-9770-b179faf7f6ac.png)
 ![nodejsscan charts](https://user-images.githubusercontent.com/4301109/83980816-ad338280-a8e6-11ea-98b0-d94d8dededcc.png)
 ![nodejsscan overview](https://user-images.githubusercontent.com/4301109/83980780-62196f80-a8e6-11ea-9318-4ef97425f776.png)
