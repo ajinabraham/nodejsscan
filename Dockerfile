@@ -12,6 +12,7 @@ WORKDIR /usr/src/nodejsscan
 COPY . .
 
 RUN apt update -y && apt install -y \
+   git \
    python3.7 \
    python3-pip && \
    pip3 install --quiet --no-cache-dir -r requirements.txt && \

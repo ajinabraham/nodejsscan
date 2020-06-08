@@ -19,6 +19,7 @@ from njsscan.settings import (
 def all_files(path, search=False, term=None):
     """Gather all files or search."""
     filelist = []
+    ignote_paths = IGNORE_PATHS.union(settings.IGNORE_PATHS)
     supported_ext = NODEJS_FILE_EXTENSIONS.union(TEMPLATE_FILE_EXTENSIONS)
     for file_path in Path(path).rglob('*'):
         if not file_path.is_file():
@@ -26,7 +27,7 @@ def all_files(path, search=False, term=None):
         if file_path.suffix not in supported_ext:
             continue
         if any(ignore in file_path.as_posix()
-                for ignore in IGNORE_PATHS):
+                for ignore in ignote_paths):
             continue
         relative = file_path.as_posix().replace(
             settings.UPLOAD_FOLDER, '', 1)
@@ -63,6 +64,7 @@ def add_ids(res):
 
 def scan(node_source):
     """Perform scan."""
+    print('[INFO] Performing Static Analysis')
     result = call_njsscan(node_source)
     add_ids(result.get('nodejs'))
     add_ids(result.get('templates'))

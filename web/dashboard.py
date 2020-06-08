@@ -105,8 +105,9 @@ def scan_delete(request):
             'status': 'failed',
             'message': 'Scan not found'})
     shutil.rmtree(res.location)
-    ziploc = Path(settings.UPLOAD_FOLDER) / res.scan_file
-    ziploc.unlink()
+    if res.scan_file.endswith('.zip'):
+        ziploc = Path(settings.UPLOAD_FOLDER) / res.scan_file
+        ziploc.unlink()
     return jsonify(**{'status': 'ok'})
 
 

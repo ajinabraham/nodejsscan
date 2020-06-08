@@ -11,6 +11,7 @@ import nodejsscan.settings as settings
 import nodejsscan.utils as utils
 
 from web.upload import handle_upload
+from web.git import clone
 from web.dashboard import (
     home,
     issue_hide,
@@ -84,8 +85,14 @@ def index():
 
 @app.route('/upload/', methods=['POST'])
 def upload():
-    """Upload and unzip source."""
+    """Upload and scan from zip."""
     return handle_upload(app, request)
+
+
+@app.route('/git/', methods=['POST'])
+def git_clone():
+    """Scan from git."""
+    return clone(request)
 
 
 @app.route('/scans/', methods=['GET'])

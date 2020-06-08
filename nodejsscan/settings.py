@@ -13,6 +13,7 @@ UPLD_MIME = [
     'application/x-zip-compressed',
     'binary/octet-stream',
 ]
+IGNORE_PATHS = ('.git', '.DS_Store')
 CHECK_MISSING_CONTROLS = True
 
 # Postgres DB Connection URL

@@ -28,7 +28,7 @@ from web.db_operations import (
 
 def unzip(app_path, ext_path):
     """Unzip files to a given path."""
-    print('\n[INFO] Unzipping file', file=sys.stderr)
+    print('[INFO] Unzipping file', file=sys.stderr)
     try:
         ext_path = Path(ext_path)
         if not ext_path.exists():
@@ -37,7 +37,7 @@ def unzip(app_path, ext_path):
             ptr.extractall(ext_path.as_posix())
     except Exception:
         print('[ERROR] Unzipping with Python API')
-        print('\n[INFO] Using the default OS unzip utility.', file=sys.stderr)
+        print('[INFO] Using the default OS unzip utility.', file=sys.stderr)
         try:
             subprocess.call([
                 shutil.which('unzip'),
