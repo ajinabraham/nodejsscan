@@ -20,7 +20,7 @@ window.view = function(path, line, filename, scan_hash, match=null) {
                 expanded = [];
                 var pos = JSON.parse(match);
                 var allLines = result.contents.split("\n");
-                var filepos = 0;/
+                var filepos = 0;
                 var j;
                 for (j = 0; j < allLines.length; j++) {
                     filepos += allLines[j].length;
