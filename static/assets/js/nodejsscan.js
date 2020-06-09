@@ -11,6 +11,7 @@ window.view = function(path, line, filename, scan_hash, match=null) {
         function (result) {
             var toarr = JSON.parse(line);
             var expanded = [];
+            var i;
             for (i = toarr[0]; i <= toarr[1]; i++) {
                 expanded.push(i);
             }
@@ -19,12 +20,13 @@ window.view = function(path, line, filename, scan_hash, match=null) {
                 expanded = []
                 var pos = JSON.parse(match);
                 var allLines = result.contents.split("\n");
-                var filepos = 0;
-                for (var i = 0; i < allLines.length; i++) {
-                    filepos += allLines[i].length;
+                var filepos = 0;/
+                var j;
+                for (j = 0; j < allLines.length; j++) {
+                    filepos += allLines[j].length;
                     if (filepos > pos[0]) {
-                        expanded.push(i);
-                        expanded.push(i+1);
+                        expanded.push(j);
+                        expanded.push(j+1);
                         break;
                     }
                 }
