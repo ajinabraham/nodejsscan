@@ -33,7 +33,7 @@ def unzip(app_path, ext_path):
         ext_path = Path(ext_path)
         if not ext_path.exists():
             ext_path.mkdir(parents=True, exist_ok=True)
-        with zipfile.ZipFile(app_path, 'r') as ptr:
+        with zipfile.ZipFile(app_path.as_posix(), 'r') as ptr:
             ptr.extractall(ext_path.as_posix())
     except Exception:
         print('[ERROR] Unzipping with Python API')

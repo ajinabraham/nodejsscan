@@ -78,8 +78,11 @@ def email_alert(filename, sha2, base_url, message):
     smtp_config['port'] = os.getenv('SMTP_PORT', settings.SMTP_PORT)
     smtp_config['user'] = os.getenv('SMTP_USER', settings.SMTP_USER)
     smtp_config['pass'] = os.getenv('SMTP_PASS', settings.SMTP_PASS)
-    smtp_config['starttls'] = os.getenv(
-        'SMTP_STARTTLS', settings.SMTP_STARTTLS)
+    stls = os.getenv('SMTP_STARTTLS', settings.SMTP_STARTTLS)
+    if str(stls) in ['0', 'False', 'false']:
+        smtp_config['starttls'] = False
+    else:
+        smtp_config['starttls'] = True
     process = Thread(target=send_mail, args=(smtp_config, html, text))
     process.start()
     process.join()
