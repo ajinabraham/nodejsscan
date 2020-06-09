@@ -9,7 +9,7 @@ ENV POSTGRES_DB nodejsscan
 
 
 WORKDIR /usr/src/nodejsscan
-COPY . .
+COPY requirements.txt .
 
 RUN apt update -y && apt install -y \
    git \
@@ -20,6 +20,8 @@ RUN apt update -y && apt install -y \
    apt autoclean && \
    apt autoremove -y && \
    rm -rf /var/lib/apt/lists/* /tmp/* > /dev/null 2>&1
+
+COPY . .
 
 EXPOSE 9090
 
