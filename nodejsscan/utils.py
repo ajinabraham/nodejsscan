@@ -107,7 +107,7 @@ def js_escape(value):
     return (value.replace('<', '\\u003c').
             replace('>', '\\u003e').
             replace(""", '\\u0022').
-            replace(""", '\\u0027').
+            replace("'", '\\u0027').
             replace('`', '\\u0060').
             replace('(', '\\u0028').
             replace(')', '\\u0029').
