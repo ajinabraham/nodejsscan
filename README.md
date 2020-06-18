@@ -66,9 +66,11 @@ Create your slack app [Slack App](https://api.slack.com/messaging/webhooks) and 
 
 Configure SMTP settings in `nodejsscan/settings.py` or as environment variable.
 
-### Github Action
+### CI/CD or DevSecOps
 
-* nodejsscan action: https://github.com/ajinabraham/njsscan#github-action
+* Github Action: https://github.com/ajinabraham/njsscan#github-action
+* Gitlab CI/CD: https://github.com/ajinabraham/njsscan#gitlab-cicd
+* Travis CI: https://github.com/ajinabraham/njsscan#travis-ci
 
 ## Build Docker image
 
