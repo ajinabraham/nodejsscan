@@ -68,9 +68,9 @@ Configure SMTP settings in `nodejsscan/settings.py` or as environment variable.
 
 ### CI/CD or DevSecOps
 
-* Github Action: https://github.com/ajinabraham/njsscan#github-action
-* Gitlab CI/CD: https://github.com/ajinabraham/njsscan#gitlab-cicd
-* Travis CI: https://github.com/ajinabraham/njsscan#travis-ci
+* **Github Action**: https://github.com/ajinabraham/njsscan#github-action
+* **Gitlab CI/CD**: https://github.com/ajinabraham/njsscan#gitlab-cicd
+* **Travis CI**: https://github.com/ajinabraham/njsscan#travis-ci
 
 ## Build Docker image
 
