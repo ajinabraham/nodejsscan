@@ -1,6 +1,6 @@
 # nodejsscan ![nodejsscan icon](https://user-images.githubusercontent.com/4301109/83980418-abb48b00-a8e3-11ea-99df-1d25dcc7fc28.png)
 
-Static security code scanner (SAST) for Node.js applications powered by [njsscan](https://github.com/ajinabraham/njsscan) and [semgrep](https://github.com/returntocorp/semgrep).
+Static security code scanner (SAST) for Node.js applications powered by [libsast](https://github.com/ajinabraham/libsast) and [semgrep](https://github.com/returntocorp/semgrep).
 
 Made with ![Love](https://cloud.githubusercontent.com/assets/4301109/16754758/82e3a63c-4813-11e6-9430-6015d98aeaab.png) in India  [![Tweet](https://img.shields.io/twitter/url?url=https://github.com/ajinabraham/nodejsscan)](https://twitter.com/intent/tweet/?text=nodejsscan,%20a%20static%20security%20code%20scanner%20for%20node.js%20applications%20by%20%40ajinabraham%20%40OpenSecurity_IN&url=https://github.com/ajinabraham/nodejsscan)
 
