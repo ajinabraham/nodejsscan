@@ -54,6 +54,10 @@ This will run nodejsscan web user interface at `http://127.0.0.1:9090`
 * CLI: https://github.com/ajinabraham/njsscan#command-line-options
 * API: https://github.com/ajinabraham/njsscan#python-api
 
+## Presentations
+
+[![Watch the video](https://img.youtube.com/vi/kTjICeZCvS0/hqdefault.jpg)](https://youtu.be/kTjICeZCvS0)
+
 ## Integrations
 
 ### Slack Alerts
