@@ -59,7 +59,10 @@ def add_ids(res):
             res[rule]['id'] = utils.sha256_finding(finds)
             continue
         for file in finds['files']:
-            file['id'] = utils.sha256_finding(file)
+            uniq = {
+                'file': file,
+                'rule': rule}
+            file['id'] = utils.sha256_finding(uniq)
 
 
 def scan(node_source):

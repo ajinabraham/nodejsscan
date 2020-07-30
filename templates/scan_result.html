@@ -309,13 +309,13 @@ Scan Results
                              {% if file.match_lines %}
                                <p><strong>Lines: </strong>{{  file.match_lines }}</p>
                              {% endif %}
-                             <p><strong>Position: </strong>{{  file.match_position }}</p>
+                          
                                <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
                                 Show Code
                                 </button>
 
                                 <button class="btn btn-primary" type="button" 
-                                onclick="view('{{ file.file_path | js_escape}}','0','{{ file.file_path | relative | js_escape}}','{{scan_hash}}', '{{file.match_position}}');">
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_lines }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
                                 View File
                                 </button>
 
@@ -397,13 +397,12 @@ Scan Results
                              {% if file.match_lines %}
                                <p><strong>Lines: </strong>{{  file.match_lines }}</p>
                              {% endif %}
-                             <p><strong>Position: </strong>{{  file.match_position }}</p>
                                <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
                                 Show Code
                                 </button>
 
                                 <button class="btn btn-primary" type="button" 
-                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_lines }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
                                 View File
                                 </button>
 
@@ -481,13 +480,12 @@ Scan Results
                              {% if file.match_lines %}
                                <p><strong>Lines: </strong>{{  file.match_lines }}</p>
                              {% endif %}
-                             <p><strong>Position: </strong>{{  file.match_position }}</p>
                                <button class="btn btn-info showhide" type="button" data-toggle="collapse" data-target="#collapse-tmpl{{ tag|slugify }}{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
                                 Show Code
                                 </button>
 
                                 <button class="btn btn-primary" type="button" 
-                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_position[0] }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
+                                onclick="view('{{ file.file_path | js_escape}}','{{ file.match_lines }}','{{ file.file_path | relative | js_escape}}','{{scan_hash}}');">
                                 View File
                                 </button>
 

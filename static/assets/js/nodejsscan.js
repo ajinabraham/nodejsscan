@@ -3,7 +3,7 @@ $(document).ready(function () {
 
 
 //View file
-window.view = function(path, line, filename, scan_hash, match=null) {
+window.view = function(path, line, filename, scan_hash) {
     $.post('/view_file', {
         path: path,
         scan_hash: scan_hash
@@ -15,22 +15,6 @@ window.view = function(path, line, filename, scan_hash, match=null) {
             for (i = toarr[0]; i <= toarr[1]; i++) {
                 expanded.push(i);
             }
-            // highlight if only position is available
-            if (match){
-                expanded = [];
-                var pos = JSON.parse(match);
-                var allLines = result.contents.split("\n");
-                var filepos = 0;
-                var j;
-                for (j = 0; j < allLines.length; j++) {
-                    filepos += allLines[j].length;
-                    if (filepos > pos[0]) {
-                        expanded.push(j);
-                        expanded.push(j+1);
-                        break;
-                    }
-                }
-            }
             $('#myModal').hide();
             $('#fname').text(filename.replace(/</g, "").replace(/>/g, ""));
             $('#pth').text(path.replace(/</g, "").replace(/>/g, ""));
@@ -40,7 +24,16 @@ window.view = function(path, line, filename, scan_hash, match=null) {
             $('#cnt').attr('class', 'brush: js; highlight: ' + JSON.stringify(expanded));
             SyntaxHighlighter.defaults['quick-code'] = false;
             SyntaxHighlighter.highlight();
+            
+            
             $('#myModal').modal('show');
+            const hcls = document.getElementsByClassName("highlighted")[0];
+            if (hcls) {
+                if (hcls.scrollIntoViewIfNeeded)
+                    hcls.scrollIntoViewIfNeeded();
+                else
+                    hcls.scrollIntoView();
+            }
 
         });
 }

@@ -4,7 +4,7 @@
 from pathlib import Path
 
 # GENERAL
-VERSION = '4'
+VERSION = '4.1'
 UPLOAD_FOLDER = Path('~/.nodejsscan/').expanduser().as_posix()
 Path(UPLOAD_FOLDER).mkdir(parents=True, exist_ok=True)
 UPLD_MIME = [
