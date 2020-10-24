@@ -61,7 +61,7 @@ def relative(string):
 
 @app.context_processor
 def _year():
-    return dict(year=str(utils.year()))
+    return {'year': utils.year()}
 
 
 @app.teardown_appcontext
