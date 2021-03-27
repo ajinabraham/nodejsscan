@@ -1,5 +1,5 @@
 njsscan==0.2.3
-gunicorn==20.0.4
+gunicorn==20.1.0
 flask==1.1.2
 jinja2==2.11.3
 psycopg2-binary==2.8.6
