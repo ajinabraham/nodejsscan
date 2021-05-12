@@ -1,7 +1,7 @@
 njsscan==0.2.6
 gunicorn==20.1.0
 flask==1.1.2
-jinja2==2.11.3
+jinja2==3.0.0
 psycopg2-binary==2.8.6
 Flask-SQLAlchemy==2.5.1
 Flask-Migrate==2.7.0
