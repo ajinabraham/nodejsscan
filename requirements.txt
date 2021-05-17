@@ -6,4 +6,4 @@ psycopg2-binary==2.8.6
 Flask-SQLAlchemy==2.5.1
 Flask-Migrate==3.0.0
 Flask-Script==2.0.6
-GitPython==3.1.15
+GitPython==3.1.17
