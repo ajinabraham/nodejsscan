@@ -186,7 +186,7 @@ def view_file(request):
             'status': 'failed',
             'contents': 'Path Traversal Detected!'}
     else:
-        if req_path.is_file():
+        if req_path.is_file():  # lgtm [py/path-injection]
             contents = utils.read_file(req_path.as_posix())
             context = {'contents': contents}
     return jsonify(**context)

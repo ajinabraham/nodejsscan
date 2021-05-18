@@ -11,7 +11,7 @@ import nodejsscan.settings as settings
 import nodejsscan.utils as utils
 
 from web.upload import handle_upload
-from web.git import clone
+from web.git_utils import clone
 from web.dashboard import (
     home,
     issue_hide,
