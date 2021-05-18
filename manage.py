@@ -1,20 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 """Manage app."""
-from flask_script import Manager
+import click
 
-from flask_migrate import Migrate, MigrateCommand
-
-from nodejsscan.app import app
-from nodejsscan.models import db
-
-manager = Manager(app)
-migrate = Migrate(app, db)
-manager.add_command('db', MigrateCommand)
+from nodejsscan.app import (
+    app,
+    db,
+)
 
 
-@manager.command
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
 def runserver():
+    """Run Server."""
+    click.echo('Running server....')
     app.run(
         threaded=True,
         debug=False,
@@ -22,13 +25,15 @@ def runserver():
         port=9090)
 
 
-@manager.command
+@cli.command()
 def recreate_db():
-    """Recreates a database."""
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
+    """Recreate a database."""
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+        db.session.commit()
+        click.echo('Database  Recreated!')
 
 
 if __name__ == '__main__':
-    manager.run()
+    cli()

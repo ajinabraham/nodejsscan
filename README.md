@@ -42,7 +42,7 @@ cd nodejsscan
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python3 manage.py recreate_db # Run once to create database entries
+python3 manage.py recreate-db # Run once to create database schema
 ```
 
 To run nodejsscan 
