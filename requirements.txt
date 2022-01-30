@@ -1,4 +1,4 @@
-njsscan==0.2.8
+njsscan==0.3.0
 gunicorn==20.1.0
 flask==2.0.1
 jinja2==3.0.1
