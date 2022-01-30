@@ -6,7 +6,7 @@ Made with ![Love](https://cloud.githubusercontent.com/assets/4301109/16754758/82
 
 [![platform](https://img.shields.io/badge/platform-osx%2Flinux-green.svg)](https://github.com/ajinabraham/nodejsscan)
 [![License](https://img.shields.io/:license-gpl3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
-[![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+[![python](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ajinabraham/nodejsscan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ajinabraham/nodejsscan/context:python)
 [![Requirements Status](https://requires.io/github/ajinabraham/nodejsscan/requirements.svg?branch=master)](https://requires.io/github/ajinabraham/nodejsscan/requirements/?branch=master)
