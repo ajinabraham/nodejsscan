@@ -15,11 +15,12 @@ RUN apt update -y && apt install -y \
    git \
    python3.7 \
    python3-pip && \
-   pip3 install --quiet --no-cache-dir -r requirements.txt && \
    apt clean && \
    apt autoclean && \
    apt autoremove -y && \
    rm -rf /var/lib/apt/lists/* /tmp/* > /dev/null 2>&1
+
+RUN pip3 install --upgrade pip && pip3 install --quiet --no-cache-dir -r requirements.txt
 
 COPY . .
 
