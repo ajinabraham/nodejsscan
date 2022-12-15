@@ -1,4 +1,4 @@
-FROM postgres:12.3
+FROM postgres:12.12
 LABEL authors="Ajin Abraham <ajin25@gmail.com>" \
    description="nodejsscan is a static security code scanner for Node.js applications."
 
