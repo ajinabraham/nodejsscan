@@ -13,7 +13,7 @@ COPY requirements.txt .
 
 RUN apt update -y && apt install -y \
    git \
-   python3.7 \
+   python3.9 \
    python3-pip && \
    apt clean && \
    apt autoclean && \
