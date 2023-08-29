@@ -1,8 +1,8 @@
-njsscan==0.3.4
 gunicorn==21.2.0
+njsscan==0.3.5
 flask==2.2.2
 jinja2==3.1.2
-psycopg2-binary==2.9.5
+psycopg2-binary==2.9.7
 jinja2==3.1.2
-Flask-SQLAlchemy==2.5.1
-GitPython==3.1.29
+GitPython==3.1.32
+Flask-SQLAlchemy==3.0.5

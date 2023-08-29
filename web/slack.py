@@ -16,7 +16,7 @@ from nodejsscan import (
 
 def slack_post(url, slack_json):
     """Send slack POST."""
-    requests.post(url, json=slack_json)
+    requests.post(url, json=slack_json, timeout=10)
 
 
 def slack_alert(filename, sha2, base_url, message):
