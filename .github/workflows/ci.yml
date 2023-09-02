@@ -15,6 +15,7 @@ jobs:
         image: postgres:12
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: nodejsscan
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -30,19 +31,15 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip tox
+        python -m pip install --upgrade pip pytest
         pip install -r requirements.txt
   
     - name: Run tests
       run: |
-        tox -e py
+        pytest -vv --cache-clear tests.py
       env:
         # POSTGRES_HOST: postgres
         # POSTGRES_PASSWORD: postgres
         # POSTGRES_PORT: 5432
         # POSTGRES_DB: nodejsscan
         SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@localhost:5432/nodejsscan
-
-    - name: Clean Up
-      run: |
-        tox -e clean

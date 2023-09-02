@@ -29,6 +29,7 @@ class Tests(unittest.TestCase):
         """Executed prior to each test."""
         app.config['TESTING'] = True
         app.config['DEBUG'] = True
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/nodejsscan'
         app.app_context().push()
         db.create_all()
         self.app = app.test_client()
