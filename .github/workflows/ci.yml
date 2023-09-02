@@ -38,8 +38,4 @@ jobs:
       run: |
         pytest -vv --cache-clear tests.py
       env:
-        # POSTGRES_HOST: postgres
-        # POSTGRES_PASSWORD: postgres
-        # POSTGRES_PORT: 5432
-        # POSTGRES_DB: nodejsscan
-        SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@localhost:5432/nodejsscan
+        SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@postgres:5432/nodejsscan
