@@ -35,7 +35,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip tox
+        python -m pip install --upgrade pip tox pytest
         pip install -r requirements.txt
   
     - name: Lint
@@ -48,7 +48,7 @@ jobs:
     
     - name: Tests
       run: |
-        tox -e py
+        pytest -vv --cache-clear tests.py
       env:
         SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@localhost:5432/nodejsscan
 
