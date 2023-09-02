@@ -29,7 +29,7 @@ class Tests(unittest.TestCase):
         """Executed prior to each test."""
         app.config['TESTING'] = True
         app.config['DEBUG'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp/test.db'
         app.app_context().push()
         db.create_all()
         self.app = app.test_client()
