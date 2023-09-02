@@ -41,7 +41,7 @@ jobs:
         POSTGRES_PASSWORD: postgres
         POSTGRES_PORT: 5432
         POSTGRES_DB: nodejsscan
-        SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@postgres/nodejsscan
+        SQLALCHEMY_DATABASE_URI: postgresql://postgres:postgres@postgres:5432/nodejsscan
 
     - name: Clean Up
       run: |
