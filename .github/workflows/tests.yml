@@ -1,4 +1,4 @@
-name: Lint
+name: Tests
 
 on:
   push:
@@ -12,19 +12,32 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest', 'mac-latest']
-        python-version: [3.8, 3.9, '3.10']
+        python-version: ['3.10', '3.11']
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: nodejsscan
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip tox
+        python -m pip install --upgrade pip tox pytest
         pip install -r requirements.txt
-
+  
     - name: Lint
       run: |
         tox -e lint
@@ -32,8 +45,8 @@ jobs:
     - name: Bandit
       run: |
         tox -e bandit
-
-    - name: Run tests
+    
+    - name: Tests
       run: |
         tox -e py
 
