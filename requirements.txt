@@ -1,5 +1,5 @@
 gunicorn==21.2.0
-flask==2.3.3
+flask==3.0.2
 gunicorn==21.2.0
 njsscan==0.3.5
 jinja2==3.1.2
